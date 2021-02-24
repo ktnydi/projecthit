@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projecthit/screens/auth_page.dart';
+import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/theme/theme_data.dart';
 
 void main() {

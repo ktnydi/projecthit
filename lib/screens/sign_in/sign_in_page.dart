@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/screens/project_list/project_list_page.dart';
 import 'package:projecthit/screens/sign_in/sign_in_model.dart';
 import 'package:provider/provider.dart';
 
@@ -100,6 +101,12 @@ class SignIn extends StatelessWidget {
                                 signInModel.beginLoading();
                                 await signInModel.signInWithEmail();
                                 signInModel.endLoading();
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProjectList(),
+                                    ),
+                                    (_) => false);
                               } catch (e) {
                                 signInModel.endLoading();
                               }
