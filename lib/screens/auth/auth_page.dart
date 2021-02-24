@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projecthit/screens/sign_in/sign_in_page.dart';
 
 class Auth extends StatelessWidget {
   @override
@@ -84,7 +85,15 @@ class Auth extends StatelessWidget {
                           ),
                           minimumSize: Size(200, 44),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (context) => SignIn(),
+                            ),
+                          );
+                        },
                       ),
                       SizedBox(height: 16),
                       Text.rich(
