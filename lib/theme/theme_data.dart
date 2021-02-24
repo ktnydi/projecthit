@@ -9,6 +9,7 @@ ThemeData lightThemeData = ThemeData.from(
   ),
 ).copyWith(
   scaffoldBackgroundColor: Color(0xFFFFFFFF),
+  canvasColor: Color(0xFFFFFFFF),
   appBarTheme: AppBarTheme(
     color: Color(0xFFFFFFFF),
     brightness: Brightness.light,
@@ -35,6 +36,7 @@ ThemeData darkThemeData = ThemeData.from(
   ),
 ).copyWith(
   scaffoldBackgroundColor: Color(0xFF202020),
+  canvasColor: Color(0xFF202020),
   appBarTheme: AppBarTheme(
     color: Color(0xFF202020),
     brightness: Brightness.dark,
