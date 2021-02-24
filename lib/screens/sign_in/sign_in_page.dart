@@ -109,6 +109,23 @@ class SignIn extends StatelessWidget {
                                     (_) => false);
                               } catch (e) {
                                 signInModel.endLoading();
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text('Oops!'),
+                                      content: Text('$e'),
+                                      actions: [
+                                        TextButton(
+                                          child: Text('OK'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               }
                             },
                           ),

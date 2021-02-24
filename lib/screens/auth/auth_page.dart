@@ -90,6 +90,23 @@ class Auth extends StatelessWidget {
                                     );
                                   } catch (e) {
                                     authModel.endLoading();
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text('Oops!'),
+                                          content: Text('$e'),
+                                          actions: [
+                                            TextButton(
+                                              child: Text('OK'),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   }
                                 },
                               ),
