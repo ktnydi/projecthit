@@ -7,6 +7,11 @@ ThemeData lightThemeData = ThemeData.from(
     secondary: Color(0xFF65AA74),
     onSecondary: Color(0xFFFFFFFF),
   ),
+  textTheme: TextTheme(
+    subtitle1: TextStyle(
+      fontSize: 18,
+    ),
+  ),
 ).copyWith(
   scaffoldBackgroundColor: Color(0xFFFFFFFF),
   canvasColor: Color(0xFFFFFFFF),
