@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:projecthit/screens/task_list/task_list_page.dart';
 
 class ProjectList extends StatelessWidget {
   @override
@@ -54,7 +55,12 @@ class ProjectList extends StatelessWidget {
               ),
               subtitle: Text('3 Members'),
               onTap: () {
-                // TODO: タスク一覧画面を表示
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TaskList(),
+                  ),
+                );
               },
             ),
           );
