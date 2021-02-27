@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/screens/project_detail/project_detail_page.dart';
 
 class TaskList extends StatelessWidget {
   @override
@@ -30,7 +31,13 @@ class TaskList extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.more_vert),
             onPressed: () {
-              // TODO: プロジェクト設定画面を表示
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) => ProjectDetail(),
+                ),
+              );
             },
           ),
         ],
