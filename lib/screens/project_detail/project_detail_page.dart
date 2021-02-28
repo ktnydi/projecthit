@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:projecthit/screens/invite_member/invite_member_page.dart';
 import 'package:projecthit/screens/project_detail/project_detail_model.dart';
 import 'package:provider/provider.dart';
 
@@ -81,6 +82,12 @@ class ProjectDetail extends StatelessWidget {
                         ),
                         onPressed: () {
                           // TODO: メンバー追加画面
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => InviteMember(),
+                            ),
+                          );
                         },
                       ),
                     ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/screens/invite_member/invite_member_page.dart';
 import 'package:projecthit/screens/project_detail/project_detail_page.dart';
 
 class TaskList extends StatelessWidget {
@@ -26,7 +27,14 @@ class TaskList extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.person_add_outlined),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => InviteMember(),
+                ),
+              );
+            },
           ),
           IconButton(
             icon: Icon(Icons.more_vert),
