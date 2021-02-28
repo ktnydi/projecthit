@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/screens/add_task/add_task_page.dart';
 import 'package:projecthit/screens/invite_member/invite_member_page.dart';
 import 'package:projecthit/screens/project_detail/project_detail_page.dart';
 
@@ -132,7 +133,13 @@ class TaskList extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          // TODO: タスク作成画面を表示
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (context) => AddTask(),
+            ),
+          );
         },
       ),
     );
