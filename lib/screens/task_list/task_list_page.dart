@@ -123,7 +123,6 @@ class TaskList extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                // TODO: タスク設定画面を表示
                 Navigator.push(
                   context,
                   MaterialPageRoute(
