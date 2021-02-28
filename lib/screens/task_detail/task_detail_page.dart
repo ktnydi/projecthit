@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:projecthit/screens/invite_task_member/invite_task_member_page.dart';
 import 'package:projecthit/screens/task_detail/task_detail_model.dart';
 import 'package:provider/provider.dart';
 
@@ -77,7 +78,17 @@ class TaskDetail extends StatelessWidget {
                         minimumSize: Size(44, 44),
                       ),
                       onPressed: () {
-                        // TODO: メンバー追加
+                        showModalBottomSheet(
+                          context: context,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(16),
+                            ),
+                          ),
+                          builder: (context) {
+                            return InviteTaskMember();
+                          },
+                        );
                       },
                     ),
                   ],
