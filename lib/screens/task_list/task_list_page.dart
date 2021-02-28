@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projecthit/screens/add_task/add_task_page.dart';
 import 'package:projecthit/screens/invite_member/invite_member_page.dart';
 import 'package:projecthit/screens/project_detail/project_detail_page.dart';
+import 'package:projecthit/screens/task_detail/task_detail_page.dart';
 
 class TaskList extends StatelessWidget {
   @override
@@ -123,6 +124,12 @@ class TaskList extends StatelessWidget {
               ),
               onTap: () {
                 // TODO: タスク設定画面を表示
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TaskDetail(),
+                  ),
+                );
               },
             ),
           );
