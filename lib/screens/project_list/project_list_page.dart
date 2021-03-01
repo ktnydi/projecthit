@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:projecthit/screens/add_project/add_project_page.dart';
+import 'package:projecthit/screens/setting/setting_page.dart';
 import 'package:projecthit/screens/task_list/task_list_page.dart';
 
 class ProjectList extends StatelessWidget {
@@ -33,7 +34,12 @@ class ProjectList extends StatelessWidget {
           IconButton(
             icon: Icon(OMIcons.settings),
             onPressed: () {
-              // TODO: 設定画面を表示
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Setting(),
+                ),
+              );
             },
           ),
         ],
