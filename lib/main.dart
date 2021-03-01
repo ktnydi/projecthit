@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/theme/theme_data.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final packageInfo = await PackageInfo.fromPlatform();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<PackageInfo>.value(value: packageInfo),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
