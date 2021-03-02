@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:projecthit/enum/appearance.dart';
+import 'package:projecthit/screens/profile/profile_page.dart';
 import 'package:projecthit/screens/setting/setting_model.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,12 @@ class Setting extends StatelessWidget {
                   title: Text('Profile'),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
-                    // TODO: プロフィールの設定
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Profile(),
+                      ),
+                    );
                   },
                 ),
                 ListTile(
