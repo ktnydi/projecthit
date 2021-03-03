@@ -81,12 +81,14 @@ class ProjectDetail extends StatelessWidget {
                           minimumSize: Size(44, 44),
                         ),
                         onPressed: () {
-                          // TODO: メンバー追加画面
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => InviteMember(),
+                          showModalBottomSheet(
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(16),
+                              ),
                             ),
+                            builder: (context) => InviteMember(),
                           );
                         },
                       ),

@@ -30,11 +30,14 @@ class TaskList extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.person_add_outlined),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => InviteMember(),
+              showModalBottomSheet(
+                context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
                 ),
+                builder: (context) => InviteMember(),
               );
             },
           ),
