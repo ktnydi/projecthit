@@ -67,6 +67,7 @@ class Setting extends StatelessWidget {
                     value: context.select(
                       (SettingModel model) => model.isDarkMode,
                     ),
+                    activeColor: Theme.of(context).colorScheme.secondary,
                     onChanged: (isActive) {
                       settingModel.appearance =
                           isActive ? Appearance.dark : Appearance.light;
@@ -82,6 +83,7 @@ class Setting extends StatelessWidget {
                     value: context.select(
                       (SettingModel model) => model.isPermitNotification,
                     ),
+                    activeColor: Theme.of(context).colorScheme.secondary,
                     onChanged: (isActive) {
                       settingModel.isPermitNotification = isActive;
                       settingModel.reload();

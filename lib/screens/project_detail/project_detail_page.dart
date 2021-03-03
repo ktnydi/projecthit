@@ -181,6 +181,7 @@ class ProjectDetail extends StatelessWidget {
                         value: context.select(
                           (ProjectDetailModel model) => model.isActiveDateTime,
                         ),
+                        activeColor: Theme.of(context).colorScheme.secondary,
                         onChanged: (isActive) {
                           projectDetailModel.isActiveDateTime = isActive;
 

@@ -125,6 +125,8 @@ class AddProject extends StatelessWidget {
                             value: context.select(
                               (AddProjectModel model) => model.isActiveDateTime,
                             ),
+                            activeColor:
+                                Theme.of(context).colorScheme.secondary,
                             onChanged: (isActive) {
                               addProjectModel.isActiveDateTime = isActive;
 

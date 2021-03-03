@@ -179,6 +179,7 @@ class TaskDetail extends StatelessWidget {
                       value: context.select(
                         (TaskDetailModel model) => model.isActiveDateTime,
                       ),
+                      activeColor: Theme.of(context).colorScheme.secondary,
                       onChanged: (isActive) {
                         taskDetailModel.isActiveDateTime = isActive;
 
