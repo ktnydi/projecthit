@@ -17,6 +17,49 @@ class SignIn extends StatelessWidget {
             Scaffold(
               appBar: AppBar(
                 title: Text('Welcome back!'),
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.login_outlined),
+                    onPressed: () async {
+                      if (!_formKey.currentState.validate()) return;
+
+                      FocusScope.of(context).unfocus();
+
+                      // TODO: サインインする
+                      final signInModel = context.read<SignInModel>();
+                      try {
+                        signInModel.beginLoading();
+                        await signInModel.signInWithEmail();
+                        signInModel.endLoading();
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProjectList(),
+                            ),
+                            (_) => false);
+                      } catch (e) {
+                        signInModel.endLoading();
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Oops!'),
+                              content: Text('$e'),
+                              actions: [
+                                TextButton(
+                                  child: Text('OK'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
               body: SingleChildScrollView(
                 padding: EdgeInsets.all(16),
@@ -79,56 +122,6 @@ class SignIn extends StatelessWidget {
                           onChanged: (value) {
                             context.read<SignInModel>().password = value;
                           },
-                        ),
-                        SizedBox(height: 32),
-                        Center(
-                          child: ElevatedButton(
-                            child: Text('Sign in'),
-                            style: ElevatedButton.styleFrom(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              minimumSize: Size(200, 44),
-                            ),
-                            onPressed: () async {
-                              if (!_formKey.currentState.validate()) return;
-
-                              FocusScope.of(context).unfocus();
-
-                              // TODO: サインインする
-                              final signInModel = context.read<SignInModel>();
-                              try {
-                                signInModel.beginLoading();
-                                await signInModel.signInWithEmail();
-                                signInModel.endLoading();
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProjectList(),
-                                    ),
-                                    (_) => false);
-                              } catch (e) {
-                                signInModel.endLoading();
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text('Oops!'),
-                                      content: Text('$e'),
-                                      actions: [
-                                        TextButton(
-                                          child: Text('OK'),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              }
-                            },
-                          ),
                         ),
                         SizedBox(height: 32),
                         Center(

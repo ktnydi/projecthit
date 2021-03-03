@@ -71,9 +71,6 @@ class Auth extends StatelessWidget {
                                       Theme.of(context).colorScheme.onSecondary,
                                   onPrimary:
                                       Theme.of(context).colorScheme.secondary,
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
                                   minimumSize: Size(200, 44),
                                 ),
                                 onPressed: () async {
@@ -120,7 +117,7 @@ class Auth extends StatelessWidget {
                               ),
                               SizedBox(height: 16),
                               OutlinedButton(
-                                child: Text('Sign in'),
+                                child: Text('Sign in with Email'),
                                 style: OutlinedButton.styleFrom(
                                   primary:
                                       Theme.of(context).colorScheme.onSecondary,
@@ -128,9 +125,6 @@ class Auth extends StatelessWidget {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSecondary,
-                                  ),
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
                                   ),
                                   minimumSize: Size(200, 44),
                                 ),
