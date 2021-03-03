@@ -10,27 +10,13 @@ class ProjectList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text('ProjectHit'),
-        actions: [
-          IconButton(
-            icon: Stack(
-              alignment: Alignment.topRight,
-              children: [
-                Icon(Icons.notifications_outlined),
-                Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                ),
-              ],
-            ),
-            onPressed: () {
-              // TODO: 通知画面を表示
-            },
+        title: Text(
+          'ProjectHit',
+          style: TextStyle(
+            fontSize: 24,
           ),
+        ),
+        actions: [
           IconButton(
             icon: Icon(OMIcons.settings),
             onPressed: () {
@@ -56,11 +42,33 @@ class ProjectList extends StatelessWidget {
               ),
             ),
             clipBehavior: Clip.antiAlias,
-            child: ListTile(
-              title: Text(
-                'Project Name',
+            child: InkWell(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'ProjectName',
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            '3 Members',
+                            style: TextStyle(
+                              color: Theme.of(context).textTheme.caption.color,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              subtitle: Text('3 Members'),
               onTap: () {
                 Navigator.push(
                   context,
