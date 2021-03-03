@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class InviteTaskMember extends StatelessWidget {
@@ -6,7 +7,7 @@ class InviteTaskMember extends StatelessWidget {
     return SafeArea(
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -35,14 +36,14 @@ class InviteTaskMember extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Container(
-              height: 44,
+              height: 56,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     child: Container(
-                      width: 44,
-                      height: 44,
+                      width: 56,
+                      height: 56,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
@@ -65,7 +66,7 @@ class InviteTaskMember extends StatelessWidget {
               child: ElevatedButton(
                 child: Text('Invite'),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 44),
+                  minimumSize: Size(200, 44),
                 ),
                 onPressed: () {
                   // TODO: タスクメンバーを招待
