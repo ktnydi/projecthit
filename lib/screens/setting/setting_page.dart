@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:projecthit/enum/appearance.dart';
+import 'package:projecthit/screens/email_password/email_password_page.dart';
 import 'package:projecthit/screens/profile/profile_page.dart';
 import 'package:projecthit/screens/setting/setting_model.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,19 @@ class Setting extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => Profile(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text('Email & Password'),
+                  subtitle: Text('Anonymous'), // TODO: 現在のメールアドレスを表示
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EmailPassword(),
                       ),
                     );
                   },
