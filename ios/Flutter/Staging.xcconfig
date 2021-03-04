@@ -1,0 +1,3 @@
+FLUTTER_FLAVOR=Staging
+PRODUCT_BUNDLE_IDENTIFIER=com.kitanoyudai.projecthit.staging
+DISPLAY_NAME=ProjectHit St
