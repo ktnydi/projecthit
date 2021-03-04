@@ -1,0 +1,3 @@
+FLUTTER_FLAVOR=Development
+PRODUCT_BUNDLE_IDENTIFIER=com.kitanoyudai.projecthit.development
+DISPLAY_NAME=ProjectHit Dev
