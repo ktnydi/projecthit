@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "projecthit-dev"
+    "default": "projecthit-dev",
+    "staging": "projecthit-st",
+    "production": "projecthit-9cd0f"
   }
 }
