@@ -10,6 +10,7 @@
 .svn/
 **/GoogleService-Info.plist
 **/GoogleService-Info-*.plist
+**/google-services.json
 
 # IntelliJ related
 *.iml
