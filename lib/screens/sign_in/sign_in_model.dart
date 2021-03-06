@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/repository/user_repository.dart';
 
 class SignInModel extends ChangeNotifier {
-  String email = '';
-  String password = '';
+  final _userRepository = UserRepository();
   bool isLoading = false;
 
   void beginLoading() {
@@ -15,10 +15,13 @@ class SignInModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signInWithEmail() async {
-    // TODO: サインイン処理を追加
-    await Future.delayed(
-      Duration(milliseconds: 3000),
+  Future<void> signInWithEmail({
+    @required String email,
+    @required String password,
+  }) async {
+    await _userRepository.signInWithEmailAndPassword(
+      email: email,
+      password: password,
     );
   }
 }

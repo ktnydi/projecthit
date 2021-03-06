@@ -9,4 +9,9 @@ class MyAppModel extends ChangeNotifier {
   MyAppModel() {
     currentUser = _userRepository.currentUser;
   }
+
+  Future<void> fetchCurrentUser() async {
+    currentUser = _userRepository.currentUser;
+    notifyListeners();
+  }
 }

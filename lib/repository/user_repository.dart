@@ -47,6 +47,17 @@ class UserRepository {
     }
   }
 
+  Future<String> signInWithEmailAndPassword({
+    @required String email,
+    @required String password,
+  }) async {
+    final userCredential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return userCredential.user.uid;
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }
