@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/repository/user_repository.dart';
 
 class ProfileModel extends ChangeNotifier {
+  final _userRepository = UserRepository();
   bool isLoading = false;
 
   void beginLoading() {
@@ -21,5 +23,9 @@ class ProfileModel extends ChangeNotifier {
   Future<void> updateAbout(String about) async {
     // TODO: 自己紹介の更新
     await Future.delayed(Duration(milliseconds: 3000));
+  }
+
+  Future<void> signOut() async {
+    await _userRepository.signOut();
   }
 }

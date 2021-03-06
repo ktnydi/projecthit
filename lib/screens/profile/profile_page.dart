@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/screens/auth/auth_page.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/profile/profile_model.dart';
 import 'package:provider/provider.dart';
 
@@ -84,12 +86,51 @@ class Profile extends StatelessWidget {
     }
   }
 
+  Future<void> _signOut(BuildContext context) async {
+    final profileModel = context.read<ProfileModel>();
+    final myAppModel = context.read<MyAppModel>();
+
+    try {
+      profileModel.beginLoading();
+      await profileModel.signOut();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Auth(),
+        ),
+        (route) => false,
+      );
+      await myAppModel.fetchCurrentUser();
+      profileModel.endLoading();
+    } catch (e) {
+      profileModel.endLoading();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Oops!'),
+            content: Text('$e'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ProfileModel>(
       create: (_) => ProfileModel(),
       builder: (context, child) {
         final profileModel = context.read<ProfileModel>();
+        final myAppModel = context.read<MyAppModel>();
 
         return Stack(
           children: [
@@ -97,12 +138,13 @@ class Profile extends StatelessWidget {
               appBar: AppBar(
                 title: Text('Profile'),
                 actions: [
-                  IconButton(
-                    icon: Icon(Icons.logout),
-                    onPressed: () {
-                      // TODO: サインアウトする
-                    },
-                  ),
+                  if (!myAppModel.currentUser.isAnonymous)
+                    IconButton(
+                      icon: Icon(Icons.logout),
+                      onPressed: () async {
+                        await _signOut(context);
+                      },
+                    ),
                 ],
               ),
               body: SingleChildScrollView(
