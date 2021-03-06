@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/repository/user_repository.dart';
 
 class EmailPasswordModel extends ChangeNotifier {
+  final _userRepository = UserRepository();
   bool isObscure = true;
   bool isLoading = false;
 
@@ -22,7 +24,13 @@ class EmailPasswordModel extends ChangeNotifier {
     @required String email,
     @required String password,
   }) async {
-    // TODO: サインアップする
-    await Future.delayed(Duration(milliseconds: 3000));
+    await _userRepository.linkWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+  Future<void> signOut() async {
+    await _userRepository.signOut();
   }
 }
