@@ -30,6 +30,13 @@ class EmailPasswordModel extends ChangeNotifier {
     );
   }
 
+  Future<void> updateEmail({
+    @required String email,
+    @required String password,
+  }) async {
+    await _userRepository.updateEmail(email: email, password: password);
+  }
+
   Future<void> signOut() async {
     await _userRepository.signOut();
   }

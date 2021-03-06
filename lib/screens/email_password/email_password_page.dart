@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/email_password/email_password_model.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:provider/provider.dart';
 
 class EmailPassword extends StatelessWidget {
@@ -9,10 +10,66 @@ class EmailPassword extends StatelessWidget {
   final _emailKey = GlobalKey<FormFieldState<String>>();
   final _passwordKey = GlobalKey<FormFieldState<String>>();
 
-  Future<void> _onSubmit(
+  Future<void> _updateEmail(
     BuildContext context,
-    EmailPasswordModel emailPasswordModel,
   ) async {
+    final emailPasswordModel = context.read<EmailPasswordModel>();
+    final myAppModel = context.read<MyAppModel>();
+    final currentEmail = myAppModel.currentUser.email;
+    final email = _emailKey.currentState.value;
+    final password = _passwordKey.currentState.value;
+
+    if (email == currentEmail) return;
+
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+
+    try {
+      FocusScope.of(context).unfocus();
+
+      emailPasswordModel.beginLoading();
+      await emailPasswordModel.updateEmail(email: email, password: password);
+      emailPasswordModel.endLoading();
+
+      // 不正なメールアドレスでないことをログインすることで確認する。
+      await emailPasswordModel.signOut();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Auth(),
+        ),
+        (route) => false,
+      );
+      await myAppModel.fetchCurrentUser();
+    } catch (e) {
+      emailPasswordModel.endLoading();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Oops!'),
+            content: Text('$e'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> _linkWithEmailAndPassword(
+    BuildContext context,
+  ) async {
+    final emailPasswordModel = context.read<EmailPasswordModel>();
+    final myAppModel = context.read<MyAppModel>();
+
     try {
       if (!_formKey.currentState.validate()) {
         return;
@@ -26,7 +83,6 @@ class EmailPassword extends StatelessWidget {
         email: email,
         password: password,
       );
-      // TODO: 登録済みならメールアドレス更新
       emailPasswordModel.endLoading();
 
       // 不正なメールアドレスでないことをログインすることで確認する。
@@ -38,6 +94,7 @@ class EmailPassword extends StatelessWidget {
         ),
         (route) => false,
       );
+      await myAppModel.fetchCurrentUser();
     } catch (e) {
       emailPasswordModel.endLoading();
       showDialog(
@@ -66,6 +123,7 @@ class EmailPassword extends StatelessWidget {
       create: (_) => EmailPasswordModel(),
       builder: (context, child) {
         final emailPasswordModel = context.read<EmailPasswordModel>();
+        final myAppModel = context.read<MyAppModel>();
 
         return Stack(
           children: [
@@ -76,7 +134,11 @@ class EmailPassword extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.done),
                     onPressed: () async {
-                      _onSubmit(context, emailPasswordModel);
+                      if (myAppModel.currentUser.isAnonymous) {
+                        await _linkWithEmailAndPassword(context);
+                      } else {
+                        await _updateEmail(context);
+                      }
                     },
                   ),
                 ],
@@ -88,13 +150,15 @@ class EmailPassword extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'If you sign up, you are able to continue to use same account with other devices.',
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.caption.color,
+                      if (myAppModel.currentUser.isAnonymous)
+                        Text(
+                          'If you sign up, you are able to continue to use same account with other devices.',
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.caption.color,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
+                      if (myAppModel.currentUser.isAnonymous)
+                        SizedBox(height: 16),
                       Text(
                         'Email',
                         style: TextStyle(
@@ -113,7 +177,7 @@ class EmailPassword extends StatelessWidget {
                         },
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         keyboardType: TextInputType.emailAddress,
-                        initialValue: '', // TODO: 登録済みならメールアドレスを表示
+                        initialValue: '${myAppModel.currentUser.email ?? ''}',
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'projecthit@example.com',
@@ -133,6 +197,8 @@ class EmailPassword extends StatelessWidget {
                           if (value.trim().isEmpty) {
                             return 'Enter Password';
                           }
+
+                          if (!myAppModel.currentUser.isAnonymous) return null;
 
                           if (value.length < 6) {
                             return 'Password is too short';

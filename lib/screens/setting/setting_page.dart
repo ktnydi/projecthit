@@ -3,6 +3,7 @@ import 'package:package_info/package_info.dart';
 import 'package:projecthit/enum/appearance.dart';
 import 'package:projecthit/screens/email_password/email_password_page.dart';
 import 'package:projecthit/screens/inquiry/inquiry_page.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/profile/profile_page.dart';
 import 'package:projecthit/screens/setting/setting_model.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ class Setting extends StatelessWidget {
       builder: (context, child) {
         final settingModel = context.read<SettingModel>();
         final packageInfo = context.read<PackageInfo>();
+        final myAppModel = context.read<MyAppModel>();
 
         return Scaffold(
           appBar: AppBar(
@@ -50,7 +52,7 @@ class Setting extends StatelessWidget {
                 ),
                 ListTile(
                   title: Text('Email & Password'),
-                  subtitle: Text('Anonymous'), // TODO: 現在のメールアドレスを表示
+                  subtitle: Text(myAppModel.currentUser?.email ?? 'Anonymous'),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     Navigator.push(
