@@ -1,17 +1,23 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/project_list/project_list_page.dart';
 import 'package:projecthit/screens/sign_in/sign_in_model.dart';
 import 'package:provider/provider.dart';
 
 class SignIn extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  final _emailKey = GlobalKey<FormFieldState<String>>();
+  final _passwordKey = GlobalKey<FormFieldState<String>>();
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SignInModel>(
       create: (_) => SignInModel(),
       builder: (context, child) {
+        final signInModel = context.read<SignInModel>();
+        final myAppModel = context.read<MyAppModel>();
+
         return Stack(
           children: [
             Scaffold(
@@ -25,18 +31,25 @@ class SignIn extends StatelessWidget {
 
                       FocusScope.of(context).unfocus();
 
-                      // TODO: サインインする
-                      final signInModel = context.read<SignInModel>();
+                      final email = _emailKey.currentState.value;
+                      final password = _passwordKey.currentState.value;
+
                       try {
                         signInModel.beginLoading();
-                        await signInModel.signInWithEmail();
+                        await signInModel.signInWithEmail(
+                          email: email,
+                          password: password,
+                        );
+                        await myAppModel.fetchCurrentUser();
                         signInModel.endLoading();
+
                         Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProjectList(),
-                            ),
-                            (_) => false);
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProjectList(),
+                          ),
+                          (_) => false,
+                        );
                       } catch (e) {
                         signInModel.endLoading();
                         showDialog(
@@ -78,6 +91,7 @@ class SignIn extends StatelessWidget {
                         ),
                         SizedBox(height: 4),
                         TextFormField(
+                          key: _emailKey,
                           validator: (value) {
                             if (value.trim().isEmpty) {
                               return 'Enter email';
@@ -95,9 +109,6 @@ class SignIn extends StatelessWidget {
                             border: OutlineInputBorder(),
                             hintText: 'projecthit@example.com',
                           ),
-                          onChanged: (value) {
-                            context.read<SignInModel>().email = value;
-                          },
                         ),
                         SizedBox(height: 16),
                         Text(
@@ -108,6 +119,7 @@ class SignIn extends StatelessWidget {
                         ),
                         SizedBox(height: 4),
                         TextFormField(
+                          key: _passwordKey,
                           validator: (value) {
                             if (value.trim().isEmpty) {
                               return 'Enter password';
@@ -119,9 +131,6 @@ class SignIn extends StatelessWidget {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
-                          onChanged: (value) {
-                            context.read<SignInModel>().password = value;
-                          },
                         ),
                         SizedBox(height: 32),
                         Center(

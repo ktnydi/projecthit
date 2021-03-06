@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projecthit/screens/auth/auth_model.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/project_list/project_list_page.dart';
 import 'package:projecthit/screens/sign_in/sign_in_page.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,8 @@ class Auth extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => AuthModel(),
       builder: (context, child) {
+        final myAppModel = context.read<MyAppModel>();
+
         return Stack(
           children: [
             Scaffold(
@@ -78,6 +81,7 @@ class Auth extends StatelessWidget {
                                   try {
                                     authModel.beginLoading();
                                     await authModel.signUpWithAnonymous();
+                                    await myAppModel.fetchCurrentUser();
                                     authModel.endLoading();
                                     Navigator.pushReplacement(
                                       context,
