@@ -58,6 +58,24 @@ class UserRepository {
     return userCredential.user.uid;
   }
 
+  Future<void> updateEmail({
+    @required String email,
+    @required String password,
+  }) async {
+    final credential = EmailAuthProvider.credential(
+      email: _auth.currentUser.email,
+      password: password,
+    );
+
+    try {
+      await _auth.currentUser.reauthenticateWithCredential(credential);
+      await _auth.currentUser.updateEmail(email);
+      await _auth.currentUser.sendEmailVerification();
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }
