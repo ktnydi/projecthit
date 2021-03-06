@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/repository/user_repository.dart';
 
 class AuthModel extends ChangeNotifier {
+  final _userRepository = UserRepository();
   bool isLoading = false;
 
   void beginLoading() {
@@ -14,9 +16,6 @@ class AuthModel extends ChangeNotifier {
   }
 
   Future<void> signUpWithAnonymous() async {
-    // TODO: 匿名認証の処理を追加
-    await Future.delayed(
-      Duration(milliseconds: 3000),
-    );
+    await _userRepository.signInAnonymous();
   }
 }
