@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/email_password/email_password_model.dart';
 import 'package:provider/provider.dart';
 
@@ -21,13 +22,22 @@ class EmailPassword extends StatelessWidget {
       final password = _passwordKey.currentState.value;
 
       emailPasswordModel.beginLoading();
-      // TODO: 匿名アカウントならサインアップ
       await emailPasswordModel.signUpWithEmail(
         email: email,
         password: password,
       );
       // TODO: 登録済みならメールアドレス更新
       emailPasswordModel.endLoading();
+
+      // 不正なメールアドレスでないことをログインすることで確認する。
+      await emailPasswordModel.signOut();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Auth(),
+        ),
+        (route) => false,
+      );
     } catch (e) {
       emailPasswordModel.endLoading();
       showDialog(
