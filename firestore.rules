@@ -4,11 +4,45 @@ service cloud.firestore {
     return request.auth.uid != null;
   }
 
+  function isAuthenticateUser(userId) {
+    return request.auth.uid != null && request.auth.uid == userId;
+  }
+
   match /databases/{database}/documents {
     match /{document=**} {
 
       match /users/{userId} {
         allow create: if isAuthenticate();
+
+        // Project
+
+        function validateProjectField() {
+          return request.resource.data.keys().hasAll(['id', 'title', 'body', 'sumMembers', 'adminRef', 'createdAt', 'updatedAt'])
+            && request.resource.data.keys().hasOnly(['id', 'title', 'body', 'sumMembers', 'adminRef', 'createdAt', 'updatedAt']);
+        }
+
+        function validateProjectData(projectId) {
+          return request.resource.data.id is string
+            && request.resource.data.id == projectId
+            && request.resource.data.title is string
+            && request.resource.data.title.size() > 0
+            && request.resource.data.title.size() <= 50
+            && request.resource.data.body is string
+            && request.resource.data.body.size() <= 140
+            && request.resource.data.sumMembers is int
+            && request.resource.data.sumMembers == 0
+            && request.resource.data.adminRef is path
+            && request.resource.data.createdAt is timestamp
+            && request.resource.data.createdAt == request.time
+            && request.resource.data.updatedAt is timestamp
+            && request.resource.data.updatedAt == request.time;
+        }
+
+        match /projects/{projectId} {
+          allow create: if isAuthenticateUser(userId)
+            && validateProjectField()
+            && validateProjectData(projectId);
+        }
       }
     }
   }
