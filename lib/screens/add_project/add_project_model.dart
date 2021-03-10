@@ -22,9 +22,9 @@ class AddProjectModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addProject({@required String title}) async {
+  Future<void> addProject({@required String name}) async {
     final project = Project();
-    project.title = title;
+    project.name = name;
     await _projectRepository.addProject(project: project);
   }
 

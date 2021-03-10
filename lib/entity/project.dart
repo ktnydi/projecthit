@@ -3,35 +3,31 @@ import 'package:projecthit/entity/project_field.dart';
 
 class Project {
   String id;
-  String title;
-  String body;
-  int sumMembers;
-  DocumentReference adminRef;
+  String name;
+  String description;
+  int sumUsers;
+  String adminUser;
   Timestamp createdAt;
-  Timestamp updatedAt;
 
   Project();
 
   Project.fromMap(Map<String, dynamic> map) {
     id = map[ProjectField.id];
-    title = map[ProjectField.title];
-    body = map[ProjectField.body];
-    sumMembers = map[ProjectField.sumMembers] as int;
-    adminRef = map[ProjectField.adminRef];
+    name = map[ProjectField.name];
+    description = map[ProjectField.description];
+    sumUsers = map[ProjectField.sumUsers] as int;
+    adminUser = map[ProjectField.adminUser];
     createdAt = map[ProjectField.createdAt] as Timestamp;
-    updatedAt = map[ProjectField.updatedAt] as Timestamp;
   }
 
   // DB保存用
   Map<String, dynamic> toMap() {
     return {
-      ProjectField.id: id,
-      ProjectField.title: title,
-      ProjectField.body: body,
-      ProjectField.sumMembers: sumMembers,
-      ProjectField.adminRef: adminRef,
+      ProjectField.name: name,
+      ProjectField.description: description,
+      ProjectField.sumUsers: sumUsers,
+      ProjectField.adminUser: adminUser,
       ProjectField.createdAt: createdAt ?? FieldValue.serverTimestamp(),
-      ProjectField.updatedAt: FieldValue.serverTimestamp(),
     };
   }
 }
