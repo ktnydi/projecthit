@@ -9,11 +9,18 @@ service cloud.firestore {
   }
 
   match /databases/{database}/documents {
+    match /{path=**}/projectUsers/{projectId} {
+      allow list: if isAnyAuthenticated()
+        && resource.data.userId == request.auth.uid;
+    }
+
     match /users/{userId} {
       allow create: if isAuthenticatedUser(userId);
     }
 
     match /projects/{projectId} {
+      allow get: if isAnyAuthenticated()
+        && exists(/databases/$(database)/documents/projects/$(projectId)/projectUsers/$(request.auth.uid));
       allow create: if isAnyAuthenticated()
         && request.resource.data.keys().hasAll(['name', 'description', 'adminUser', 'sumUsers', 'createdAt'])
         && request.resource.data.keys().hasOnly(['name', 'description', 'adminUser', 'sumUsers', 'createdAt'])
