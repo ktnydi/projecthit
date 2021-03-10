@@ -3,19 +3,19 @@ import 'package:projecthit/screens/add_project/add_project_model.dart';
 import 'package:provider/provider.dart';
 
 class AddProject extends StatelessWidget {
-  final _titleKey = GlobalKey<FormFieldState<String>>();
+  final _nameKey = GlobalKey<FormFieldState<String>>();
 
   Future<void> _addProject(BuildContext context) async {
-    if (!_titleKey.currentState.validate()) return;
+    if (!_nameKey.currentState.validate()) return;
 
     FocusScope.of(context).unfocus();
 
     final addProjectModel = context.read<AddProjectModel>();
-    final title = _titleKey.currentState.value;
+    final name = _nameKey.currentState.value;
 
     try {
       addProjectModel.beginLoading();
-      await addProjectModel.addProject(title: title);
+      await addProjectModel.addProject(name: name);
       addProjectModel.endLoading();
       Navigator.pop(context);
     } catch (e) {
@@ -71,7 +71,7 @@ class AddProject extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     TextFormField(
-                      key: _titleKey,
+                      key: _nameKey,
                       validator: (value) {
                         if (value.trim().isEmpty) {
                           return 'Enter project name';

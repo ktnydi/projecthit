@@ -1,9 +1,8 @@
 class ProjectField {
   static const id = 'id';
-  static const title = 'title';
-  static const body = 'body';
-  static const adminRef = 'adminRef';
-  static const sumMembers = 'sumMembers';
+  static const name = 'name';
+  static const description = 'description';
+  static const adminUser = 'adminUser';
+  static const sumUsers = 'sumUsers';
   static const createdAt = 'createdAt';
-  static const updatedAt = 'updatedAt';
 }

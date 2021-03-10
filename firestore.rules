@@ -1,48 +1,43 @@
 rules_version = '2';
 service cloud.firestore {
-  function isAuthenticate() {
+  function isAnyAuthenticated() {
     return request.auth.uid != null;
   }
 
-  function isAuthenticateUser(userId) {
-    return request.auth.uid != null && request.auth.uid == userId;
+  function isAuthenticatedUser(userId) {
+    return isAnyAuthenticated() && request.auth.uid == userId;
   }
 
   match /databases/{database}/documents {
-    match /{document=**} {
+    match /users/{userId} {
+      allow create: if isAuthenticatedUser(userId);
+    }
 
-      match /users/{userId} {
-        allow create: if isAuthenticate();
+    match /projects/{projectId} {
+      allow create: if isAnyAuthenticated()
+        && request.resource.data.keys().hasAll(['name', 'description', 'adminUser', 'sumUsers', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['name', 'description', 'adminUser', 'sumUsers', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 50
+        && request.resource.data.description is string
+        && request.resource.data.description.size() <= 140
+        && request.resource.data.adminUser is string
+        && request.resource.data.adminUser == request.auth.uid
+        && request.resource.data.sumUsers is int
+        && request.resource.data.sumUsers == 1
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.createdAt == request.time;
 
-        // Project
-
-        function validateProjectField() {
-          return request.resource.data.keys().hasAll(['id', 'title', 'body', 'sumMembers', 'adminRef', 'createdAt', 'updatedAt'])
-            && request.resource.data.keys().hasOnly(['id', 'title', 'body', 'sumMembers', 'adminRef', 'createdAt', 'updatedAt']);
-        }
-
-        function validateProjectData(projectId) {
-          return request.resource.data.id is string
-            && request.resource.data.id == projectId
-            && request.resource.data.title is string
-            && request.resource.data.title.size() > 0
-            && request.resource.data.title.size() <= 50
-            && request.resource.data.body is string
-            && request.resource.data.body.size() <= 140
-            && request.resource.data.sumMembers is int
-            && request.resource.data.sumMembers == 0
-            && request.resource.data.adminRef is path
-            && request.resource.data.createdAt is timestamp
-            && request.resource.data.createdAt == request.time
-            && request.resource.data.updatedAt is timestamp
-            && request.resource.data.updatedAt == request.time;
-        }
-
-        match /projects/{projectId} {
-          allow create: if isAuthenticateUser(userId)
-            && validateProjectField()
-            && validateProjectData(projectId);
-        }
+      match /projectUsers/{projectUserId} {
+        allow create: if isAnyAuthenticated()
+          && existsAfter(/databases/$(database)/documents/projects/$(projectId))
+          && request.resource.data.keys().hasAll(['userId', 'createdAt'])
+          && request.resource.data.keys().hasOnly(['userId', 'createdAt'])
+          && request.resource.data.userId is string
+          && request.resource.data.userId == request.auth.uid
+          && request.resource.data.createdAt is timestamp
+          && request.resource.data.createdAt == request.time;
       }
     }
   }
