@@ -8,6 +8,25 @@ class ProjectRepository {
   final _store = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
+  Future<List<Project>> fetchProjects() async {
+    final projectUsersSnapshot = await _store
+        .collectionGroup('projectUsers')
+        .where('userId', isEqualTo: _auth.currentUser.uid)
+        .orderBy('createdAt', descending: true)
+        .get();
+    final projects = await Future.wait(
+      projectUsersSnapshot.docs.map(
+        (doc) async {
+          final projectSnapshot = await doc.reference.parent.parent.get();
+          final data = projectSnapshot.data();
+          data['id'] = projectSnapshot.id;
+          return Project.fromMap(data);
+        },
+      ),
+    );
+    return projects;
+  }
+
   Future<String> addProject({@required Project project}) async {
     final batch = _store.batch();
 
