@@ -5,6 +5,7 @@ class Task {
   String id;
   String name;
   String description;
+  bool isDone;
   int sumUsers;
   Timestamp expiredAt;
   Timestamp createdAt;
@@ -15,6 +16,7 @@ class Task {
     id = map[TaskField.id];
     name = map[TaskField.name];
     description = map[TaskField.description];
+    isDone = map[TaskField.isDone];
     sumUsers = map[TaskField.sumUsers];
     expiredAt = map[TaskField.expiredAt];
     createdAt = map[TaskField.createdAt];
@@ -24,6 +26,7 @@ class Task {
     return {
       TaskField.name: name,
       TaskField.description: description ?? '',
+      TaskField.isDone: isDone ?? false,
       TaskField.sumUsers: sumUsers ?? 0,
       TaskField.expiredAt: expiredAt,
       TaskField.createdAt: createdAt ?? FieldValue.serverTimestamp(),
