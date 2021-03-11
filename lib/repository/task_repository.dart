@@ -41,4 +41,13 @@ class TaskRepository {
         .doc();
     await taskRef.set(task.toMap());
   }
+
+  Future<void> updateTask(Project project, Task task) async {
+    final taskRef = _store
+        .collection('projects')
+        .doc(project.id)
+        .collection('projectTasks')
+        .doc(task.id);
+    await taskRef.update(task.toMap());
+  }
 }
