@@ -12,4 +12,8 @@ class TaskListModel extends ChangeNotifier {
   Stream<List<Task>> fetchTasks() {
     return _taskRepository.fetchTasks(project);
   }
+
+  Future<void> doneTask(Task task) async {
+    await _taskRepository.doneTask(project, task);
+  }
 }

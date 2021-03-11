@@ -13,6 +13,33 @@ class TaskList extends StatelessWidget {
 
   TaskList({@required this.project});
 
+  Future<void> _doneTask(BuildContext context, Task task) async {
+    final taskListModel = context.read<TaskListModel>();
+
+    try {
+      task.isDone = !task.isDone;
+      await taskListModel.doneTask(task);
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Oops!'),
+            content: Text('$e'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TaskListModel>(
@@ -107,7 +134,7 @@ class TaskList extends StatelessWidget {
               return ListView.separated(
                 padding: EdgeInsets.all(16),
                 itemBuilder: (context, index) {
-                  final project = snapshot.data[index];
+                  final task = snapshot.data[index];
 
                   return Material(
                     shape: RoundedRectangleBorder(
@@ -123,19 +150,18 @@ class TaskList extends StatelessWidget {
                         child: Row(
                           children: [
                             OutlinedButton(
-                              child: project.isDone
-                                  ? Icon(
-                                      Icons.circle,
-                                    )
-                                  : SizedBox(),
+                              child: Icon(
+                                Icons.circle,
+                                size: task.isDone ? 24 : 0,
+                              ),
                               style: OutlinedButton.styleFrom(
                                 shape: CircleBorder(),
                                 padding: EdgeInsets.zero,
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 minimumSize: Size(34, 34),
                               ),
-                              onPressed: () {
-                                // TODO: タスク完了処理を追加
+                              onPressed: () async {
+                                await _doneTask(context, task);
                               },
                             ),
                             SizedBox(width: 10),
@@ -145,14 +171,20 @@ class TaskList extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    '${project.name}',
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1,
+                                    '${task.name}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1
+                                        .copyWith(
+                                          decoration: task.isDone
+                                              ? TextDecoration.lineThrough
+                                              : null,
+                                        ),
                                   ),
                                   SizedBox(height: 4),
                                   Text(
-                                    project.expiredAt != null
-                                        ? '${project.expiredAt}'
+                                    task.expiredAt != null
+                                        ? '${task.expiredAt}'
                                         : 'No deadline',
                                     style: TextStyle(
                                       color: Theme.of(context)
@@ -165,7 +197,7 @@ class TaskList extends StatelessWidget {
                               ),
                             ),
                             SizedBox(width: 10),
-                            if (project.sumUsers > 0)
+                            if (task.sumUsers > 0)
                               Container(
                                 width: 44,
                                 height: 44,
