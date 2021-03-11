@@ -123,9 +123,11 @@ class TaskList extends StatelessWidget {
                         child: Row(
                           children: [
                             OutlinedButton(
-                              child: Icon(
-                                Icons.circle,
-                              ),
+                              child: project.isDone
+                                  ? Icon(
+                                      Icons.circle,
+                                    )
+                                  : SizedBox(),
                               style: OutlinedButton.styleFrom(
                                 shape: CircleBorder(),
                                 padding: EdgeInsets.zero,
