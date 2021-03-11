@@ -110,7 +110,9 @@ class ProjectList extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => TaskList(),
+                                builder: (context) => TaskList(
+                                  project: project,
+                                ),
                               ),
                             );
                           },

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/screens/add_task/add_task_page.dart';
 import 'package:projecthit/screens/invite_member/invite_member_page.dart';
 import 'package:projecthit/screens/project_detail/project_detail_page.dart';
 import 'package:projecthit/screens/task_detail/task_detail_page.dart';
 
 class TaskList extends StatelessWidget {
+  final Project project;
+
+  TaskList({@required this.project});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,7 +151,7 @@ class TaskList extends StatelessWidget {
             context,
             MaterialPageRoute(
               fullscreenDialog: true,
-              builder: (context) => AddTask(),
+              builder: (context) => AddTask(project: project),
             ),
           );
         },

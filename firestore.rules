@@ -46,6 +46,10 @@ service cloud.firestore {
           && request.resource.data.createdAt is timestamp
           && request.resource.data.createdAt == request.time;
       }
+
+      match /projectTasks/{projectTaskId} {
+        allow create: if true;
+      }
     }
   }
 }
