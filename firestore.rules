@@ -48,6 +48,7 @@ service cloud.firestore {
       }
 
       match /projectTasks/{projectTaskId} {
+        allow list: if isAnyAuthenticated();
         allow create: if isAnyAuthenticated()
           && request.resource.data.keys().hasAll(['name', 'description', 'sumUsers', 'expiredAt', 'createdAt'])
           && request.resource.data.keys().hasOnly(['name', 'description', 'sumUsers', 'expiredAt', 'createdAt'])
