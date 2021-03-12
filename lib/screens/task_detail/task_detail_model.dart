@@ -5,8 +5,8 @@ import 'package:projecthit/repository/task_repository.dart';
 
 class TaskDetailModel extends ChangeNotifier {
   final _taskRepository = TaskRepository();
+  final focusNode = FocusNode();
   final deadlineController = TextEditingController();
-  bool isActiveDateTime = false;
   bool isLoading = false;
 
   void beginLoading() {

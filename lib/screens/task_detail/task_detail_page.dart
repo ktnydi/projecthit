@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/task.dart';
+import 'package:projecthit/extension/date_time.dart';
 import 'package:projecthit/screens/invite_task_member/invite_task_member_page.dart';
 import 'package:projecthit/screens/task_detail/task_detail_model.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 class TaskDetail extends StatelessWidget {
   final _nameKey = GlobalKey<FormFieldState<String>>();
   final _descriptionKey = GlobalKey<FormFieldState<String>>();
+  final _deadlineKey = GlobalKey<FormFieldState<String>>();
   final Project project;
   final Task task;
 
@@ -17,6 +18,25 @@ class TaskDetail extends StatelessWidget {
 
   Future<void> _updateTask(BuildContext context, Task task) async {
     if (!_nameKey.currentState.validate()) return;
+    if (!_descriptionKey.currentState.validate()) return;
+    if (!_deadlineKey.currentState.validate()) return;
+
+    final name = _nameKey.currentState.value;
+    final description = _descriptionKey.currentState.value;
+    final deadline = _deadlineKey.currentState.value;
+    final expiredAt = deadline.isNotEmpty
+        ? Timestamp.fromDate(DateTime.parse(deadline))
+        : null;
+
+    if (name == task.name &&
+        description == task.description &&
+        expiredAt == task.expiredAt) return;
+
+    task.name = name;
+    task.description = description;
+    task.expiredAt = expiredAt;
+
+    FocusScope.of(context).unfocus();
 
     final taskDetailModel = context.read<TaskDetailModel>();
 
@@ -27,6 +47,8 @@ class TaskDetail extends StatelessWidget {
         task: task,
       );
       taskDetailModel.endLoading();
+
+      Navigator.pop(context);
     } catch (e) {
       taskDetailModel.endLoading();
       showDialog(
@@ -49,6 +71,20 @@ class TaskDetail extends StatelessWidget {
     }
   }
 
+  Future<DateTime> _showDeadlinePicker(BuildContext context) {
+    final taskDetailModel = context.read<TaskDetailModel>();
+    final currentDate = DateTime.now();
+
+    return showDatePicker(
+      context: context,
+      initialDate: taskDetailModel.deadlineController.text.isNotEmpty
+          ? DateTime.parse(taskDetailModel.deadlineController.text)
+          : currentDate,
+      firstDate: currentDate,
+      lastDate: DateTime.parse('${currentDate.year + 11}-12-31'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TaskDetailModel>(
@@ -65,6 +101,12 @@ class TaskDetail extends StatelessWidget {
                     icon: Icon(Icons.delete_outlined),
                     onPressed: () {
                       // TODO: タスク削除
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.done),
+                    onPressed: () async {
+                      await _updateTask(context, task);
                     },
                   ),
                 ],
@@ -161,17 +203,10 @@ class TaskDetail extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                       ),
-                      onFieldSubmitted: (value) async {
-                        if (task.name == value) return;
-
-                        task.name = value;
-
-                        await _updateTask(context, task);
-                      },
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Description',
+                      'Description (optional)',
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -194,89 +229,41 @@ class TaskDetail extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Deadline',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                              Text(
-                                'It will be send notification 3 days ago of deadline.',
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).textTheme.caption.color,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Switch.adaptive(
-                          value: context.select(
-                            (TaskDetailModel model) => model.isActiveDateTime,
-                          ),
-                          activeColor: Theme.of(context).colorScheme.secondary,
-                          onChanged: (isActive) {
-                            taskDetailModel.isActiveDateTime = isActive;
-
-                            if (isActive) {
-                              taskDetailModel.deadlineController.text =
-                                  DateFormat('dd, MMM yyyy').format(
-                                DateTime.now(),
-                              );
-                              task.expiredAt =
-                                  Timestamp.fromDate(DateTime.now());
-                            } else {
-                              task.expiredAt = null;
-                              taskDetailModel.deadlineController.clear();
-                            }
-
-                            taskDetailModel.reload();
-                          },
-                        ),
-                      ],
+                    Text(
+                      'Deadline (optional)',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
                     SizedBox(height: 4),
                     TextFormField(
-                      controller: taskDetailModel.deadlineController,
-                      validator: (value) {
-                        if (!taskDetailModel.isActiveDateTime) return null;
-
-                        if (value.trim().isEmpty) {
-                          return 'Select deadline';
-                        }
-
-                        return null;
-                      },
+                      key: _deadlineKey,
+                      focusNode: taskDetailModel.focusNode,
+                      controller: taskDetailModel.deadlineController
+                        ..text = task.expiredAt?.toDate()?.format() ?? '',
                       readOnly: true,
-                      enabled: context.select(
-                        (TaskDetailModel model) => model.isActiveDateTime,
-                      ),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: taskDetailModel.isActiveDateTime
-                            ? 'Select date'
-                            : 'No deadline',
+                        hintText: 'yyyy-mm-dd',
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            taskDetailModel.focusNode.unfocus();
+
+                            taskDetailModel.focusNode.canRequestFocus = false;
+
+                            taskDetailModel.deadlineController.clear();
+                          },
+                        ),
                       ),
                       onTap: () async {
-                        final currentDate = DateTime.now();
-                        final dateTime = await showDatePicker(
-                          context: context,
-                          initialDate: task.expiredAt?.toDate() ?? currentDate,
-                          firstDate: currentDate,
-                          lastDate: currentDate.add(Duration(days: 365)),
-                        );
+                        if (!taskDetailModel.focusNode.canRequestFocus) {
+                          return;
+                        }
+
+                        final dateTime = await _showDeadlinePicker(context);
                         if (dateTime == null) return;
-                        task.expiredAt = Timestamp.fromDate(dateTime);
-                        final formatDate =
-                            DateFormat('dd, MMM yyyy').format(dateTime);
+                        final formatDate = dateTime.format();
                         taskDetailModel.deadlineController.text = formatDate;
                       },
                     ),
