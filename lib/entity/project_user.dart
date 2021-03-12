@@ -4,6 +4,7 @@ import 'package:projecthit/entity/project_user_field.dart';
 class ProjectUser {
   String id;
   String userId;
+  DocumentReference projectRef;
   Timestamp createdAt;
 
   ProjectUser();
@@ -11,6 +12,7 @@ class ProjectUser {
   ProjectUser.fromMap(Map<String, dynamic> map) {
     id = map[ProjectUserField.id];
     userId = map[ProjectUserField.userId];
+    projectRef = map[ProjectUserField.projectRef];
     createdAt = map[ProjectUserField.createdAt];
   }
 
