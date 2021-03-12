@@ -2,29 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projecthit/entity/project.dart';
+import 'package:projecthit/entity/project_field.dart';
 import 'package:projecthit/entity/project_user.dart';
 
 class ProjectRepository {
   final _store = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
-  Future<List<Project>> fetchProjects() async {
-    final projectUsersSnapshot = await _store
-        .collectionGroup('projectUsers')
-        .where('userId', isEqualTo: _auth.currentUser.uid)
-        .orderBy('createdAt', descending: true)
-        .get();
-    final projects = await Future.wait(
-      projectUsersSnapshot.docs.map(
-        (doc) async {
-          final projectSnapshot = await doc.reference.parent.parent.get();
-          final data = projectSnapshot.data();
-          data['id'] = projectSnapshot.id;
-          return Project.fromMap(data);
-        },
-      ),
+  Stream<Project> fetchProject(ProjectUser projectUser) {
+    return projectUser.projectRef.snapshots().map(
+      (snapshot) {
+        final data = snapshot.data();
+        data[ProjectField.id] = snapshot.id;
+        return Project.fromMap(data);
+      },
     );
-    return projects;
   }
 
   Future<String> addProject({@required Project project}) async {

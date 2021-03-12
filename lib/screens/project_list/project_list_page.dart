@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:projecthit/entity/project.dart';
+import 'package:projecthit/entity/project_user.dart';
 import 'package:projecthit/screens/add_project/add_project_page.dart';
 import 'package:projecthit/screens/project_list/project_list_model.dart';
 import 'package:projecthit/screens/setting/setting_page.dart';
@@ -37,9 +39,12 @@ class ProjectList extends StatelessWidget {
               ),
             ],
           ),
-          body: FutureBuilder(
-            future: projectListModel.fetchUserProjects(),
-            builder: (context, snapshot) {
+          body: StreamBuilder(
+            stream: projectListModel.fetchProjectUsers(),
+            builder: (
+              BuildContext context,
+              AsyncSnapshot<List<ProjectUser>> snapshot,
+            ) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
@@ -55,15 +60,55 @@ class ProjectList extends StatelessWidget {
                 );
               }
 
+              final projectUsers = snapshot.data;
+
               return ListView.separated(
                 padding: EdgeInsets.all(16),
                 separatorBuilder: (context, index) => SizedBox(height: 8),
                 itemBuilder: (context, index) {
-                  return Builder(
-                    builder: (context) {
-                      final project = context.select(
-                        (ProjectListModel model) => model.projects[index],
-                      );
+                  return StreamBuilder(
+                    stream: projectListModel.fetchProject(projectUsers[index]),
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot<Project> snapshot,
+                    ) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Material(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                              color: Theme.of(context).dividerColor,
+                            ),
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        );
+                      }
+
+                      if (snapshot.hasError) {
+                        return Material(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                              color: Theme.of(context).dividerColor,
+                            ),
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Center(
+                              child: Text('${snapshot.error}'),
+                            ),
+                          ),
+                        );
+                      }
+
+                      final project = snapshot.data;
 
                       return Material(
                         shape: RoundedRectangleBorder(
@@ -122,7 +167,7 @@ class ProjectList extends StatelessWidget {
                   );
                 },
                 itemCount: context.select(
-                  (ProjectListModel model) => model.projects.length,
+                  (ProjectListModel model) => projectUsers.length,
                 ),
               );
             },
@@ -137,7 +182,6 @@ class ProjectList extends StatelessWidget {
                   builder: (context) => AddProject(),
                 ),
               );
-              await projectListModel.fetchUserProjects();
             },
           ),
         );
