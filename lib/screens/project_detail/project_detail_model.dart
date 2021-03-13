@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/entity/project.dart';
+import 'package:projecthit/repository/project_repository.dart';
 
 class ProjectDetailModel extends ChangeNotifier {
+  final _projectRepository = ProjectRepository();
   final deadlineController = TextEditingController();
   bool isLoading = false;
   bool isActiveDateTime = false;
@@ -17,6 +20,10 @@ class ProjectDetailModel extends ChangeNotifier {
 
   void reload() {
     notifyListeners();
+  }
+
+  Future<void> updateProject({@required Project project}) async {
+    await _projectRepository.updateProject(project: project);
   }
 
   @override
