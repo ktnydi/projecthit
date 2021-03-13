@@ -88,7 +88,7 @@ class TaskList extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       fullscreenDialog: true,
-                      builder: (context) => ProjectDetail(),
+                      builder: (context) => ProjectDetail(project: project),
                     ),
                   );
                 },

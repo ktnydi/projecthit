@@ -38,4 +38,8 @@ class ProjectRepository {
     await batch.commit();
     return project.id;
   }
+
+  Future<void> updateProject({@required Project project}) async {
+    await _store.collection('projects').doc(project.id).update(project.toMap());
+  }
 }
