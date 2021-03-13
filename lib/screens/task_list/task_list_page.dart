@@ -185,13 +185,15 @@ class TaskList extends StatelessWidget {
                                   SizedBox(height: 4),
                                   Text(
                                     task.expiredAt != null
-                                        ? '${task.expiredAt}'
+                                        ? 'By ${task.expiredAt.toDate().format()}'
                                         : 'No deadline',
                                     style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .caption
-                                          .color,
+                                      color: task.isExpired && !task.isDone
+                                          ? Color(0xFFEF377A)
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .caption
+                                              .color,
                                     ),
                                   ),
                                 ],

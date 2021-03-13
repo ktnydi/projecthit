@@ -10,6 +10,12 @@ class Task {
   Timestamp expiredAt;
   Timestamp createdAt;
 
+  bool get isExpired {
+    return expiredAt != null &&
+        expiredAt.millisecondsSinceEpoch <=
+            Timestamp.now().millisecondsSinceEpoch;
+  }
+
   Task();
 
   Task.fromMap(Map<String, dynamic> map) {

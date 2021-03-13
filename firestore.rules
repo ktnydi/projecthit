@@ -89,7 +89,7 @@ service cloud.firestore {
           && request.resource.data.isDone is bool
           && request.resource.data.sumUsers is int
           && request.resource.data.sumUsers >= 0
-          && (request.resource.data.expiredAt == null || (request.resource.data.expiredAt is timestamp && request.resource.data.expiredAt.toMillis() > request.time.toMillis()))
+          && (request.resource.data.expiredAt == null || (request.resource.data.expiredAt is timestamp && request.resource.data.expiredAt.toMillis() > resource.data.createdAt.toMillis()))
           && request.resource.data.createdAt is timestamp
           && request.resource.data.createdAt == resource.data.createdAt;
       }
