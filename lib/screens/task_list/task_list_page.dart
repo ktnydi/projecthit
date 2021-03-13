@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/extension/date_time.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/screens/add_task/add_task_page.dart';
@@ -54,10 +55,10 @@ class TaskList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Project Name',
+                  '${project.name}',
                 ),
                 Text(
-                  '3 Members',
+                  '${project.sumUsers} Members',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.normal,
