@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:projecthit/extension/date_time.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/task.dart';
@@ -19,6 +20,7 @@ class TaskList extends StatelessWidget {
 
     try {
       task.isDone = !task.isDone;
+      if (task.isDone) HapticFeedback.selectionClick();
       await taskListModel.doneTask(task);
     } catch (e) {
       showDialog(
