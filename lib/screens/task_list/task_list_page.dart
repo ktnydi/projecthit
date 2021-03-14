@@ -4,8 +4,6 @@ import 'package:projecthit/extension/date_time.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/screens/add_task/add_task_page.dart';
-import 'package:projecthit/screens/invite_member/invite_member_page.dart';
-import 'package:projecthit/screens/project_detail/project_detail_page.dart';
 import 'package:projecthit/screens/task_detail/task_detail_page.dart';
 import 'package:projecthit/screens/task_list/task_list_model.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +52,6 @@ class TaskList extends StatelessWidget {
           appBar: AppBar(
             title: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   '${project.name}',
@@ -69,34 +66,6 @@ class TaskList extends StatelessWidget {
                 ),
               ],
             ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.person_add_outlined),
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16),
-                      ),
-                    ),
-                    builder: (context) => InviteMember(),
-                  );
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.more_vert),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) => ProjectDetail(project: project),
-                    ),
-                  );
-                },
-              ),
-            ],
           ),
           body: StreamBuilder(
             stream: taskListModel.fetchTasks(),
