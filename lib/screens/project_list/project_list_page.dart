@@ -3,6 +3,7 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/project_user.dart';
 import 'package:projecthit/screens/add_project/add_project_page.dart';
+import 'package:projecthit/screens/project_detail/project_detail_page.dart';
 import 'package:projecthit/screens/project_list/project_list_model.dart';
 import 'package:projecthit/screens/setting/setting_page.dart';
 import 'package:projecthit/screens/task_list/task_list_page.dart';
@@ -146,6 +147,21 @@ class ProjectList extends StatelessWidget {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 32,
+                                  child: IconButton(
+                                    icon: Icon(Icons.more_vert),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProjectDetail(project: project),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
