@@ -92,6 +92,7 @@ service cloud.firestore {
           && (request.resource.data.expiredAt == null || (request.resource.data.expiredAt is timestamp && request.resource.data.expiredAt.toMillis() > resource.data.createdAt.toMillis()))
           && request.resource.data.createdAt is timestamp
           && request.resource.data.createdAt == resource.data.createdAt;
+        allow delete: if isAnyAuthenticated();
       }
     }
   }

@@ -71,6 +71,69 @@ class TaskDetail extends StatelessWidget {
     }
   }
 
+  Future<void> _deleteTask(
+    BuildContext context,
+    TaskDetailModel taskDetailModel,
+  ) async {
+    if (FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Are you sure?'),
+          content:
+              Text('Delete this task. Can\'t recover deleted tasks later.'),
+          actions: [
+            TextButton(
+              child: Text('CANCEL'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('DELETE'),
+              onPressed: () async {
+                Navigator.pop(context);
+
+                try {
+                  taskDetailModel.beginLoading();
+                  await taskDetailModel.deleteTask(
+                    project: project,
+                    task: task,
+                  );
+                  taskDetailModel.endLoading();
+                  Navigator.pop(context);
+                } catch (e) {
+                  taskDetailModel.endLoading();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Oops!'),
+                        content: Text('$e'),
+                        actions: [
+                          TextButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<DateTime> _showDeadlinePicker(BuildContext context) {
     final taskDetailModel = context.read<TaskDetailModel>();
     final currentDate = DateTime.now();
@@ -99,8 +162,8 @@ class TaskDetail extends StatelessWidget {
                 actions: [
                   IconButton(
                     icon: Icon(Icons.delete_outlined),
-                    onPressed: () {
-                      // TODO: タスク削除
+                    onPressed: () async {
+                      await _deleteTask(context, taskDetailModel);
                     },
                   ),
                   IconButton(
