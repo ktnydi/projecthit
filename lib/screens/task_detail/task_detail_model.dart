@@ -30,6 +30,13 @@ class TaskDetailModel extends ChangeNotifier {
     await _taskRepository.updateTask(project, task);
   }
 
+  Future<void> deleteTask({
+    @required Project project,
+    @required Task task,
+  }) async {
+    await _taskRepository.deleteTask(project, task);
+  }
+
   @override
   void dispose() {
     deadlineController.dispose();

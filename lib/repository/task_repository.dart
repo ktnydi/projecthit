@@ -50,4 +50,13 @@ class TaskRepository {
         .doc(task.id);
     await taskRef.update(task.toMap());
   }
+
+  Future<void> deleteTask(Project project, Task task) async {
+    await _store
+        .collection('projects')
+        .doc(project.id)
+        .collection('projectTasks')
+        .doc(task.id)
+        .delete();
+  }
 }
