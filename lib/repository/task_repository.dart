@@ -59,4 +59,32 @@ class TaskRepository {
         .doc(task.id)
         .delete();
   }
+
+  Future<void> deleteDoneTasks(Project project) async {
+    final tasksSnapshot = await _store
+        .collection('projects')
+        .doc(project.id)
+        .collection('projectTasks')
+        .where('isDone', isEqualTo: true)
+        .get();
+
+    const batchLimit = 500;
+    WriteBatch batch = _store.batch();
+    int batchCounter = 0;
+
+    for (int i = 0; i < tasksSnapshot.docs.length; i++) {
+      final doc = tasksSnapshot.docs[i];
+
+      batch.delete(doc.reference);
+      batchCounter++;
+
+      if (batchCounter == batchLimit) {
+        await batch.commit();
+        batch = _store.batch();
+        batchCounter = 0;
+      }
+    }
+
+    await batch.commit();
+  }
 }
