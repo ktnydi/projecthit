@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/repository/user_repository.dart';
 
 class ProfileModel extends ChangeNotifier {
@@ -15,14 +16,8 @@ class ProfileModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateName(String name) async {
-    // TODO: 名前の更新
-    await Future.delayed(Duration(milliseconds: 3000));
-  }
-
-  Future<void> updateAbout(String about) async {
-    // TODO: 自己紹介の更新
-    await Future.delayed(Duration(milliseconds: 3000));
+  Future<void> updateAppUser(AppUser appUser) async {
+    await _userRepository.updateAppUser(appUser: appUser);
   }
 
   Future<void> signOut() async {
