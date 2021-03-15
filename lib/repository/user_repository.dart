@@ -9,6 +9,17 @@ class UserRepository {
 
   User get currentUser => _auth.currentUser;
 
+  Stream<AppUser> fetchUser(String userId) {
+    final userSnapshots = _store.collection('users').doc(userId).snapshots();
+    return userSnapshots.map(
+      (snapshot) {
+        final data = snapshot.data();
+        data['id'] = snapshot.id;
+        return AppUser.fromMap(data);
+      },
+    );
+  }
+
   Future<String> signInAnonymous() async {
     final userCredential = await _auth.signInAnonymously();
 
