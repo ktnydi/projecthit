@@ -26,6 +26,10 @@ class ProjectDetailModel extends ChangeNotifier {
     await _projectRepository.updateProject(project: project);
   }
 
+  Future<void> deleteProject({@required Project project}) async {
+    await _projectRepository.deleteProject(project: project);
+  }
+
   @override
   void dispose() {
     deadlineController.dispose();

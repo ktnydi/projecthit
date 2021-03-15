@@ -42,4 +42,51 @@ class ProjectRepository {
   Future<void> updateProject({@required Project project}) async {
     await _store.collection('projects').doc(project.id).update(project.toMap());
   }
+
+  Future<void> deleteProject({@required Project project}) async {
+    if (project.adminUser != _auth.currentUser.uid) return;
+
+    const batchLimit = 500;
+    WriteBatch batch = _store.batch();
+    int batchCounter = 0;
+
+    // プロジェクトを削除
+    final projectRef = _store.collection('projects').doc(project.id);
+    batchCounter++;
+    batch.delete(projectRef);
+
+    // プロジェクトメンバーを削除
+    final projectUsersSnapshot =
+        await projectRef.collection('projectUsers').get();
+    for (int i = 0; i < projectUsersSnapshot.docs.length; i++) {
+      final doc = projectUsersSnapshot.docs[i];
+
+      batchCounter++;
+      batch.delete(doc.reference);
+
+      if (batchCounter == batchLimit) {
+        await batch.commit();
+        batch = _store.batch();
+        batchCounter = 0;
+      }
+    }
+
+    // プロジェクトタスクを削除
+    final projectTasksSnapshot =
+        await projectRef.collection('projectTasks').get();
+    for (int i = 0; i < projectTasksSnapshot.docs.length; i++) {
+      final doc = projectTasksSnapshot.docs[i];
+
+      batchCounter++;
+      batch.delete(doc.reference);
+
+      if (batchCounter == batchLimit) {
+        await batch.commit();
+        batch = _store.batch();
+        batchCounter = 0;
+      }
+    }
+
+    await batch.commit();
+  }
 }
