@@ -69,6 +69,10 @@ class UserRepository {
     return userCredential.user.uid;
   }
 
+  Future<void> updateAppUser({AppUser appUser}) async {
+    await _store.collection('users').doc(appUser.id).update(appUser.toMap());
+  }
+
   Future<void> updateEmail({
     @required String email,
     @required String password,

@@ -6,8 +6,8 @@ class AppUser {
   String name;
   String icon;
   String about;
-  DateTime createdAt;
-  DateTime updatedAt;
+  Timestamp createdAt;
+  Timestamp updatedAt;
 
   AppUser({this.id});
 
@@ -16,8 +16,8 @@ class AppUser {
     name = map['name'];
     icon = map['icon'];
     about = map['about'];
-    createdAt = (map['created_at'] as Timestamp).toDate();
-    updatedAt = (map['updated_at'] as Timestamp).toDate();
+    createdAt = map['created_at'] as Timestamp;
+    updatedAt = map['updated_at'] as Timestamp;
   }
 
   // DB保存用
@@ -26,8 +26,8 @@ class AppUser {
       'id': id,
       'name': name ?? WordPair.random().asPascalCase,
       'icon': icon,
-      'about': about,
-      'created_at': FieldValue.serverTimestamp(),
+      'about': about ?? '',
+      'created_at': createdAt ?? FieldValue.serverTimestamp(),
       'updated_at': FieldValue.serverTimestamp(),
     };
   }

@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 class Profile extends StatelessWidget {
   final _nameKey = GlobalKey<FormFieldState<String>>();
   final _aboutKey = GlobalKey<FormFieldState<String>>();
-  final name = 'Yudai Kitano';
-  final about = '';
 
   Future<void> _updateName(
     BuildContext context,
@@ -20,11 +18,16 @@ class Profile extends StatelessWidget {
 
     final newName = _nameKey.currentState.value;
 
-    if (name == newName) return;
+    final myAppModel = context.read<MyAppModel>();
+    final oldName = myAppModel.currentAppUser.name;
+
+    if (newName == oldName) return;
 
     try {
       profileModel.beginLoading();
-      await profileModel.updateName(newName);
+      final appUser = myAppModel.currentAppUser;
+      appUser.name = newName;
+      await profileModel.updateAppUser(appUser);
       profileModel.endLoading();
     } catch (e) {
       profileModel.endLoading();
@@ -58,11 +61,16 @@ class Profile extends StatelessWidget {
 
     final newAbout = _aboutKey.currentState.value;
 
-    if (newAbout == about) return;
+    final myAppModel = context.read<MyAppModel>();
+    final oldAbout = myAppModel.currentAppUser.about;
+
+    if (newAbout == oldAbout) return;
 
     try {
       profileModel.beginLoading();
-      await profileModel.updateAbout(newAbout);
+      final appUser = myAppModel.currentAppUser;
+      appUser.about = newAbout;
+      await profileModel.updateAppUser(appUser);
       profileModel.endLoading();
     } catch (e) {
       profileModel.endLoading();
@@ -204,7 +212,7 @@ class Profile extends StatelessWidget {
                         builder: (context) {
                           return TextFormField(
                             key: _nameKey,
-                            initialValue: name,
+                            initialValue: myAppModel.currentAppUser.name,
                             validator: (value) {
                               if (value.trim().isEmpty) {
                                 return 'Enter Name';
@@ -238,7 +246,7 @@ class Profile extends StatelessWidget {
                       SizedBox(height: 4),
                       TextFormField(
                         key: _aboutKey,
-                        initialValue: about,
+                        initialValue: myAppModel.currentAppUser.about,
                         validator: (value) {
                           if (1 <= value.length && value.length < 6) {
                             return 'About is too short';

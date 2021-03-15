@@ -17,6 +17,21 @@ service cloud.firestore {
     match /users/{userId} {
       allow get: if isAuthenticatedUser(userId);
       allow create: if isAuthenticatedUser(userId);
+      allow update: if isAuthenticatedUser(userId)
+        && request.resource.data.keys().hasAll(['id', 'name', 'about', 'icon', 'updated_at', 'created_at'])
+        && request.resource.data.keys().hasOnly(['id', 'name', 'about', 'icon', 'updated_at', 'created_at'])
+        && request.resource.data.id is string
+        && request.resource.data.id == resource.data.id
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 50
+        && request.resource.data.about is string
+        && (request.resource.data.about.size() == 0 || (request.resource.data.about.size() >= 6 && request.resource.data.about.size() <= 170))
+        && (request.resource.data.icon == null || request.resource.data.icon is string)
+        && request.resource.data.updated_at is timestamp
+        && request.resource.data.updated_at != resource.data.updated_at
+        && request.resource.data.created_at is timestamp
+        && request.resource.data.created_at == resource.data.created_at;
     }
 
     match /projects/{projectId} {
