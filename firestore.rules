@@ -49,8 +49,12 @@ service cloud.firestore {
         && request.resource.data.sumUsers >= 1
         && request.resource.data.createdAt is timestamp
         && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAnyAuthenticated()
+        && resource.data.adminUser == request.auth.uid;
 
       match /projectUsers/{projectUserId} {
+        allow list: if isAnyAuthenticated()
+          && exists(/databases/$(database)/documents/projects/$(projectId)/projectUsers/$(request.auth.uid));
         allow create: if isAnyAuthenticated()
           && existsAfter(/databases/$(database)/documents/projects/$(projectId))
           && request.resource.data.keys().hasAll(['userId', 'createdAt'])
@@ -59,6 +63,8 @@ service cloud.firestore {
           && request.resource.data.userId == request.auth.uid
           && request.resource.data.createdAt is timestamp
           && request.resource.data.createdAt == request.time;
+        allow delete: if isAnyAuthenticated()
+          && (request.auth.uid == get(/databases/$(database)/documents/projects/$(projectId)).data.adminUser || request.auth.uid == resource.data.userId);
       }
 
       match /projectTasks/{projectTaskId} {

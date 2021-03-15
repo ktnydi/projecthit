@@ -57,18 +57,81 @@ class ProjectDetail extends StatelessWidget {
     }
   }
 
+  Future<void> _confirmDeletingProject(
+    BuildContext context,
+    ProjectDetailModel projectDetailModel,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Are you sure?'),
+          content: Text(
+              'Delete this project and related tasks. you can\'t recover deleted project later.'),
+          actions: [
+            TextButton(
+              child: Text('cancel'.toUpperCase()),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text('delete'.toUpperCase()),
+              onPressed: () async {
+                Navigator.pop(context);
+                await _deleteProject(context, projectDetailModel);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteProject(
+    BuildContext context,
+    ProjectDetailModel projectDetailModel,
+  ) async {
+    try {
+      projectDetailModel.beginLoading();
+      await projectDetailModel.deleteProject(project: project);
+      projectDetailModel.endLoading();
+
+      Navigator.pop(context);
+    } catch (e) {
+      projectDetailModel.endLoading();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Oops!'),
+            content: Text('$e'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ProjectDetailModel>(
       create: (_) => ProjectDetailModel(),
       builder: (context, child) {
+        final projectDetailModel = context.read<ProjectDetailModel>();
+
         return Scaffold(
           appBar: AppBar(
             actions: [
               IconButton(
                 icon: Icon(Icons.delete_outline),
-                onPressed: () {
-                  // TODO: プロジェクト削除
+                onPressed: () async {
+                  await _confirmDeletingProject(context, projectDetailModel);
                 },
               ),
               IconButton(
