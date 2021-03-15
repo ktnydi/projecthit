@@ -15,6 +15,7 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
+      allow get: if isAuthenticatedUser(userId);
       allow create: if isAuthenticatedUser(userId);
     }
 
