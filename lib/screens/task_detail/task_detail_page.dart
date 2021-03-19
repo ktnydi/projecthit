@@ -233,7 +233,9 @@ class TaskDetail extends StatelessWidget {
                                 ),
                               ),
                               builder: (context) {
-                                return InviteTaskMember();
+                                return InviteTaskMember(
+                                  project: project,
+                                );
                               },
                             );
                           },
