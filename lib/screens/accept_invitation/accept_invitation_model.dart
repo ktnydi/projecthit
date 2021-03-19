@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/repository/project_user_repository.dart';
+import 'package:projecthit/repository/user_repository.dart';
 
 class AcceptInvitationModel extends ChangeNotifier {
+  final _projectUserRepository = ProjectUserRepository();
+  final _userRepository = UserRepository();
   bool isLoading = false;
 
   void beginLoading() {
@@ -14,7 +18,12 @@ class AcceptInvitationModel extends ChangeNotifier {
   }
 
   Future<void> addProject(Uri deepLink) async {
-    // TODO: 招待されたプロジェクトを追加する。
-    await Future.delayed(Duration(milliseconds: 3000));
+    final projectId = deepLink.queryParameters['id'];
+
+    await _projectUserRepository.addProjectUser(projectId);
+  }
+
+  Future<void> signInWithAnonymous() async {
+    await _userRepository.signInAnonymous();
   }
 }

@@ -1,11 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:projecthit/screens/accept_invitation/accept_invitation_model.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
+import 'package:projecthit/screens/project_list/project_list_page.dart';
 import 'package:provider/provider.dart';
 
 class AcceptInvitation extends StatelessWidget {
   final Uri deepLink;
 
   AcceptInvitation({@required this.deepLink});
+
+  Future<void> _signInAndAddProject(BuildContext context) async {
+    final acceptInvitationModel = context.read<AcceptInvitationModel>();
+
+    try {
+      acceptInvitationModel.beginLoading();
+
+      await acceptInvitationModel.signInWithAnonymous();
+      await acceptInvitationModel.addProject(deepLink);
+
+      acceptInvitationModel.endLoading();
+
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProjectList(),
+        ),
+      );
+    } catch (e) {
+      acceptInvitationModel.endLoading();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Oops!'),
+            content: Text('$e'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   Future<void> _addProject(BuildContext context) async {
     final acceptInvitationModel = context.read<AcceptInvitationModel>();
@@ -68,12 +110,20 @@ class AcceptInvitation extends StatelessWidget {
                       SizedBox(height: 32),
                       Builder(
                         builder: (context) {
+                          final currentUser = context.select(
+                            (MyAppModel model) => model.currentUser,
+                          );
+
                           return ElevatedButton(
                             child: Text('Join the project'),
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(200, 44),
                             ),
                             onPressed: () async {
+                              if (currentUser == null) {
+                                return await _signInAndAddProject(context);
+                              }
+
                               await _addProject(context);
                             },
                           );
