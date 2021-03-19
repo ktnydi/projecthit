@@ -7,6 +7,19 @@ class ProjectUserRepository {
   final _store = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
+  Future<void> addProjectUser(String projectId) async {
+    final projectRef = _store.collection('projects').doc(projectId);
+
+    final projectUser = ProjectUser();
+    projectUser.projectRef = projectRef;
+    projectUser.userId = _auth.currentUser.uid;
+
+    await projectRef
+        .collection('projectUsers')
+        .doc(_auth.currentUser.uid)
+        .set(projectUser.toMap());
+  }
+
   Stream<List<ProjectUser>> fetchProjectUsers() {
     final projectUserSnapshots = _store
         .collectionGroup('projectUsers')

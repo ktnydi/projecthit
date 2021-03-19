@@ -9,19 +9,28 @@ class MyAppModel extends ChangeNotifier {
   final _userRepository = UserRepository();
   User currentUser;
   AppUser currentAppUser;
+  StreamSubscription<User> userSubscription;
   StreamSubscription<AppUser> appUserSubscription;
 
   MyAppModel() {
     currentUser = _userRepository.currentUser;
 
-    if (currentUser != null) {
-      appUserSubscription = _userRepository.fetchUser(currentUser.uid).listen(
-        (appUser) {
-          currentAppUser = appUser;
-          notifyListeners();
-        },
-      );
-    }
+    userSubscription = _userRepository.authListener().listen(
+      (user) {
+        currentUser = user;
+
+        if (currentUser != null) {
+          appUserSubscription =
+              _userRepository.fetchUser(currentUser.uid).listen(
+            (appUser) {
+              currentAppUser = appUser;
+            },
+          );
+        }
+
+        notifyListeners();
+      },
+    );
   }
 
   Future<void> fetchCurrentUser() async {
@@ -31,6 +40,7 @@ class MyAppModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    userSubscription.cancel();
     appUserSubscription.cancel();
     super.dispose();
   }

@@ -9,6 +9,10 @@ class UserRepository {
 
   User get currentUser => _auth.currentUser;
 
+  Stream<User> authListener() {
+    return _auth.authStateChanges();
+  }
+
   Stream<AppUser> fetchUser(String userId) {
     final userSnapshots = _store.collection('users').doc(userId).snapshots();
     return userSnapshots.map(
