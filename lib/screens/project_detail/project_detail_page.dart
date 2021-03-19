@@ -121,7 +121,7 @@ class ProjectDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ProjectDetailModel>(
-      create: (_) => ProjectDetailModel(),
+      create: (_) => ProjectDetailModel()..fetchProjectUsers(project),
       builder: (context, child) {
         final projectDetailModel = context.read<ProjectDetailModel>();
 
@@ -168,21 +168,39 @@ class ProjectDetail extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  return Container(
-                                    width: 44,
-                                    height: 44,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Theme.of(context).dividerColor,
-                                      ),
-                                    ),
-                                    child: Icon(Icons.face_outlined),
+                                  return Builder(
+                                    builder: (context) {
+                                      final member = context.select(
+                                        (ProjectDetailModel model) =>
+                                            model.projectUsers[index],
+                                      );
+
+                                      return FutureBuilder(
+                                          future: projectDetailModel
+                                              .fetchUser(member),
+                                          builder: (context, snapshot) {
+                                            return Container(
+                                              width: 44,
+                                              height: 44,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: Theme.of(context)
+                                                      .dividerColor,
+                                                ),
+                                              ),
+                                              child: Icon(Icons.face_outlined),
+                                            );
+                                          });
+                                    },
                                   );
                                 },
                                 separatorBuilder: (context, index) =>
                                     SizedBox(width: 8),
-                                itemCount: 3,
+                                itemCount: context.select(
+                                  (ProjectDetailModel model) =>
+                                      model.projectUsers.length,
+                                ),
                               ),
                             ),
                           ),
