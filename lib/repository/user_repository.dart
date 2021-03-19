@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/extension/document_reference.dart';
 import 'package:projecthit/entity/app_user.dart';
 
 class UserRepository {
@@ -22,6 +23,14 @@ class UserRepository {
         return AppUser.fromMap(data);
       },
     );
+  }
+
+  Future<AppUser> fetchUserAsFuture(String userId) async {
+    final userSnapshot =
+        await _store.collection('users').doc(userId).getCacheThenServer();
+    final data = userSnapshot.data();
+    data['id'] = userSnapshot.id;
+    return AppUser.fromMap(data);
   }
 
   Future<String> signInAnonymous() async {

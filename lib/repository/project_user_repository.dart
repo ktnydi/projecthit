@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/project_user.dart';
 import 'package:projecthit/entity/project_user_field.dart';
 
@@ -18,6 +19,25 @@ class ProjectUserRepository {
         .collection('projectUsers')
         .doc(_auth.currentUser.uid)
         .set(projectUser.toMap());
+  }
+
+  Stream<List<ProjectUser>> fetchProjectMember(Project project) {
+    final projectUserSnapshots = _store
+        .collection('projects')
+        .doc(project.id)
+        .collection('projectUsers')
+        .snapshots();
+    return projectUserSnapshots.map(
+      (snapshot) {
+        return snapshot.docs.map(
+          (doc) {
+            final data = doc.data();
+            data['id'] = doc.id;
+            return ProjectUser.fromMap(data);
+          },
+        ).toList();
+      },
+    );
   }
 
   Stream<List<ProjectUser>> fetchProjectUsers() {
