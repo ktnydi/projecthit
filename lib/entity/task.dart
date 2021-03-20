@@ -6,7 +6,7 @@ class Task {
   String name;
   String description;
   bool isDone;
-  int sumUsers;
+  List<String> taskUserIds;
   Timestamp expiredAt;
   Timestamp createdAt;
 
@@ -23,7 +23,9 @@ class Task {
     name = map[TaskField.name];
     description = map[TaskField.description];
     isDone = map[TaskField.isDone];
-    sumUsers = map[TaskField.sumUsers];
+    taskUserIds = (map[TaskField.taskUserIds] as List)
+        .map((userId) => userId as String)
+        .toList();
     expiredAt = map[TaskField.expiredAt];
     createdAt = map[TaskField.createdAt];
   }
@@ -33,7 +35,7 @@ class Task {
       TaskField.name: name,
       TaskField.description: description ?? '',
       TaskField.isDone: isDone ?? false,
-      TaskField.sumUsers: sumUsers ?? 0,
+      TaskField.taskUserIds: taskUserIds ?? [],
       TaskField.expiredAt: expiredAt,
       TaskField.createdAt: createdAt ?? FieldValue.serverTimestamp(),
     };
