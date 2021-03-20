@@ -86,8 +86,8 @@ service cloud.firestore {
       match /projectTasks/{projectTaskId} {
         allow list: if isAnyAuthenticated();
         allow create: if isAnyAuthenticated()
-          && request.resource.data.keys().hasAll(['name', 'description', 'isDone', 'sumUsers', 'expiredAt', 'createdAt'])
-          && request.resource.data.keys().hasOnly(['name', 'description', 'isDone', 'sumUsers', 'expiredAt', 'createdAt'])
+          && request.resource.data.keys().hasAll(['name', 'description', 'isDone', 'taskUserIds', 'expiredAt', 'createdAt'])
+          && request.resource.data.keys().hasOnly(['name', 'description', 'isDone', 'taskUserIds', 'expiredAt', 'createdAt'])
           && request.resource.data.name is string
           && request.resource.data.name.size() >= 1
           && request.resource.data.name.size() <= 100
@@ -95,22 +95,20 @@ service cloud.firestore {
           && request.resource.data.description.size() <= 140
           && request.resource.data.isDone is bool
           && request.resource.data.isDone == false
-          && request.resource.data.sumUsers is int
-          && request.resource.data.sumUsers == 0
+          && request.resource.data.taskUserIds is list
           && request.resource.data.expiredAt == null
           && request.resource.data.createdAt is timestamp
           && request.resource.data.createdAt == request.time;
         allow update: if isAnyAuthenticated()
-          && request.resource.data.keys().hasAll(['name', 'description', 'isDone', 'sumUsers', 'expiredAt', 'createdAt'])
-          && request.resource.data.keys().hasOnly(['name', 'description', 'isDone', 'sumUsers', 'expiredAt', 'createdAt'])
+          && request.resource.data.keys().hasAll(['name', 'description', 'isDone', 'taskUserIds', 'expiredAt', 'createdAt'])
+          && request.resource.data.keys().hasOnly(['name', 'description', 'isDone', 'taskUserIds', 'expiredAt', 'createdAt'])
           && request.resource.data.name is string
           && request.resource.data.name.size() >= 1
           && request.resource.data.name.size() <= 100
           && request.resource.data.description is string
           && request.resource.data.description.size() <= 140
           && request.resource.data.isDone is bool
-          && request.resource.data.sumUsers is int
-          && request.resource.data.sumUsers >= 0
+          && request.resource.data.taskUserIds is list
           && (request.resource.data.expiredAt == null || (request.resource.data.expiredAt is timestamp && request.resource.data.expiredAt.toMillis() > resource.data.createdAt.toMillis()))
           && request.resource.data.createdAt is timestamp
           && request.resource.data.createdAt == resource.data.createdAt;

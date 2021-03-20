@@ -243,7 +243,7 @@ class TaskList extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(width: 10),
-                                if (task.sumUsers > 0)
+                                if (task.taskUserIds.isNotEmpty)
                                   Container(
                                     width: 44,
                                     height: 44,
