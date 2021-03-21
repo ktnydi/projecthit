@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/screens/forgot_password/forgot_password_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/project_list/project_list_page.dart';
 import 'package:projecthit/screens/sign_in/sign_in_model.dart';
@@ -159,7 +160,12 @@ class SignIn extends StatelessWidget {
                                   ),
                                 ),
                                 onTap: () {
-                                  // TODO: パスワード再設定
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ForgotPassword(),
+                                    ),
+                                  );
                                 },
                               ),
                               SizedBox(height: 16),
