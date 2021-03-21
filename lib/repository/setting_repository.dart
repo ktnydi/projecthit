@@ -6,6 +6,17 @@ class SettingRepository {
   final _store = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
+  Future<void> updateAppSetting(AppSetting appSetting) async {
+    if (_auth.currentUser == null) return;
+
+    await _store
+        .collection('users')
+        .doc(_auth.currentUser.uid)
+        .collection('settings')
+        .doc(_auth.currentUser.uid)
+        .update(appSetting.toMap());
+  }
+
   Future<AppSetting> fetchAppSetting() async {
     final settingSnapshot = await _store
         .collection('users')
