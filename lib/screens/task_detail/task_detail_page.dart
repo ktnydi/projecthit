@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/entity/project.dart';
+import 'package:projecthit/entity/project_user.dart';
 import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/extension/date_time.dart';
-import 'package:projecthit/screens/invite_task_member/invite_task_member_page.dart';
 import 'package:projecthit/screens/task_detail/task_detail_model.dart';
 import 'package:provider/provider.dart';
 
@@ -28,10 +29,6 @@ class TaskDetail extends StatelessWidget {
         ? Timestamp.fromDate(DateTime.parse(deadline))
         : null;
 
-    if (name == task.name &&
-        description == task.description &&
-        expiredAt == task.expiredAt) return;
-
     task.name = name;
     task.description = description;
     task.expiredAt = expiredAt;
@@ -47,7 +44,6 @@ class TaskDetail extends StatelessWidget {
         task: task,
       );
       taskDetailModel.endLoading();
-
       Navigator.pop(context);
     } catch (e) {
       taskDetailModel.endLoading();
@@ -151,7 +147,7 @@ class TaskDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TaskDetailModel>(
-      create: (_) => TaskDetailModel(),
+      create: (_) => TaskDetailModel(project),
       builder: (context, child) {
         final taskDetailModel = context.read<TaskDetailModel>();
 
@@ -186,62 +182,23 @@ class TaskDetail extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Container(
-                            height: 44,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  width: 44,
-                                  height: 44,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Theme.of(context).dividerColor,
-                                    ),
-                                  ),
-                                  child: Icon(Icons.face_outlined),
-                                );
-                              },
-                              separatorBuilder: (context, index) =>
-                                  SizedBox(width: 8),
-                              itemCount: 1,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        OutlinedButton(
-                          child: Icon(Icons.person_add_outlined),
-                          style: OutlinedButton.styleFrom(
-                            shape: CircleBorder(),
-                            primary: Theme.of(context).iconTheme.color,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            minimumSize: Size(44, 44),
-                          ),
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(16),
-                                ),
-                              ),
-                              builder: (context) {
-                                return InviteTaskMember(
-                                  project: project,
-                                  task: task,
-                                );
-                              },
-                            );
+                    Builder(
+                      builder: (context) {
+                        final projectUsers = context.select(
+                          (TaskDetailModel model) => model.projectUsers,
+                        );
+
+                        final widgets = projectUsers.map(
+                          (projectUser) {
+                            return _ProjectUser(projectUser);
                           },
-                        ),
-                      ],
+                        ).toList();
+
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: widgets,
+                        );
+                      },
                     ),
                     SizedBox(height: 16),
                     Text(
@@ -346,6 +303,153 @@ class TaskDetail extends StatelessWidget {
                   )
                 : SizedBox(),
           ],
+        );
+      },
+    );
+  }
+}
+
+class _ProjectUserLoading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 4),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Theme.of(context).dividerColor,
+                  ),
+                ),
+                child: Icon(Icons.face_outlined),
+              ),
+              Material(
+                elevation: 1,
+                shape: CircleBorder(),
+                color: Theme.of(context).dividerColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.check_outlined,
+                    size: 16,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          SizedBox(
+            width: 60,
+            child: Text(
+              'Loading...',
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProjectUser extends StatelessWidget {
+  final ProjectUser projectUser;
+
+  _ProjectUser(this.projectUser);
+
+  @override
+  Widget build(BuildContext context) {
+    final taskDetailModel = context.read<TaskDetailModel>();
+
+    return FutureBuilder<AppUser>(
+      future: taskDetailModel.fetchUser(projectUser),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _ProjectUserLoading();
+        }
+
+        final appUser = snapshot.data;
+
+        final projectTaskUsers = context.select(
+          (TaskDetailModel model) => model.projectTaskUsers,
+        );
+
+        final isInclude = !projectTaskUsers
+            .indexWhere(
+              (projectTaskUser) => projectTaskUser.id == appUser.id,
+            )
+            .isNegative;
+
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 4),
+          child: GestureDetector(
+            onTap: () {
+              if (isInclude) {
+                taskDetailModel.deselectUser(appUser);
+                return;
+              }
+
+              taskDetailModel.selectUser(appUser);
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).dividerColor,
+                        ),
+                      ),
+                      child: Icon(Icons.face_outlined),
+                    ),
+                    Material(
+                      elevation: 1,
+                      shape: CircleBorder(),
+                      color: isInclude
+                          ? Theme.of(context).colorScheme.secondary
+                          : Theme.of(context).dividerColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: Icon(
+                          Icons.check_outlined,
+                          size: 16,
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: 60,
+                  child: Text(
+                    '${appUser.name}',
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
