@@ -34,7 +34,9 @@ service cloud.firestore {
         && request.resource.data.created_at == resource.data.created_at;
 
         match /settings/{settingId} {
+          allow create: if isAuthenticatedUser(userId);
           allow get: if isAuthenticatedUser(userId);
+          allow update: if isAuthenticatedUser(userId);
         }
     }
 

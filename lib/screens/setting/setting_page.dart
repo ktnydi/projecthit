@@ -76,6 +76,7 @@ class Setting extends StatelessWidget {
                       themeModel.appearance =
                           isActive ? Appearance.dark : Appearance.light;
                       themeModel.reload();
+                      themeModel.updateTheme(isActive);
                     },
                   ),
                 ),

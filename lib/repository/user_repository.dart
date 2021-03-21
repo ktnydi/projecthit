@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/entity/app_setting.dart';
 import 'package:projecthit/extension/document_reference.dart';
 import 'package:projecthit/entity/app_user.dart';
 
@@ -40,11 +41,18 @@ class UserRepository {
 
     try {
       final appUser = AppUser(id: userCredential.user.uid);
+      final appSetting = AppSetting();
 
-      await _store
-          .collection('users')
-          .doc(userCredential.user.uid)
-          .set(appUser.toMap());
+      final userRef = _store.collection('users').doc(userCredential.user.uid);
+      final settingRef =
+          userRef.collection('settings').doc(userCredential.user.uid);
+
+      final batch = _store.batch();
+
+      batch.set(userRef, appUser.toMap());
+      batch.set(settingRef, appSetting.toMap());
+
+      await batch.commit();
 
       return appUser.id;
     } catch (e) {
