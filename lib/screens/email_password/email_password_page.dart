@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/email_password/email_password_model.dart';
+import 'package:projecthit/screens/forgot_password/forgot_password_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:provider/provider.dart';
 
@@ -252,7 +253,12 @@ class EmailPassword extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
-                                // TODO: パスワード再設定
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ForgotPassword(),
+                                  ),
+                                );
                               },
                             ),
                             SizedBox(height: 16),
