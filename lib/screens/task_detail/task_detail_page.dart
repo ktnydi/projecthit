@@ -147,7 +147,7 @@ class TaskDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TaskDetailModel>(
-      create: (_) => TaskDetailModel(project),
+      create: (_) => TaskDetailModel(project, task),
       builder: (context, child) {
         final taskDetailModel = context.read<TaskDetailModel>();
 
@@ -381,13 +381,13 @@ class _ProjectUser extends StatelessWidget {
 
         final appUser = snapshot.data;
 
-        final projectTaskUsers = context.select(
-          (TaskDetailModel model) => model.projectTaskUsers,
+        final projectTaskUserIds = context.select(
+          (TaskDetailModel model) => model.projectTaskUserIds,
         );
 
-        final isInclude = !projectTaskUsers
+        final isInclude = !projectTaskUserIds
             .indexWhere(
-              (projectTaskUser) => projectTaskUser.id == appUser.id,
+              (projectTaskUserId) => projectTaskUserId == appUser.id,
             )
             .isNegative;
 

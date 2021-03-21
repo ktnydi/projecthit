@@ -17,10 +17,12 @@ class TaskDetailModel extends ChangeNotifier {
   final deadlineController = TextEditingController();
   List<ProjectUser> projectUsers = [];
   StreamSubscription<List<ProjectUser>> projectUsersSub;
-  List<AppUser> projectTaskUsers = [];
+  List<String> projectTaskUserIds = [];
   bool isLoading = false;
 
-  TaskDetailModel(Project project) {
+  TaskDetailModel(Project project, Task task) {
+    projectTaskUserIds = task.taskUserIds;
+
     projectUsersSub = _projectUserRepository
         .fetchProjectMember(project)
         .listen((projectUsers) {
@@ -44,21 +46,21 @@ class TaskDetailModel extends ChangeNotifier {
   }
 
   void selectUser(AppUser appUser) {
-    projectTaskUsers = [
-      ...projectTaskUsers,
-      appUser,
+    projectTaskUserIds = [
+      ...projectTaskUserIds,
+      appUser.id,
     ];
     notifyListeners();
   }
 
   void deselectUser(AppUser appUser) {
-    final newProjectTaskUsers = [
-      ...projectTaskUsers,
+    final newProjectTaskUserIds = [
+      ...projectTaskUserIds,
     ];
-    newProjectTaskUsers.removeWhere(
-      (projectTaskUser) => projectTaskUser.id == appUser.id,
+    newProjectTaskUserIds.removeWhere(
+      (projectTaskUserId) => projectTaskUserId == appUser.id,
     );
-    projectTaskUsers = newProjectTaskUsers;
+    projectTaskUserIds = newProjectTaskUserIds;
     notifyListeners();
   }
 
@@ -66,7 +68,7 @@ class TaskDetailModel extends ChangeNotifier {
     @required Project project,
     @required Task task,
   }) async {
-    task.taskUserIds = projectTaskUsers.map((user) => user.id).toList();
+    task.taskUserIds = projectTaskUserIds;
     await _taskRepository.updateTask(project, task);
   }
 
