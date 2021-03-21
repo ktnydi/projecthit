@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/repository/user_repository.dart';
 
 class ForgotPasswordModel extends ChangeNotifier {
+  final _userRepository = UserRepository();
   bool isLoading = false;
 
   void beginLoading() {
@@ -14,7 +16,6 @@ class ForgotPasswordModel extends ChangeNotifier {
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
-    // TODO: send password reset email.
-    await Future.delayed(Duration(milliseconds: 3000));
+    await _userRepository.sendPasswordResetEmail(email);
   }
 }
