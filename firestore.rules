@@ -32,6 +32,10 @@ service cloud.firestore {
         && request.resource.data.updated_at != resource.data.updated_at
         && request.resource.data.created_at is timestamp
         && request.resource.data.created_at == resource.data.created_at;
+
+        match /settings/{settingId} {
+          allow get: if isAuthenticatedUser(userId);
+        }
     }
 
     match /projects/{projectId} {

@@ -1,5 +1,6 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/model/theme_model.dart';
 import 'package:projecthit/screens/accept_invitation/accept_invitation_page.dart';
 import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
@@ -54,8 +55,9 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           title: 'Flutter Demo',
           navigatorKey: widget.navigatorKey,
-          theme: lightThemeData,
-          darkTheme: darkThemeData,
+          theme: context.select((ThemeModel model) => model.isDarkMode)
+              ? darkThemeData
+              : lightThemeData,
           home: myAppModel.currentUser != null ? ProjectList() : Auth(),
         );
       },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:projecthit/enum/appearance.dart';
+import 'package:projecthit/model/theme_model.dart';
 import 'package:projecthit/screens/email_password/email_password_page.dart';
 import 'package:projecthit/screens/inquiry/inquiry_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
@@ -16,6 +17,7 @@ class Setting extends StatelessWidget {
       builder: (context, child) {
         final settingModel = context.read<SettingModel>();
         final packageInfo = context.read<PackageInfo>();
+        final themeModel = context.read<ThemeModel>();
         final myAppModel = context.read<MyAppModel>();
 
         return Scaffold(
@@ -67,15 +69,13 @@ class Setting extends StatelessWidget {
                   title: Text('Dark mode'),
                   trailing: Switch.adaptive(
                     value: context.select(
-                      (SettingModel model) => model.isDarkMode,
+                      (ThemeModel model) => model.isDarkMode,
                     ),
                     activeColor: Theme.of(context).colorScheme.secondary,
                     onChanged: (isActive) {
-                      settingModel.appearance =
+                      themeModel.appearance =
                           isActive ? Appearance.dark : Appearance.light;
-                      settingModel.reload();
-
-                      // TODO: ダークモード
+                      themeModel.reload();
                     },
                   ),
                 ),
