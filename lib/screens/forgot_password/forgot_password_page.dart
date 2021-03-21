@@ -16,6 +16,8 @@ class ForgotPassword extends StatelessWidget {
       forgotPasswordModel.beginLoading();
       await forgotPasswordModel.sendPasswordResetEmail(email);
       forgotPasswordModel.endLoading();
+
+      Navigator.pop(context);
     } catch (e) {
       forgotPasswordModel.endLoading();
       showDialog(
