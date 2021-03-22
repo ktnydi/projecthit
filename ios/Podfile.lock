@@ -71,6 +71,9 @@ PODS:
   - GoogleUtilities/Reachability (7.2.2):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.5.0)
+  - image_cropper (0.0.3):
+    - Flutter
+    - TOCropViewController (~> 2.5.4)
   - image_picker (0.0.1):
     - Flutter
   - nanopb (2.30907.0):
@@ -83,6 +86,7 @@ PODS:
   - PromisesObjC (1.2.12)
   - share (0.0.1):
     - Flutter
+  - TOCropViewController (2.5.5)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -92,6 +96,7 @@ DEPENDENCIES:
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `7.3.0`)
   - Flutter (from `Flutter`)
+  - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - share (from `.symlinks/plugins/share/ios`)
@@ -109,6 +114,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - nanopb
     - PromisesObjC
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   cloud_firestore:
@@ -126,6 +132,8 @@ EXTERNAL SOURCES:
     :tag: 7.3.0
   Flutter:
     :path: Flutter
+  image_cropper:
+    :path: ".symlinks/plugins/image_cropper/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   package_info:
@@ -155,11 +163,13 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
   GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  image_cropper: c8f9b4157933c7bb965a66d1c5e6c8fd408c6eb4
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
+  TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
 
 PODFILE CHECKSUM: db0e0c4708dc6c34a9e9f4381b29af2669471720
 
