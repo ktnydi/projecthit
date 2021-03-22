@@ -309,7 +309,7 @@ class _ProfileImage extends StatelessWidget {
             minimumSize: Size(40, 40),
           ),
           onPressed: () async {
-            await profileModel.imagePicker(source: ImageSource.gallery);
+            await profileModel.profileImagePicker(source: ImageSource.gallery);
           },
         ),
       ],
