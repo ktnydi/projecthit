@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/profile/profile_model.dart';
@@ -163,42 +164,7 @@ class Profile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: Container(
-                                width: 100,
-                                height: 100,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Theme.of(context).dividerColor,
-                                  ),
-                                ),
-                                child: Icon(
-                                  Icons.face_outlined,
-                                ),
-                              ),
-                            ),
-                            ElevatedButton(
-                              child: Icon(
-                                Icons.photo_camera_outlined,
-                                size: 20,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: CircleBorder(),
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                minimumSize: Size(40, 40),
-                              ),
-                              onPressed: () {
-                                // TODO: アイコン変更
-                              },
-                            ),
-                          ],
-                        ),
+                        child: _ProfileImage(),
                       ),
                       SizedBox(height: 16),
                       Text(
@@ -287,6 +253,66 @@ class Profile extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _ProfileImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final profileModel = context.read<ProfileModel>();
+
+    return Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(4),
+          child: Container(
+            width: 140,
+            height: 140,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Theme.of(context).dividerColor,
+              ),
+              image: context.select(
+                (ProfileModel model) => model.profileImageFile != null,
+              )
+                  ? DecorationImage(
+                      image: FileImage(profileModel.profileImageFile),
+                      fit: BoxFit.cover,
+                    )
+                  : null,
+            ),
+            child: context.select(
+              (ProfileModel model) => model.profileImageFile != null,
+            )
+                ? null
+                : Text(
+                    'Image',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).textTheme.caption.color,
+                    ),
+                  ),
+          ),
+        ),
+        ElevatedButton(
+          child: Icon(
+            Icons.photo_camera_outlined,
+            size: 20,
+          ),
+          style: ElevatedButton.styleFrom(
+            shape: CircleBorder(),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            minimumSize: Size(40, 40),
+          ),
+          onPressed: () async {
+            await profileModel.imagePicker(source: ImageSource.gallery);
+          },
+        ),
+      ],
     );
   }
 }

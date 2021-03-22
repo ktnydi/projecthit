@@ -56,5 +56,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>NSCameraUsageDescription</key>
+    <string>Used to customize profile image.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Used to customize profile image with pictures taked with camera.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to customize profile image with pictures in photo library.</string>
 </dict>
 </plist>
