@@ -8,8 +8,11 @@ import 'package:projecthit/repository/user_repository.dart';
 
 class ProfileModel extends ChangeNotifier {
   final _userRepository = UserRepository();
+  final AppUser currentUser;
   bool isLoading = false;
   File profileImageFile;
+
+  ProfileModel(this.currentUser);
 
   void beginLoading() {
     isLoading = true;
@@ -29,12 +32,28 @@ class ProfileModel extends ChangeNotifier {
     await _userRepository.signOut();
   }
 
-  Future<void> profileImagePicker({ImageSource source}) async {
+  Future<void> profileImagePickerAndUpload({ImageSource source}) async {
     final pickedFile = await _imagePicker(source: source);
 
     if (pickedFile == null) return;
 
     profileImageFile = await _imageCropper(sourcePath: pickedFile.path);
+
+    final fileSizeAsByte = await profileImageFile.length();
+    final fileSizeAsMegaByte = fileSizeAsByte / 1024 / 1024;
+    final maxFileSize = 1024 * 1024 * 10;
+
+    if (fileSizeAsByte > maxFileSize) {
+      throw ('Your image data is too large. ($fileSizeAsMegaByte/10MB)');
+    }
+
+    final iconUrl = await _userRepository.uploadProfileImage(
+      imageFile: profileImageFile,
+    );
+
+    currentUser.icon = iconUrl;
+    await _userRepository.updateAppUser(appUser: currentUser);
+
     notifyListeners();
   }
 

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:projecthit/entity/app_setting.dart';
 import 'package:projecthit/extension/document_reference.dart';
@@ -8,6 +11,7 @@ import 'package:projecthit/entity/app_user.dart';
 class UserRepository {
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
+  final _storage = FirebaseStorage.instance;
 
   User get currentUser => _auth.currentUser;
 
@@ -118,5 +122,23 @@ class UserRepository {
 
   Future<void> sendPasswordResetEmail(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<String> uploadProfileImage({File imageFile}) async {
+    final profileImageFileRef = _storage
+        .ref()
+        .child('users')
+        .child(_auth.currentUser.uid)
+        .child('images')
+        .child('profile.jpg');
+
+    final uploadTask = await profileImageFileRef.putFile(
+      imageFile,
+      SettableMetadata(
+        contentType: 'image/jpg',
+      ),
+    );
+
+    return await uploadTask.ref.getDownloadURL();
   }
 }
