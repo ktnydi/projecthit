@@ -136,7 +136,10 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ProfileModel>(
-      create: (_) => ProfileModel(),
+      create: (context) {
+        final currentAppUser = context.read<MyAppModel>().currentAppUser;
+        return ProfileModel(currentAppUser);
+      },
       builder: (context, child) {
         final profileModel = context.read<ProfileModel>();
         final myAppModel = context.read<MyAppModel>();
@@ -309,7 +312,29 @@ class _ProfileImage extends StatelessWidget {
             minimumSize: Size(40, 40),
           ),
           onPressed: () async {
-            await profileModel.profileImagePicker(source: ImageSource.gallery);
+            try {
+              await profileModel.profileImagePickerAndUpload(
+                source: ImageSource.gallery,
+              );
+            } catch (e) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Oops!'),
+                    content: Text('$e'),
+                    actions: [
+                      TextButton(
+                        child: Text('OK'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
           },
         ),
       ],
