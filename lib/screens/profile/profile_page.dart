@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projecthit/screens/auth/auth_page.dart';
@@ -275,23 +276,25 @@ class _ProfileImage extends StatelessWidget {
             height: 140,
             alignment: Alignment.center,
             decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
               shape: BoxShape.circle,
-              border: Border.all(
-                color: Theme.of(context).dividerColor,
-              ),
-              image: context.select(
-                (ProfileModel model) => model.profileImageFile != null,
-              )
-                  ? DecorationImage(
-                      image: FileImage(profileModel.profileImageFile),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
+              boxShadow: [
+                BoxShadow(
+                  spreadRadius: 1,
+                  color: Theme.of(context).dividerColor,
+                ),
+              ],
             ),
+            clipBehavior: Clip.antiAlias,
             child: context.select(
-              (ProfileModel model) => model.profileImageFile != null,
+              (MyAppModel model) => model.currentAppUser.icon != null,
             )
-                ? null
+                ? CachedNetworkImage(
+                    imageUrl: context.select(
+                      (MyAppModel model) => model.currentAppUser.icon,
+                    ),
+                    fit: BoxFit.cover,
+                  )
                 : Text(
                     'Image',
                     style: TextStyle(

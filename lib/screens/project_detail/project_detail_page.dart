@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/screens/invite_member/invite_member_page.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/project_detail/project_detail_model.dart';
 import 'package:provider/provider.dart';
 
@@ -176,22 +178,51 @@ class ProjectDetail extends StatelessWidget {
                                       );
 
                                       return FutureBuilder(
-                                          future: projectDetailModel
-                                              .fetchUser(member),
-                                          builder: (context, snapshot) {
-                                            return Container(
-                                              width: 44,
-                                              height: 44,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(
+                                        future: projectDetailModel
+                                            .fetchUser(member),
+                                        builder: (context, snapshot) {
+                                          return Container(
+                                            width: 44,
+                                            height: 44,
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  spreadRadius: 1,
                                                   color: Theme.of(context)
                                                       .dividerColor,
                                                 ),
-                                              ),
-                                              child: Icon(Icons.face_outlined),
-                                            );
-                                          });
+                                              ],
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            child: context.select(
+                                              (MyAppModel model) =>
+                                                  model.currentAppUser.icon !=
+                                                  null,
+                                            )
+                                                ? CachedNetworkImage(
+                                                    imageUrl: context.select(
+                                                      (MyAppModel model) =>
+                                                          model.currentAppUser
+                                                              .icon,
+                                                    ),
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Text(
+                                                    'Image',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .caption
+                                                          .color,
+                                                    ),
+                                                  ),
+                                          );
+                                        },
+                                      );
                                     },
                                   );
                                 },

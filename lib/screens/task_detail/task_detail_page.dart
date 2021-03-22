@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projecthit/entity/app_user.dart';
@@ -5,6 +6,7 @@ import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/project_user.dart';
 import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/extension/date_time.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/task_detail/task_detail_model.dart';
 import 'package:provider/provider.dart';
 
@@ -412,19 +414,42 @@ class _ProjectUser extends StatelessWidget {
                       width: 60,
                       height: 60,
                       decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Theme.of(context).dividerColor,
-                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            spreadRadius: 1,
+                            color: Theme.of(context).dividerColor,
+                          ),
+                        ],
                       ),
-                      child: Icon(Icons.face_outlined),
+                      clipBehavior: Clip.antiAlias,
+                      child: context.select(
+                        (MyAppModel model) => model.currentAppUser.icon != null,
+                      )
+                          ? CachedNetworkImage(
+                              imageUrl: context.select(
+                                (MyAppModel model) => model.currentAppUser.icon,
+                              ),
+                              fit: BoxFit.cover,
+                            )
+                          : Text(
+                              'Image',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color:
+                                    Theme.of(context).textTheme.caption.color,
+                              ),
+                            ),
                     ),
                     Material(
                       elevation: 1,
-                      shape: CircleBorder(),
+                      shape: CircleBorder(
+                        side: BorderSide(color: Colors.white, width: 3),
+                      ),
                       color: isInclude
                           ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).dividerColor,
+                          : Colors.grey,
                       child: Padding(
                         padding: const EdgeInsets.all(4),
                         child: Icon(
