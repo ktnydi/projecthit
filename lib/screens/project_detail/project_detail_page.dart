@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/screens/invite_member/invite_member_page.dart';
-import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/project_detail/project_detail_model.dart';
 import 'package:provider/provider.dart';
 
@@ -164,7 +164,7 @@ class ProjectDetail extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Container(
-                              height: 44,
+                              height: 60,
                               child: ListView.separated(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
@@ -177,13 +177,20 @@ class ProjectDetail extends StatelessWidget {
                                             model.projectUsers[index],
                                       );
 
-                                      return FutureBuilder(
+                                      return FutureBuilder<AppUser>(
                                         future: projectDetailModel
                                             .fetchUser(member),
                                         builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return SizedBox();
+                                          }
+
+                                          final user = snapshot.data;
+
                                           return Container(
-                                            width: 44,
-                                            height: 44,
+                                            width: 60,
+                                            height: 60,
                                             decoration: BoxDecoration(
                                               color: Theme.of(context)
                                                   .scaffoldBackgroundColor,
@@ -197,18 +204,9 @@ class ProjectDetail extends StatelessWidget {
                                               ],
                                             ),
                                             clipBehavior: Clip.antiAlias,
-                                            child: context.select(
-                                              (MyAppModel model) =>
-                                                  model.currentAppUser.icon !=
-                                                  null,
-                                            )
+                                            child: user.icon != null
                                                 ? CachedNetworkImage(
-                                                    imageUrl: context.select(
-                                                      (MyAppModel model) =>
-                                                          model.currentAppUser
-                                                              .icon,
-                                                    ),
-                                                    fit: BoxFit.cover,
+                                                    imageUrl: user.icon,
                                                   )
                                                 : Text(
                                                     'Image',
@@ -240,10 +238,9 @@ class ProjectDetail extends StatelessWidget {
                             child: Icon(Icons.person_add_outlined),
                             style: OutlinedButton.styleFrom(
                               shape: CircleBorder(),
-                              primary: Theme.of(context).iconTheme.color,
                               padding: EdgeInsets.zero,
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              minimumSize: Size(44, 44),
+                              minimumSize: Size(60, 60),
                             ),
                             onPressed: () {
                               showModalBottomSheet(
@@ -261,7 +258,7 @@ class ProjectDetail extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      SizedBox(height: 24),
                       Text(
                         'Project Name',
                         style: TextStyle(
@@ -286,9 +283,10 @@ class ProjectDetail extends StatelessWidget {
                         maxLength: 50,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
+                          counterText: '',
                         ),
                       ),
-                      SizedBox(height: 16),
+                      SizedBox(height: 24),
                       Text(
                         'Description',
                         style: TextStyle(
@@ -310,6 +308,7 @@ class ProjectDetail extends StatelessWidget {
                         maxLength: 140,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
+                          counterText: '',
                         ),
                       ),
                     ],
