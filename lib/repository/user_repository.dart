@@ -30,6 +30,24 @@ class UserRepository {
     );
   }
 
+  Stream<List<AppUser>> fetchUsers(List<String> userIds) {
+    // whereIn句で指定する配列は10件まで
+    final usersSnapshots =
+        _store.collection('users').where('id', whereIn: userIds).snapshots();
+
+    return usersSnapshots.map(
+      (snapshots) {
+        return snapshots.docs.map(
+          (doc) {
+            final data = doc.data();
+            data['id'] = doc.id;
+            return AppUser.fromMap(data);
+          },
+        ).toList();
+      },
+    );
+  }
+
   Future<AppUser> fetchUserAsFuture(String userId) async {
     final userSnapshot =
         await _store.collection('users').doc(userId).getCacheThenServer();

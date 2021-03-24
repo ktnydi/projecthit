@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/extension/date_time.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/task.dart';
@@ -102,6 +104,14 @@ class TaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewPadding = MediaQuery.of(context).viewPadding;
+
+    double floatingButtonMargin = 16;
+
+    if (viewPadding.bottom > 0) {
+      floatingButtonMargin = viewPadding.bottom;
+    }
+
     return ChangeNotifierProvider<TaskListModel>(
       create: (_) => TaskListModel(project: project),
       builder: (context, snapshot) {
@@ -174,7 +184,12 @@ class TaskList extends StatelessWidget {
                   }
 
                   return ListView.separated(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.fromLTRB(
+                      16,
+                      16,
+                      16,
+                      floatingButtonMargin + 72,
+                    ),
                     itemBuilder: (context, index) {
                       final task = snapshot.data[index];
 
@@ -223,38 +238,35 @@ class TaskList extends StatelessWidget {
                                               decoration: task.isDone
                                                   ? TextDecoration.lineThrough
                                                   : null,
+                                              color: task.isDone
+                                                  ? Theme.of(context)
+                                                      .textTheme
+                                                      .caption
+                                                      .color
+                                                  : null,
                                             ),
                                       ),
-                                      SizedBox(height: 4),
-                                      Text(
-                                        task.expiredAt != null
-                                            ? 'By ${task.expiredAt.toDate().format()}'
-                                            : 'No deadline',
-                                        style: TextStyle(
-                                          color: task.isExpired && !task.isDone
-                                              ? Color(0xFFEF377A)
-                                              : Theme.of(context)
-                                                  .textTheme
-                                                  .caption
-                                                  .color,
+                                      if (task.expiredAt != null)
+                                        SizedBox(height: 4),
+                                      if (task.expiredAt != null)
+                                        Text(
+                                          '${task.expiredAt.toDate().format()}',
+                                          style: TextStyle(
+                                            color:
+                                                task.isExpired && !task.isDone
+                                                    ? Color(0xFFEF377A)
+                                                    : Theme.of(context)
+                                                        .textTheme
+                                                        .caption
+                                                        .color,
+                                          ),
                                         ),
-                                      ),
                                     ],
                                   ),
                                 ),
                                 SizedBox(width: 10),
                                 if (task.taskUserIds.isNotEmpty)
-                                  Container(
-                                    width: 44,
-                                    height: 44,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Theme.of(context).dividerColor,
-                                      ),
-                                    ),
-                                    child: Icon(Icons.face_outlined),
-                                  ),
+                                  _TaskUserIcon(task: task),
                               ],
                             ),
                           ),
@@ -299,6 +311,97 @@ class TaskList extends StatelessWidget {
                   )
                 : SizedBox(),
           ],
+        );
+      },
+    );
+  }
+}
+
+class _TaskUserIcon extends StatelessWidget {
+  final Task task;
+
+  _TaskUserIcon({@required this.task});
+
+  @override
+  Widget build(BuildContext context) {
+    final taskListModel = context.read<TaskListModel>();
+
+    return StreamBuilder<List<AppUser>>(
+      stream: taskListModel.fetchTaskUsers(
+        task.taskUserIds,
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Theme.of(context).dividerColor,
+              ),
+            ),
+          );
+        }
+
+        if (snapshot.hasError) {
+          print(snapshot.error);
+          return Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(),
+              ],
+            ),
+            child: Icon(Icons.error_outline),
+          );
+        }
+
+        final taskUsers = snapshot.data;
+
+        final widgets = taskUsers.map(
+          (user) {
+            if (user.icon == null) {
+              return Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(),
+                  ],
+                ),
+                child: Icon(Icons.face_outlined),
+              );
+            }
+
+            return Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(),
+                ],
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: CachedNetworkImage(
+                imageUrl: user.icon,
+                fit: BoxFit.cover,
+              ),
+            );
+          },
+        ).toList();
+
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: widgets,
         );
       },
     );
