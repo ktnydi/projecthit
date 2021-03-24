@@ -46,6 +46,9 @@ ThemeData lightThemeData = ThemeData.from(
       textStyle: TextStyle(
         fontSize: 16,
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
     ),
   ),
   textButtonTheme: TextButtonThemeData(
@@ -53,12 +56,18 @@ ThemeData lightThemeData = ThemeData.from(
       textStyle: TextStyle(
         fontSize: 16,
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       textStyle: TextStyle(
         fontSize: 16,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
       ),
     ),
   ),
@@ -128,6 +137,9 @@ ThemeData darkThemeData = ThemeData.from(
       textStyle: TextStyle(
         fontSize: 16,
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
     ),
   ),
   textButtonTheme: TextButtonThemeData(
@@ -135,12 +147,18 @@ ThemeData darkThemeData = ThemeData.from(
       textStyle: TextStyle(
         fontSize: 16,
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       textStyle: TextStyle(
         fontSize: 16,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
       ),
     ),
   ),

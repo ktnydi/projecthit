@@ -24,6 +24,7 @@ class MyAppModel extends ChangeNotifier {
               _userRepository.fetchUser(currentUser.uid).listen(
             (appUser) {
               currentAppUser = appUser;
+              notifyListeners();
             },
           );
         }

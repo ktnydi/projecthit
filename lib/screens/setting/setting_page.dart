@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:projecthit/enum/appearance.dart';
 import 'package:projecthit/model/theme_model.dart';
+import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/email_password/email_password_page.dart';
 import 'package:projecthit/screens/inquiry/inquiry_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
@@ -10,6 +11,66 @@ import 'package:projecthit/screens/setting/setting_model.dart';
 import 'package:provider/provider.dart';
 
 class Setting extends StatelessWidget {
+  Future<void> _signOut(BuildContext context) async {
+    final myAppModel = context.read<MyAppModel>();
+    final settingModel = context.read<SettingModel>();
+
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Sign out'),
+            content: Text('Thank you for using this app. Do you sign out?'),
+            actions: [
+              TextButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                child: Text('Sign out'),
+                onPressed: () async {
+                  settingModel.beginLoading();
+                  await settingModel.signOut();
+                  settingModel.endLoading();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Auth(),
+                    ),
+                    (route) => route.isFirst,
+                  );
+                  await myAppModel.fetchCurrentUser();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      settingModel.endLoading();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Oops!'),
+            content: Text('$e'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SettingModel>(
@@ -144,6 +205,19 @@ class Setting extends StatelessWidget {
                   title: Text('Version'),
                   trailing: Text('${packageInfo.version}'),
                 ),
+                SizedBox(height: 32),
+                if (!myAppModel.currentUser.isAnonymous)
+                  Center(
+                    child: ElevatedButton(
+                      child: Text('Sign out'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(160, 44),
+                      ),
+                      onPressed: () async {
+                        await _signOut(context);
+                      },
+                    ),
+                  ),
               ],
             ),
           ),
