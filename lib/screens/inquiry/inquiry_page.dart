@@ -85,9 +85,10 @@ class Inquiry extends StatelessWidget {
                         minLines: 5,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
+                          counterText: '',
                         ),
                       ),
-                      SizedBox(height: 16),
+                      SizedBox(height: 24),
                       Text(
                         'Email (optional)',
                         style: TextStyle(

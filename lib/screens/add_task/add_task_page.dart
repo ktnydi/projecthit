@@ -87,6 +87,7 @@ class AddTask extends StatelessWidget {
                       maxLength: 100,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
+                        counterText: '',
                       ),
                       onChanged: (value) {
                         name = value;
