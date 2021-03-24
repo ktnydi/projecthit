@@ -133,69 +133,57 @@ class SignIn extends StatelessWidget {
                             border: OutlineInputBorder(),
                           ),
                         ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Text(
+                                'Forgot password?',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ForgotPassword(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                         SizedBox(height: 32),
                         Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              GestureDetector(
-                                child: Text(
-                                  'Don\'t receive verify email?',
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                ),
-                                onTap: () {
-                                  // TODO: 確認メール再送信
-                                },
+                          child: Text.rich(
+                            TextSpan(
+                              style: TextStyle(
+                                color: Theme.of(context).hintColor,
                               ),
-                              SizedBox(height: 16),
-                              GestureDetector(
-                                child: Text(
-                                  'Forgot password?',
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ForgotPassword(),
-                                    ),
-                                  );
-                                },
-                              ),
-                              SizedBox(height: 16),
-                              Text.rich(
+                              children: [
                                 TextSpan(
-                                  style: TextStyle(
-                                    color: Theme.of(context).hintColor,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: 'Terms',
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          // TODO: 利用規約を表示
-                                        },
-                                    ),
-                                    TextSpan(
-                                      text: '｜',
-                                    ),
-                                    TextSpan(
-                                      text: 'Privacy Policy',
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          // TODO: プライバシーポリシーを表示
-                                        },
-                                    ),
-                                  ],
+                                  text: 'Terms of Service',
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      // TODO: 利用規約を表示
+                                    },
                                 ),
-                              ),
-                            ],
+                                TextSpan(
+                                  text: '｜',
+                                ),
+                                TextSpan(
+                                  text: 'Privacy Policy',
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      // TODO: プライバシーポリシーを表示
+                                    },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
