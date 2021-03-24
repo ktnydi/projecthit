@@ -87,6 +87,7 @@ class AddProject extends StatelessWidget {
                       maxLength: 50,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
+                        counterText: '',
                       ),
                     ),
                   ],
