@@ -46,21 +46,12 @@ class TaskDetailModel extends ChangeNotifier {
   }
 
   void selectUser(AppUser appUser) {
-    projectTaskUserIds = [
-      ...projectTaskUserIds,
-      appUser.id,
-    ];
+    projectTaskUserIds = [appUser.id];
     notifyListeners();
   }
 
-  void deselectUser(AppUser appUser) {
-    final newProjectTaskUserIds = [
-      ...projectTaskUserIds,
-    ];
-    newProjectTaskUserIds.removeWhere(
-      (projectTaskUserId) => projectTaskUserId == appUser.id,
-    );
-    projectTaskUserIds = newProjectTaskUserIds;
+  void deselectUser() {
+    projectTaskUserIds = [];
     notifyListeners();
   }
 
