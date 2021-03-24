@@ -74,16 +74,19 @@ ThemeData lightThemeData = ThemeData.from(
       borderSide: BorderSide(
         color: dividerLightColor,
       ),
+      borderRadius: BorderRadius.circular(8),
     ),
     disabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
         color: dividerLightColor,
       ),
+      borderRadius: BorderRadius.circular(8),
     ),
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
         color: dividerLightColor,
       ),
+      borderRadius: BorderRadius.circular(8),
     ),
   ),
 );
@@ -153,16 +156,19 @@ ThemeData darkThemeData = ThemeData.from(
       borderSide: BorderSide(
         color: dividerDarkColor,
       ),
+      borderRadius: BorderRadius.circular(8),
     ),
     disabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
         color: dividerDarkColor,
       ),
+      borderRadius: BorderRadius.circular(8),
     ),
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
         color: dividerDarkColor,
       ),
+      borderRadius: BorderRadius.circular(8),
     ),
   ),
 );

@@ -6,7 +6,6 @@ import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/project_user.dart';
 import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/extension/date_time.dart';
-import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/task_detail/task_detail_model.dart';
 import 'package:provider/provider.dart';
 
@@ -202,7 +201,7 @@ class TaskDetail extends StatelessWidget {
                         );
                       },
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 24),
                     Text(
                       'Task Name',
                       style: TextStyle(
@@ -227,9 +226,10 @@ class TaskDetail extends StatelessWidget {
                       maxLength: 100,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
+                        counterText: '',
                       ),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 24),
                     Text(
                       'Description (optional)',
                       style: TextStyle(
@@ -251,9 +251,10 @@ class TaskDetail extends StatelessWidget {
                       maxLength: 140,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
+                        counterText: '',
                       ),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 24),
                     Text(
                       'Deadline (optional)',
                       style: TextStyle(
@@ -311,60 +312,6 @@ class TaskDetail extends StatelessWidget {
   }
 }
 
-class _ProjectUserLoading extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Theme.of(context).dividerColor,
-                  ),
-                ),
-                child: Icon(Icons.face_outlined),
-              ),
-              Material(
-                elevation: 1,
-                shape: CircleBorder(),
-                color: Theme.of(context).dividerColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Icon(
-                    Icons.check_outlined,
-                    size: 16,
-                    color: Theme.of(context).colorScheme.onSecondary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          SizedBox(
-            width: 60,
-            child: Text(
-              'Loading...',
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.caption,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _ProjectUser extends StatelessWidget {
   final ProjectUser projectUser;
 
@@ -378,7 +325,7 @@ class _ProjectUser extends StatelessWidget {
       future: taskDetailModel.fetchUser(projectUser),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return _ProjectUserLoading();
+          return const SizedBox();
         }
 
         final appUser = snapshot.data;
@@ -394,85 +341,95 @@ class _ProjectUser extends StatelessWidget {
             .isNegative;
 
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 4),
+          margin: EdgeInsets.only(right: 8),
           child: GestureDetector(
             onTap: () {
               if (isInclude) {
-                taskDetailModel.deselectUser(appUser);
+                taskDetailModel.deselectUser();
                 return;
               }
 
               taskDetailModel.selectUser(appUser);
             },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            spreadRadius: 1,
-                            color: Theme.of(context).dividerColor,
-                          ),
-                        ],
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: context.select(
-                        (MyAppModel model) => model.currentAppUser.icon != null,
-                      )
-                          ? CachedNetworkImage(
-                              imageUrl: context.select(
-                                (MyAppModel model) => model.currentAppUser.icon,
-                              ),
-                              fit: BoxFit.cover,
-                            )
-                          : Text(
-                              'Image',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color:
-                                    Theme.of(context).textTheme.caption.color,
-                              ),
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).dividerColor,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 1,
+                              color: Theme.of(context).dividerColor,
                             ),
-                    ),
-                    Material(
-                      elevation: 1,
-                      shape: CircleBorder(
-                        side: BorderSide(color: Colors.white, width: 3),
+                          ],
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: appUser.icon != null
+                            ? CachedNetworkImage(
+                                imageUrl: appUser.icon,
+                                fit: BoxFit.cover,
+                              )
+                            : Text(
+                                'Image',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                      Theme.of(context).textTheme.caption.color,
+                                ),
+                              ),
                       ),
-                      color: isInclude
-                          ? Theme.of(context).colorScheme.secondary
-                          : Colors.grey,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Icon(
-                          Icons.check_outlined,
-                          size: 16,
-                          color: Theme.of(context).colorScheme.onSecondary,
+                      Material(
+                        elevation: 1,
+                        shape: CircleBorder(
+                          side: BorderSide(color: Colors.white, width: 3),
+                        ),
+                        color: isInclude
+                            ? Theme.of(context).colorScheme.secondary
+                            : Colors.grey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Icon(
+                            Icons.check_outlined,
+                            size: 16,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: 60,
-                  child: Text(
-                    '${appUser.name}',
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.caption,
+                    ],
                   ),
-                ),
-              ],
+                  SizedBox(
+                    width: 60,
+                    child: Text(
+                      '${appUser.name}',
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                      strutStyle: StrutStyle(
+                        fontSize: 16,
+                        height: 1.3,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
