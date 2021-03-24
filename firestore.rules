@@ -16,6 +16,7 @@ service cloud.firestore {
 
     match /users/{userId} {
       allow get: if isAuthenticatedUser(userId);
+      allow list: if isAnyAuthenticated();
       allow create: if isAuthenticatedUser(userId);
       allow update: if isAuthenticatedUser(userId)
         && request.resource.data.keys().hasAll(['id', 'name', 'about', 'icon', 'updated_at', 'created_at'])
