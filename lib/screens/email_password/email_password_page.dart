@@ -227,24 +227,13 @@ class EmailPassword extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 32),
-                      Center(
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              child: Text(
-                                'Don\'t receive verify email?',
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                              ),
-                              onTap: () {
-                                // TODO: 確認メール再送信
-                              },
-                            ),
-                            SizedBox(height: 16),
-                            GestureDetector(
+                      if (!myAppModel.currentUser.isAnonymous)
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
                                 'Forgot password?',
                                 style: TextStyle(
@@ -252,16 +241,21 @@ class EmailPassword extends StatelessWidget {
                                       Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ForgotPassword(),
-                                  ),
-                                );
-                              },
                             ),
-                            SizedBox(height: 16),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ForgotPassword(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      SizedBox(height: 32),
+                      Center(
+                        child: Column(
+                          children: [
                             Text.rich(
                               TextSpan(
                                 style: TextStyle(
