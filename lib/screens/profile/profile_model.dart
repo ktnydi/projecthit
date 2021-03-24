@@ -28,10 +28,6 @@ class ProfileModel extends ChangeNotifier {
     await _userRepository.updateAppUser(appUser: appUser);
   }
 
-  Future<void> signOut() async {
-    await _userRepository.signOut();
-  }
-
   Future<void> profileImagePickerAndUpload({ImageSource source}) async {
     final pickedFile = await _imagePicker(source: source);
 
