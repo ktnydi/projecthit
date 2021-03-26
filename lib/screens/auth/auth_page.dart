@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projecthit/screens/auth/auth_model.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
-import 'package:projecthit/screens/project_list/project_list_page.dart';
 import 'package:projecthit/screens/sign_in/sign_in_page.dart';
+import 'package:projecthit/screens/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
 class Auth extends StatelessWidget {
@@ -86,7 +86,7 @@ class Auth extends StatelessWidget {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => ProjectList(),
+                                        builder: (context) => Welcome(),
                                       ),
                                     );
                                   } catch (e) {

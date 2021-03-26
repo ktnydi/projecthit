@@ -15,9 +15,9 @@ class AddProject extends StatelessWidget {
 
     try {
       addProjectModel.beginLoading();
-      await addProjectModel.addProject(name: name);
+      // await addProjectModel.addProject(name: name);
       addProjectModel.endLoading();
-      Navigator.pop(context);
+      // TODO: タスク一覧画面へ
     } catch (e) {
       addProjectModel.endLoading();
       showDialog(
