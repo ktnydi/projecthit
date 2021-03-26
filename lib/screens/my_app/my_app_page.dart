@@ -4,7 +4,7 @@ import 'package:projecthit/model/theme_model.dart';
 import 'package:projecthit/screens/accept_invitation/accept_invitation_page.dart';
 import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
-import 'package:projecthit/screens/project_list/project_list_page.dart';
+import 'package:projecthit/screens/welcome/welcome_page.dart';
 import 'package:projecthit/theme/theme_data.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           theme: context.select((ThemeModel model) => model.isDarkMode)
               ? darkThemeData
               : lightThemeData,
-          home: myAppModel.currentUser != null ? ProjectList() : Auth(),
+          home: myAppModel.currentUser != null ? Welcome() : Auth(),
         );
       },
     );
