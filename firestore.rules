@@ -57,6 +57,14 @@ service cloud.firestore {
         && request.resource.data.createdAt is timestamp
         && request.resource.data.createdAt == resource.data.createdAt;
 
+        match /userProjects/{userProjectId} {
+          allow create: if isAuthenticatedUser(userId)
+            && 'name' in request.resource.data
+            && request.resource.data.name is string
+            && request.resource.data.name.size() > 0
+            && request.resource.data.name.size() <= 50
+        }
+
         match /settings/{settingId} {
           allow create: if isAuthenticatedUser(userId);
           allow get: if isAuthenticatedUser(userId);
