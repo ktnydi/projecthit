@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/repository/project_repository.dart';
 
@@ -22,10 +23,17 @@ class AddProjectModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addProject({@required String name}) async {
+  Future<void> addProject({
+    @required AppUser user,
+    @required String name,
+  }) async {
+    if (user.sumUserProjects == 1) {
+      throw ('You have already register project.');
+    }
+
     final project = Project();
     project.name = name;
-    await _projectRepository.addProject(project: project);
+    await _projectRepository.addProject(user: user, project: project);
   }
 
   @override

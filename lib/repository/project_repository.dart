@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:projecthit/entity/app_user.dart';
+import 'package:projecthit/entity/app_user_field.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/project_field.dart';
 import 'package:projecthit/entity/project_user.dart';
+import 'package:projecthit/entity/user_project.dart';
 
 class ProjectRepository {
   final _store = FirebaseFirestore.instance;
@@ -19,7 +22,10 @@ class ProjectRepository {
     );
   }
 
-  Future<String> addProject({@required Project project}) async {
+  Future<String> addProject({
+    @required AppUser user,
+    @required Project project,
+  }) async {
     final batch = _store.batch();
 
     final projectRef = _store.collection('projects').doc();
@@ -34,6 +40,24 @@ class ProjectRepository {
     projectUser.id = _auth.currentUser.uid;
     projectUser.userId = _auth.currentUser.uid;
     batch.set(projectUserRef, projectUser.toMap());
+
+    final userProjectRef = _store
+        .collection('users')
+        .doc(_auth.currentUser.uid)
+        .collection('userProjects')
+        .doc(projectRef.id);
+    final userProject = UserProject();
+    userProject.name = project.name;
+    batch.set(userProjectRef, userProject.toMap());
+
+    final userRef = _store.collection('users').doc(_auth.currentUser.uid);
+    final newUser = user.toMap()
+      ..addAll(
+        {
+          AppUserField.sumUserProjects: FieldValue.increment(1),
+        },
+      );
+    batch.update(userRef, newUser);
 
     await batch.commit();
     return project.id;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projecthit/screens/add_project/add_project_model.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:provider/provider.dart';
 
 class AddProject extends StatelessWidget {
@@ -10,12 +11,16 @@ class AddProject extends StatelessWidget {
 
     FocusScope.of(context).unfocus();
 
+    final myAppModel = context.read<MyAppModel>();
     final addProjectModel = context.read<AddProjectModel>();
     final name = _nameKey.currentState.value;
 
     try {
       addProjectModel.beginLoading();
-      // await addProjectModel.addProject(name: name);
+      await addProjectModel.addProject(
+        user: myAppModel.currentAppUser,
+        name: name,
+      );
       addProjectModel.endLoading();
       // TODO: タスク一覧画面へ
     } catch (e) {
