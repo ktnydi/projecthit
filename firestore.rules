@@ -17,10 +17,30 @@ service cloud.firestore {
     match /users/{userId} {
       allow get: if isAuthenticatedUser(userId);
       allow list: if isAnyAuthenticated();
-      allow create: if isAuthenticatedUser(userId);
+      allow create: if isAuthenticatedUser(userId)
+        && 'id' in request.resource.data
+        && request.resource.data.id is string
+        && 'name' in request.resource.data
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 50
+        && 'about' in request.resource.data
+        && request.resource.data.about is string
+        && request.resource.data.about.size() <= 170
+        && 'iconUrl' in request.resource.data
+        && request.resource.data.iconUrl == null
+        && 'sumUserProjects' in request.resource.data
+        && request.resource.data.sumUserProjects is int
+        && request.resource.data.sumUserProjects == 0
+        && 'updatedAt' in request.resource.data
+        && request.resource.data.updatedAt is timestamp
+        && request.resource.data.updatedAt == request.time
+        && 'createdAt' in request.resource.data
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.createdAt == request.time
       allow update: if isAuthenticatedUser(userId)
-        && request.resource.data.keys().hasAll(['id', 'name', 'about', 'icon', 'updated_at', 'created_at'])
-        && request.resource.data.keys().hasOnly(['id', 'name', 'about', 'icon', 'updated_at', 'created_at'])
+        && request.resource.data.keys().hasAll(['id', 'name', 'about', 'iconUrl', 'sumUserProjects', 'updatedAt', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['id', 'name', 'about', 'iconUrl', 'sumUserProjects', 'updatedAt', 'createdAt'])
         && request.resource.data.id is string
         && request.resource.data.id == resource.data.id
         && request.resource.data.name is string
@@ -28,11 +48,14 @@ service cloud.firestore {
         && request.resource.data.name.size() <= 50
         && request.resource.data.about is string
         && (request.resource.data.about.size() == 0 || (request.resource.data.about.size() >= 6 && request.resource.data.about.size() <= 170))
-        && (request.resource.data.icon == null || request.resource.data.icon is string)
-        && request.resource.data.updated_at is timestamp
-        && request.resource.data.updated_at != resource.data.updated_at
-        && request.resource.data.created_at is timestamp
-        && request.resource.data.created_at == resource.data.created_at;
+        && (request.resource.data.iconUrl == null || request.resource.data.iconUrl is string)
+        && request.resource.data.sumUserProjects is int
+        && request.resource.data.sumUserProjects >= 0
+        && request.resource.data.sumUserProjects <= 1
+        && request.resource.data.updatedAt is timestamp
+        && request.resource.data.updatedAt != resource.data.updatedAt
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.createdAt == resource.data.createdAt;
 
         match /settings/{settingId} {
           allow create: if isAuthenticatedUser(userId);
