@@ -13,24 +13,12 @@ class Welcome extends StatelessWidget {
         final welcomeModel = context.read<WelcomeModel>();
 
         return Scaffold(
-          body: FutureBuilder(
+          body: FutureBuilder<void>(
             future: welcomeModel.fetchProject(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-
-              if (snapshot.hasError) {
-                return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Center(
-                    child: Text('${snapshot.error}'),
-                  ),
+                return Center(
+                  child: CircularProgressIndicator(),
                 );
               }
 

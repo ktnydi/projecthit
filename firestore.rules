@@ -58,6 +58,7 @@ service cloud.firestore {
         && request.resource.data.createdAt == resource.data.createdAt;
 
         match /userProjects/{userProjectId} {
+          allow list: if isAuthenticatedUser(userId);
           allow create: if isAuthenticatedUser(userId)
             && 'name' in request.resource.data
             && request.resource.data.name is string
