@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projecthit/screens/add_project/add_project_model.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
+import 'package:projecthit/screens/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
 class AddProject extends StatelessWidget {
@@ -22,7 +23,6 @@ class AddProject extends StatelessWidget {
         name: name,
       );
       addProjectModel.endLoading();
-      // TODO: タスク一覧画面へ
     } catch (e) {
       addProjectModel.endLoading();
       showDialog(
@@ -59,6 +59,13 @@ class AddProject extends StatelessWidget {
                     icon: Icon(Icons.done),
                     onPressed: () async {
                       await _addProject(context);
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Welcome(),
+                        ),
+                      );
                     },
                   ),
                 ],

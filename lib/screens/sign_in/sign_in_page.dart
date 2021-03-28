@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:projecthit/screens/forgot_password/forgot_password_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
-import 'package:projecthit/screens/project_list/project_list_page.dart';
 import 'package:projecthit/screens/sign_in/sign_in_model.dart';
+import 'package:projecthit/screens/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
 class SignIn extends StatelessWidget {
@@ -47,9 +47,9 @@ class SignIn extends StatelessWidget {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProjectList(),
+                            builder: (context) => Welcome(),
                           ),
-                          (_) => false,
+                          (route) => route.isFirst,
                         );
                       } catch (e) {
                         signInModel.endLoading();

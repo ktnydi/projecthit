@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projecthit/screens/accept_invitation/accept_invitation_model.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
-import 'package:projecthit/screens/project_list/project_list_page.dart';
+import 'package:projecthit/screens/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
 class AcceptInvitation extends StatelessWidget {
@@ -24,7 +24,7 @@ class AcceptInvitation extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => ProjectList(),
+          builder: (context) => Welcome(),
         ),
       );
     } catch (e) {

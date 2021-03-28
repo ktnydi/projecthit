@@ -1,11 +1,32 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:projecthit/entity/project.dart';
+import 'package:projecthit/entity/user_project.dart';
+import 'package:projecthit/repository/project_repository.dart';
+import 'package:projecthit/repository/user_project_repository.dart';
 
 class WelcomeModel extends ChangeNotifier {
+  final _userProjectRepository = UserProjectRepository();
+  final _projectRepository = ProjectRepository();
+  StreamSubscription<Project> _projectSub;
+  UserProject userProject;
   Project project;
 
   Future<void> fetchProject() async {
-    // TODO: プロジェクト取得処理（以下は仮の実装）
-    await Future.delayed(Duration(milliseconds: 3000));
+    userProject = await _userProjectRepository.fetchUserProject();
+
+    _projectSub = _projectRepository.fetchProjectFromId(userProject.id).listen(
+      (project) {
+        this.project = project;
+        notifyListeners();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _projectSub?.cancel();
+    super.dispose();
   }
 }

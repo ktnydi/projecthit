@@ -22,6 +22,16 @@ class ProjectRepository {
     );
   }
 
+  Stream<Project> fetchProjectFromId(String projectId) {
+    return _store.collection('projects').doc(projectId).snapshots().map(
+      (snapshot) {
+        final data = snapshot.data();
+        data[ProjectField.id] = snapshot.id;
+        return Project.fromMap(data);
+      },
+    );
+  }
+
   Future<String> addProject({
     @required AppUser user,
     @required Project project,
