@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/extension/date_time.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/screens/add_task/add_task_page.dart';
+import 'package:projecthit/screens/project_detail/project_detail_page.dart';
+import 'package:projecthit/screens/setting/setting_page.dart';
 import 'package:projecthit/screens/task_detail/task_detail_page.dart';
 import 'package:projecthit/screens/task_list/task_list_model.dart';
 import 'package:provider/provider.dart';
@@ -121,27 +124,33 @@ class TaskList extends StatelessWidget {
           children: [
             Scaffold(
               appBar: AppBar(
-                title: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '${project.name}',
-                    ),
-                    Text(
-                      '${project.sumUsers} Members',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: Theme.of(context).textTheme.caption.color,
-                      ),
-                    ),
-                  ],
-                ),
+                title: Text('${project.name}'),
                 actions: [
                   IconButton(
                     icon: Icon(Icons.delete_outline),
                     onPressed: () async {
                       await _deleteDoneTask(context, taskListModel);
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.edit_outlined),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProjectDetail(project: project),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(OMIcons.settings),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) => Setting(),
+                        ),
+                      );
                     },
                   ),
                 ],
