@@ -44,12 +44,11 @@ class SignIn extends StatelessWidget {
                         await myAppModel.fetchCurrentUser();
                         signInModel.endLoading();
 
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => Welcome(),
                           ),
-                          (route) => route.isFirst,
                         );
                       } catch (e) {
                         signInModel.endLoading();
