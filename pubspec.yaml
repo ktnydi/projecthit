@@ -19,6 +19,7 @@ dependencies:
   cloud_firestore: ^0.16.0+1
   firebase_storage: ^7.0.0
   firebase_dynamic_links: ^0.7.0+1
+  firebase_messaging: ^8.0.0-dev.15
   english_words: ^3.1.5
   share: ^0.6.5+4
   image_picker: ^0.6.7+22
