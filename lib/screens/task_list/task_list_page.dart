@@ -7,17 +7,23 @@ import 'package:projecthit/extension/date_time.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/screens/add_task/add_task_page.dart';
+import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/project_detail/project_detail_page.dart';
 import 'package:projecthit/screens/setting/setting_page.dart';
 import 'package:projecthit/screens/task_detail/task_detail_page.dart';
 import 'package:projecthit/screens/task_list/task_list_model.dart';
 import 'package:provider/provider.dart';
 
-class TaskList extends StatelessWidget {
+class TaskList extends StatefulWidget {
   final Project project;
 
   TaskList({@required this.project});
 
+  @override
+  _TaskListState createState() => _TaskListState();
+}
+
+class _TaskListState extends State<TaskList> {
   Future<void> _doneTask(BuildContext context, Task task) async {
     final taskListModel = context.read<TaskListModel>();
 
@@ -106,6 +112,19 @@ class TaskList extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    final myAppModel = context.read<MyAppModel>();
+
+    Future(
+      () async {
+        await myAppModel.initCloudMessaging();
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final viewPadding = MediaQuery.of(context).viewPadding;
 
@@ -116,7 +135,7 @@ class TaskList extends StatelessWidget {
     }
 
     return ChangeNotifierProvider<TaskListModel>(
-      create: (_) => TaskListModel(project: project),
+      create: (_) => TaskListModel(project: widget.project),
       builder: (context, snapshot) {
         final taskListModel = context.read<TaskListModel>();
 
@@ -124,7 +143,7 @@ class TaskList extends StatelessWidget {
           children: [
             Scaffold(
               appBar: AppBar(
-                title: Text('${project.name}'),
+                title: Text('${widget.project.name}'),
                 actions: [
                   IconButton(
                     icon: Icon(Icons.delete_outline),
@@ -137,7 +156,8 @@ class TaskList extends StatelessWidget {
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProjectDetail(project: project),
+                        builder: (context) =>
+                            ProjectDetail(project: widget.project),
                       ),
                     ),
                   ),
@@ -284,7 +304,7 @@ class TaskList extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => TaskDetail(
-                                  project: project,
+                                  project: widget.project,
                                   task: task,
                                 ),
                               ),
@@ -305,7 +325,7 @@ class TaskList extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       fullscreenDialog: true,
-                      builder: (context) => AddTask(project: project),
+                      builder: (context) => AddTask(project: widget.project),
                     ),
                   );
                 },
