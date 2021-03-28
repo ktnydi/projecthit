@@ -71,6 +71,11 @@ service cloud.firestore {
           allow get: if isAuthenticatedUser(userId);
           allow update: if isAuthenticatedUser(userId);
         }
+
+        match /tokens/{tokenId} {
+          allow create: if isAuthenticatedUser(userId)
+            && request.resource.data.size() == 0;
+        }
     }
 
     match /projects/{projectId} {
