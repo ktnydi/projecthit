@@ -75,6 +75,7 @@ service cloud.firestore {
         match /tokens/{tokenId} {
           allow create: if isAuthenticatedUser(userId)
             && request.resource.data.size() == 0;
+          allow delete: if isAuthenticatedUser(userId);
         }
     }
 
