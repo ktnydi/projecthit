@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:projecthit/entity/app_setting.dart';
@@ -12,6 +13,7 @@ class UserRepository {
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
   final _storage = FirebaseStorage.instance;
+  final _messaging = FirebaseMessaging.instance;
 
   User get currentUser => _auth.currentUser;
 
@@ -135,6 +137,13 @@ class UserRepository {
   }
 
   Future<void> signOut() async {
+    final token = await _messaging.getToken();
+    await _store
+        .collection('users')
+        .doc(_auth.currentUser.uid)
+        .collection('tokens')
+        .doc(token)
+        .delete();
     await _auth.signOut();
   }
 
