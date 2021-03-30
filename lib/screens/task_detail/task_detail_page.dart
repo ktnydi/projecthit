@@ -30,16 +30,21 @@ class TaskDetail extends StatelessWidget {
         ? Timestamp.fromDate(DateTime.parse(deadline))
         : null;
 
-    task.name = name;
-    task.description = description;
-    task.expiredAt = expiredAt;
-
     FocusScope.of(context).unfocus();
 
     final taskDetailModel = context.read<TaskDetailModel>();
 
     try {
       taskDetailModel.beginLoading();
+
+      if (expiredAt != null && taskDetailModel.projectTaskUserIds.isEmpty) {
+        throw ('Please select a user to notify reminder.');
+      }
+
+      task.name = name;
+      task.description = description;
+      task.expiredAt = expiredAt;
+
       await taskDetailModel.updateTask(
         project: project,
         task: task,
