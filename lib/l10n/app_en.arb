@@ -1,3 +1,22 @@
 {
-    "helloWorld": "Hello World!",
+    "signUp": "Start",
+    "@signUp": {
+        "description": "sign up button text"
+    },
+    "signIn": "Sign in",
+    "@signIn": {
+        "description": "sign in button text"
+    },
+    "signInMessage":  "Have you already account？",
+    "@signInMessage": {
+        "description": "a authentication question for service users"
+    },
+    "termsOfService": "Terms of Service",
+    "@termsOfService": {
+        "description": "terms of service"
+    },
+    "privacyPolicy": "Privacy Policy",
+    "@privacyPolicy": {
+        "description": "privacy policy"
+    }
 }

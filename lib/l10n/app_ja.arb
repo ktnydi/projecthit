@@ -1,3 +1,7 @@
 {
-    "helloWorld": "こんにちは"
+    "signUp": "はじめる",
+    "signIn": "サインイン",
+    "signInMessage":  "既にアカウントをお持ちですか？",
+    "termsOfService": "利用規約",
+    "privacyPolicy": "プライバシーポリシー"
 }
