@@ -6,7 +6,12 @@
     "privacyPolicy": "プライバシーポリシー",
     "signInPageTitle": "サインイン",
     "presentError": "{label}を入力してください",
+    "maximumTextLengthError": "{label}を短くしてください",
     "emailFormatError": "メールアドレスの形式が正しくありません",
+    "taskUserFieldLabel": "割り振り",
+    "taskFieldLabel" :  "タスク名",
+    "taskDescriptionLabel": "説明 (任意)",
+    "taskReminderLabel": "リマインダー (任意)",
     "emailFieldLabel": "メールアドレス",
     "passwordFieldLabel": "パスワード",
     "forgotPassword": "パスワードをお忘れですか？"
