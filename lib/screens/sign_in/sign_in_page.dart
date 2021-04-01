@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/screens/forgot_password/forgot_password_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/sign_in/sign_in_model.dart';
@@ -23,7 +24,7 @@ class SignIn extends StatelessWidget {
           children: [
             Scaffold(
               appBar: AppBar(
-                title: Text('Welcome back!'),
+                title: Text(AppLocalizations.of(context).signInPageTitle),
                 actions: [
                   IconButton(
                     icon: Icon(Icons.login_outlined),
@@ -84,7 +85,7 @@ class SignIn extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Email',
+                          AppLocalizations.of(context).emailFieldLabel,
                           style: TextStyle(
                             fontSize: 18,
                           ),
@@ -94,11 +95,14 @@ class SignIn extends StatelessWidget {
                           key: _emailKey,
                           validator: (value) {
                             if (value.trim().isEmpty) {
-                              return 'Enter email';
+                              return AppLocalizations.of(context).presentError(
+                                AppLocalizations.of(context).emailFieldLabel,
+                              );
                             }
 
                             if (!value.contains('@')) {
-                              return 'Don\'t match mail address format';
+                              return AppLocalizations.of(context)
+                                  .emailFormatError;
                             }
 
                             return null;
@@ -112,7 +116,7 @@ class SignIn extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         Text(
-                          'Password',
+                          AppLocalizations.of(context).passwordFieldLabel,
                           style: TextStyle(
                             fontSize: 18,
                           ),
@@ -122,7 +126,9 @@ class SignIn extends StatelessWidget {
                           key: _passwordKey,
                           validator: (value) {
                             if (value.trim().isEmpty) {
-                              return 'Enter password';
+                              return AppLocalizations.of(context).presentError(
+                                AppLocalizations.of(context).passwordFieldLabel,
+                              );
                             }
 
                             return null;
@@ -139,7 +145,7 @@ class SignIn extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
-                                'Forgot password?',
+                                AppLocalizations.of(context).forgotPassword,
                                 style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.secondary,
@@ -165,7 +171,8 @@ class SignIn extends StatelessWidget {
                               ),
                               children: [
                                 TextSpan(
-                                  text: 'Terms of Service',
+                                  text: AppLocalizations.of(context)
+                                      .termsOfService,
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       // TODO: 利用規約を表示
@@ -175,7 +182,8 @@ class SignIn extends StatelessWidget {
                                   text: '｜',
                                 ),
                                 TextSpan(
-                                  text: 'Privacy Policy',
+                                  text: AppLocalizations.of(context)
+                                      .privacyPolicy,
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       // TODO: プライバシーポリシーを表示

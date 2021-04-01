@@ -3,5 +3,11 @@
     "signIn": "サインイン",
     "signInMessage":  "既にアカウントをお持ちですか？",
     "termsOfService": "利用規約",
-    "privacyPolicy": "プライバシーポリシー"
+    "privacyPolicy": "プライバシーポリシー",
+    "signInPageTitle": "サインイン",
+    "presentError": "{label}を入力してください",
+    "emailFormatError": "メールアドレスの形式が正しくありません",
+    "emailFieldLabel": "メールアドレス",
+    "passwordFieldLabel": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？"
 }
