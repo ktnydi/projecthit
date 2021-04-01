@@ -101,9 +101,30 @@
             }
         }
     },
+    "minimumTextLengthError": "{label} is too short",
+    "@minimumTextLengthError": {
+        "description": "minimum text length error",
+        "placeholders": {
+            "label": {
+                "type": "String"
+            }
+        }
+    },
     "emailFormatError": "Don't valid email address format",
     "@emailFormatError": {
         "description": "email address format error message"
+    },
+    "userName": "Name",
+    "@userName": {
+        "description": "user name"
+    },
+    "userAbout": "About (optional)",
+    "@userAbout": {
+        "description": "user about"
+    },
+    "userAboutPlaceholder": "",
+    "@userAboutPlaceholder": {
+        "description": "user about placeholder"
     },
     "projectUserFieldLabel": "Member",
     "@projectUserFieldLabel": {
