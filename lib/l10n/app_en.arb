@@ -45,6 +45,18 @@
     "@emailFormatError": {
         "description": "email address format error message"
     },
+    "projectUserFieldLabel": "Member",
+    "@projectUserFieldLabel": {
+        "description": "label for project user field"
+    },
+    "projectFieldLabel": "Project",
+    "@projectFieldLabel": {
+        "description": "label for project name field"
+    },
+    "projectDescriptionLabel": "Description (optional)",
+    "@projectDescriptionLabel": {
+        "description": "label for project description"
+    },
     "taskUserFieldLabel": "Member",
     "@taskUserFieldLabel": {
         "description": "label for task user field"
