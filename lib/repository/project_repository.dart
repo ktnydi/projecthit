@@ -16,8 +16,13 @@ class ProjectRepository {
     return projectUser.projectRef.snapshots().map(
       (snapshot) {
         final data = snapshot.data();
-        data[ProjectField.id] = snapshot.id;
-        return Project.fromMap(data);
+
+        if (data != null) {
+          data[ProjectField.id] = snapshot.id;
+          return Project.fromMap(data);
+        }
+
+        return null;
       },
     );
   }
@@ -26,8 +31,12 @@ class ProjectRepository {
     return _store.collection('projects').doc(projectId).snapshots().map(
       (snapshot) {
         final data = snapshot.data();
-        data[ProjectField.id] = snapshot.id;
-        return Project.fromMap(data);
+        if (data != null) {
+          data[ProjectField.id] = snapshot.id;
+          return Project.fromMap(data);
+        }
+
+        return null;
       },
     );
   }

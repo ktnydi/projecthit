@@ -11,12 +11,13 @@ class AcceptInvitation extends StatelessWidget {
 
   Future<void> _signInAndAddProject(BuildContext context) async {
     final acceptInvitationModel = context.read<AcceptInvitationModel>();
+    final appUser = context.read<MyAppModel>().currentAppUser;
 
     try {
       acceptInvitationModel.beginLoading();
 
       await acceptInvitationModel.signInWithAnonymous();
-      await acceptInvitationModel.addProject(deepLink);
+      await acceptInvitationModel.addProject(appUser, deepLink);
 
       acceptInvitationModel.endLoading();
 
@@ -51,10 +52,11 @@ class AcceptInvitation extends StatelessWidget {
 
   Future<void> _addProject(BuildContext context) async {
     final acceptInvitationModel = context.read<AcceptInvitationModel>();
+    final appUser = context.read<MyAppModel>().currentAppUser;
 
     try {
       acceptInvitationModel.beginLoading();
-      await acceptInvitationModel.addProject(deepLink);
+      await acceptInvitationModel.addProject(appUser, deepLink);
       acceptInvitationModel.endLoading();
 
       Navigator.pop(context);

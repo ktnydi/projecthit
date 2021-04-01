@@ -64,6 +64,7 @@ service cloud.firestore {
             && request.resource.data.name is string
             && request.resource.data.name.size() > 0
             && request.resource.data.name.size() <= 50
+          allow delete: if isAuthenticatedUser(userId);
         }
 
         match /settings/{settingId} {
@@ -111,7 +112,8 @@ service cloud.firestore {
         && request.resource.data.createdAt is timestamp
         && request.resource.data.createdAt == resource.data.createdAt;
       allow delete: if isAnyAuthenticated()
-        && resource.data.adminUser == request.auth.uid;
+        && resource.data.sumUsers == 1
+        && exists(/databases/$(database)/documents/projects/$(projectId)/projectUsers/$(request.auth.uid));
 
       match /projectUsers/{projectUserId} {
         allow list: if isAnyAuthenticated()
