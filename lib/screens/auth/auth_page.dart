@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/screens/auth/auth_model.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/sign_in/sign_in_page.dart';
@@ -68,7 +69,8 @@ class Auth extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(
-                                child: Text('Start'),
+                                child:
+                                    Text(AppLocalizations.of(context).signUp),
                                 style: ElevatedButton.styleFrom(
                                   primary:
                                       Theme.of(context).colorScheme.onSecondary,
@@ -113,7 +115,7 @@ class Auth extends StatelessWidget {
                               ),
                               SizedBox(height: 16),
                               Text(
-                                'Have you already account?',
+                                AppLocalizations.of(context).signInMessage,
                                 style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.onSecondary,
@@ -121,7 +123,8 @@ class Auth extends StatelessWidget {
                               ),
                               SizedBox(height: 16),
                               OutlinedButton(
-                                child: Text('Sign in with Email'),
+                                child:
+                                    Text(AppLocalizations.of(context).signIn),
                                 style: OutlinedButton.styleFrom(
                                   primary:
                                       Theme.of(context).colorScheme.onSecondary,
@@ -152,7 +155,8 @@ class Auth extends StatelessWidget {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: 'Term',
+                                      text: AppLocalizations.of(context)
+                                          .termsOfService,
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
                                           // TODO: 利用規約を表示
@@ -160,7 +164,8 @@ class Auth extends StatelessWidget {
                                     ),
                                     TextSpan(text: '｜'),
                                     TextSpan(
-                                      text: 'Privacy',
+                                      text: AppLocalizations.of(context)
+                                          .privacyPolicy,
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
                                           // TODO: プライバシーポリシーを表示
