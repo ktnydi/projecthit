@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:package_info/package_info.dart';
 import 'package:projecthit/enum/appearance.dart';
 import 'package:projecthit/model/theme_model.dart';
@@ -20,8 +21,8 @@ class Setting extends StatelessWidget {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Sign out'),
-            content: Text('Thank you for using this app. Do you sign out?'),
+            title: Text(AppLocalizations.of(context).signOut),
+            content: Text(AppLocalizations.of(context).signOutMessage),
             actions: [
               TextButton(
                 child: Text('Cancel'),
@@ -83,7 +84,7 @@ class Setting extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text('Setting'),
+            title: Text(AppLocalizations.of(context).settingPageTitle),
           ),
           body: SingleChildScrollView(
             padding: EdgeInsets.symmetric(vertical: 16),
@@ -93,7 +94,7 @@ class Setting extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'General',
+                    AppLocalizations.of(context).general,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 18,
@@ -102,7 +103,7 @@ class Setting extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 ListTile(
-                  title: Text('Profile'),
+                  title: Text(AppLocalizations.of(context).profile),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     Navigator.push(
@@ -114,7 +115,7 @@ class Setting extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  title: Text('Email & Password'),
+                  title: Text(AppLocalizations.of(context).emailAndPassword),
                   subtitle: Text(myAppModel.currentUser?.email ?? 'Anonymous'),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
@@ -127,7 +128,7 @@ class Setting extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  title: Text('Dark mode'),
+                  title: Text(AppLocalizations.of(context).darkMode),
                   trailing: Switch.adaptive(
                     value: context.select(
                       (ThemeModel model) => model.isDarkMode,
@@ -142,7 +143,7 @@ class Setting extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  title: Text('Notification'),
+                  title: Text(AppLocalizations.of(context).notification),
                   trailing: Switch.adaptive(
                     value: context.select(
                       (SettingModel model) => model.isPermitNotification,
@@ -160,7 +161,7 @@ class Setting extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'About',
+                    AppLocalizations.of(context).about,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 18,
@@ -169,7 +170,7 @@ class Setting extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 ListTile(
-                  title: Text('Inquiry'),
+                  title: Text(AppLocalizations.of(context).inquiry),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     Navigator.push(
@@ -181,35 +182,35 @@ class Setting extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  title: Text('Review'),
+                  title: Text(AppLocalizations.of(context).review),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     // TODO: レビュー画面を表示
                   },
                 ),
                 ListTile(
-                  title: Text('Terms'),
+                  title: Text(AppLocalizations.of(context).termsOfService),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     // TODO: 利用規約を表示
                   },
                 ),
                 ListTile(
-                  title: Text('Privacy policy'),
+                  title: Text(AppLocalizations.of(context).privacyPolicy),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     // TODO: プライバシーポリシーを表示
                   },
                 ),
                 ListTile(
-                  title: Text('Version'),
+                  title: Text(AppLocalizations.of(context).version),
                   trailing: Text('${packageInfo.version}'),
                 ),
                 SizedBox(height: 32),
                 if (!myAppModel.currentUser.isAnonymous)
                   Center(
                     child: ElevatedButton(
-                      child: Text('Sign out'),
+                      child: Text(AppLocalizations.of(context).signOut),
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(160, 44),
                       ),
