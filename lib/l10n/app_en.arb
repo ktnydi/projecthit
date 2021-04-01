@@ -35,6 +35,54 @@
     "@inviteButtonLabel": {
         "description": "share button label"
     },
+    "settingPageTitle": "Setting",
+    "@settingPageTitle": {
+        "description": "setting page title"
+    },
+    "general": "General",
+    "@general": {
+        "description": "setting page section title"
+    },
+    "profile": "Profile",
+    "@profile": {
+        "description": "list tile title"
+    },
+    "emailAndPassword": "Email & Password",
+    "@emailAndPassword": {
+        "description": "list tile title"
+    },
+    "darkMode": "Dark mode",
+    "@darkMode": {
+        "description": "list tile title"
+    },
+    "notification": "Notification",
+    "@notification": {
+        "description": "list tile title"
+    },
+    "about": "About",
+    "@about": {
+        "description": "setting page section title"
+    },
+    "inquiry": "Inquiry",
+    "@inquiry": {
+        "description": "list tile title"
+    },
+    "review": "Review",
+    "@review": {
+        "description": "list tile title"
+    },
+    "version": "Version",
+    "@version": {
+        "description": "list tile title"
+    },
+    "signOut": "Sign out",
+    "@signOut": {
+        "description": "sign out button label"
+    },
+    "signOutMessage": "Do you sign out this app?",
+    "@signOutMessage": {
+        "description": "sign out message"
+    },
     "presentError": "Please enter {label}",
     "@presentError": {
         "description": "present error message",
