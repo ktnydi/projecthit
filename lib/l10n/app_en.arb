@@ -32,9 +32,34 @@
             }
         }
     },
+    "maximumTextLengthError": "{label} is too long",
+    "@maximumTextLengthError": {
+        "description": "maximum text length error",
+        "placeholders": {
+            "label": {
+                "type": "String"
+            }
+        }
+    },
     "emailFormatError": "Don't valid email address format",
     "@emailFormatError": {
         "description": "email address format error message"
+    },
+    "taskUserFieldLabel": "Member",
+    "@taskUserFieldLabel": {
+        "description": "label for task user field"
+    },
+    "taskFieldLabel" :  "Task",
+    "@taskFieldLabel": {
+        "description": "label for task field"
+    },
+    "taskDescriptionLabel": "Description (optional)",
+    "@taskDescriptionLabel": {
+        "description": "label for task description"
+    },
+    "taskReminderLabel": "Reminder (optional)",
+    "@taskReminderLabel": {
+        "description": "label for task reminder"
     },
     "emailFieldLabel": "Email",
     "@emailFieldLabel": {

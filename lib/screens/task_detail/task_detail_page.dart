@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/project_user.dart';
@@ -182,7 +183,7 @@ class TaskDetail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Member',
+                      AppLocalizations.of(context).taskUserFieldLabel,
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -208,7 +209,7 @@ class TaskDetail extends StatelessWidget {
                     ),
                     SizedBox(height: 24),
                     Text(
-                      'Task Name',
+                      AppLocalizations.of(context).taskFieldLabel,
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -219,11 +220,16 @@ class TaskDetail extends StatelessWidget {
                       initialValue: task.name,
                       validator: (value) {
                         if (value.trim().isEmpty) {
-                          return 'Enter task name';
+                          return AppLocalizations.of(context).presentError(
+                            AppLocalizations.of(context).taskFieldLabel,
+                          );
                         }
 
                         if (value.length > 100) {
-                          return 'Task name is too long';
+                          return AppLocalizations.of(context)
+                              .maximumTextLengthError(
+                            AppLocalizations.of(context).taskFieldLabel,
+                          );
                         }
 
                         return null;
@@ -236,7 +242,7 @@ class TaskDetail extends StatelessWidget {
                     ),
                     SizedBox(height: 24),
                     Text(
-                      'Description (optional)',
+                      AppLocalizations.of(context).taskDescriptionLabel,
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -247,7 +253,10 @@ class TaskDetail extends StatelessWidget {
                       initialValue: task.description,
                       validator: (value) {
                         if (value.length > 140) {
-                          return 'Description is too long';
+                          return AppLocalizations.of(context)
+                              .maximumTextLengthError(
+                            AppLocalizations.of(context).taskDescriptionLabel,
+                          );
                         }
 
                         return null;
@@ -261,7 +270,7 @@ class TaskDetail extends StatelessWidget {
                     ),
                     SizedBox(height: 24),
                     Text(
-                      'Deadline (optional)',
+                      AppLocalizations.of(context).taskReminderLabel,
                       style: TextStyle(
                         fontSize: 18,
                       ),
