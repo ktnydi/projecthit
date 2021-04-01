@@ -59,7 +59,13 @@ class AcceptInvitation extends StatelessWidget {
       await acceptInvitationModel.addProject(appUser, deepLink);
       acceptInvitationModel.endLoading();
 
-      Navigator.pop(context);
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Welcome(),
+        ),
+      );
     } catch (e) {
       acceptInvitationModel.endLoading();
       showDialog(
