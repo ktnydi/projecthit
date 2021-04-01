@@ -18,5 +18,34 @@
     "privacyPolicy": "Privacy Policy",
     "@privacyPolicy": {
         "description": "privacy policy"
+    },
+    "signInPageTitle": "Welcome back!",
+    "@signInPageTitle": {
+        "description": "page title"
+    },
+    "presentError": "Please enter {label}",
+    "@presentError": {
+        "description": "present error message",
+        "placeholders": {
+            "label": {
+                "type": "String"
+            }
+        }
+    },
+    "emailFormatError": "Don't valid email address format",
+    "@emailFormatError": {
+        "description": "email address format error message"
+    },
+    "emailFieldLabel": "Email",
+    "@emailFieldLabel": {
+        "description": "label for email text form"
+    },
+    "passwordFieldLabel": "Password",
+    "@passwordFieldLabel": {
+        "description": "label for password text form"
+    },
+    "forgotPassword": "Forgot password?",
+    "@forgotPassword": {
+        "description": "forgot password button text"
     }
 }
