@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/screens/invite_member/invite_member_page.dart';
@@ -154,7 +155,7 @@ class ProjectDetail extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Member',
+                        AppLocalizations.of(context).projectUserFieldLabel,
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -260,7 +261,7 @@ class ProjectDetail extends StatelessWidget {
                       ),
                       SizedBox(height: 24),
                       Text(
-                        'Project Name',
+                        AppLocalizations.of(context).projectFieldLabel,
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -271,11 +272,16 @@ class ProjectDetail extends StatelessWidget {
                         initialValue: project.name,
                         validator: (value) {
                           if (value.trim().isEmpty) {
-                            return 'Enter project name';
+                            return AppLocalizations.of(context).presentError(
+                              AppLocalizations.of(context).projectFieldLabel,
+                            );
                           }
 
                           if (value.length > 50) {
-                            return 'Project name is too long';
+                            return AppLocalizations.of(context)
+                                .maximumTextLengthError(
+                              AppLocalizations.of(context).projectFieldLabel,
+                            );
                           }
 
                           return null;
@@ -288,7 +294,7 @@ class ProjectDetail extends StatelessWidget {
                       ),
                       SizedBox(height: 24),
                       Text(
-                        'Description',
+                        AppLocalizations.of(context).projectDescriptionLabel,
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -299,7 +305,11 @@ class ProjectDetail extends StatelessWidget {
                         initialValue: project.description,
                         validator: (value) {
                           if (value.length > 140) {
-                            return 'Description is too long';
+                            return AppLocalizations.of(context)
+                                .maximumTextLengthError(
+                              AppLocalizations.of(context)
+                                  .projectDescriptionLabel,
+                            );
                           }
 
                           return null;
