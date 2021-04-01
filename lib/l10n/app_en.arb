@@ -23,6 +23,18 @@
     "@signInPageTitle": {
         "description": "page title"
     },
+    "inviteMemberPageTitle": "Invite member",
+    "@inviteMemberPageTitle": {
+        "description": "page title"
+    },
+    "inviteMemberPageSubTitle": "Sharing invitation link to others, these users can join this project.",
+    "@inviteMemberPageSubTitle": {
+        "description": "page subtitle"
+    },
+    "inviteButtonLabel": "Share link",
+    "@inviteButtonLabel": {
+        "description": "share button label"
+    },
     "presentError": "Please enter {label}",
     "@presentError": {
         "description": "present error message",
