@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/screens/add_task/add_task_model.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +66,7 @@ class AddTask extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Task Name',
+                      AppLocalizations.of(context).taskFieldLabel,
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -74,11 +75,16 @@ class AddTask extends StatelessWidget {
                     TextFormField(
                       validator: (value) {
                         if (value.trim().isEmpty) {
-                          return 'Enter task name';
+                          return AppLocalizations.of(context).presentError(
+                            AppLocalizations.of(context).taskFieldLabel,
+                          );
                         }
 
                         if (value.length > 100) {
-                          return 'Task name is too long';
+                          return AppLocalizations.of(context)
+                              .maximumTextLengthError(
+                            AppLocalizations.of(context).taskFieldLabel,
+                          );
                         }
 
                         return null;
