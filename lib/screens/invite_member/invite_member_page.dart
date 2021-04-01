@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/screens/invite_member/invite_member_model.dart';
 import 'package:provider/provider.dart';
@@ -35,12 +36,12 @@ class InviteMember extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Invite project member',
+                  AppLocalizations.of(context).inviteMemberPageTitle,
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Sharing invitation link to others, these users can join this project.',
+                  AppLocalizations.of(context).inviteMemberPageSubTitle,
                   style: TextStyle(
                     color: Theme.of(context).textTheme.caption.color,
                   ),
@@ -60,7 +61,7 @@ class InviteMember extends StatelessWidget {
 
                     return ElevatedButton(
                       child: !isLoading
-                          ? Text('Share link')
+                          ? Text(AppLocalizations.of(context).inviteButtonLabel)
                           : Text('Now Loading...'),
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(200, 44),
