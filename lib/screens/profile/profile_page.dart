@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/profile/profile_model.dart';
@@ -69,7 +70,7 @@ class Profile extends StatelessWidget {
           children: [
             Scaffold(
               appBar: AppBar(
-                title: Text('Profile'),
+                title: Text(AppLocalizations.of(context).profile),
                 actions: [
                   IconButton(
                     icon: Icon(Icons.done),
@@ -93,7 +94,7 @@ class Profile extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         Text(
-                          'Name',
+                          AppLocalizations.of(context).userName,
                           style: TextStyle(
                             fontSize: 18,
                           ),
@@ -106,11 +107,17 @@ class Profile extends StatelessWidget {
                               initialValue: myAppModel.currentAppUser.name,
                               validator: (value) {
                                 if (value.trim().isEmpty) {
-                                  return 'Enter Name';
+                                  return AppLocalizations.of(context)
+                                      .presentError(
+                                    AppLocalizations.of(context).userName,
+                                  );
                                 }
 
                                 if (value.length > 50) {
-                                  return 'Name is too long';
+                                  return AppLocalizations.of(context)
+                                      .maximumTextLengthError(
+                                    AppLocalizations.of(context).userName,
+                                  );
                                 }
 
                                 return null;
@@ -123,7 +130,7 @@ class Profile extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         Text(
-                          'About',
+                          AppLocalizations.of(context).userAbout,
                           style: TextStyle(
                             fontSize: 18,
                           ),
@@ -134,11 +141,17 @@ class Profile extends StatelessWidget {
                           initialValue: myAppModel.currentAppUser.about,
                           validator: (value) {
                             if (1 <= value.length && value.length < 6) {
-                              return 'About is too short';
+                              return AppLocalizations.of(context)
+                                  .minimumTextLengthError(
+                                AppLocalizations.of(context).userAbout,
+                              );
                             }
 
                             if (value.length > 170) {
-                              return 'About is too long';
+                              return AppLocalizations.of(context)
+                                  .maximumTextLengthError(
+                                AppLocalizations.of(context).userAbout,
+                              );
                             }
 
                             return null;
@@ -146,7 +159,8 @@ class Profile extends StatelessWidget {
                           maxLines: 5,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: 'Introduce yourself to member',
+                            hintText: AppLocalizations.of(context)
+                                .userAboutPlaceholder,
                           ),
                         ),
                       ],
