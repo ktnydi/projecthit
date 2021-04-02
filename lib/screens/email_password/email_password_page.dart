@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/email_password/email_password_model.dart';
 import 'package:projecthit/screens/forgot_password/forgot_password_page.dart';
@@ -130,7 +131,7 @@ class EmailPassword extends StatelessWidget {
           children: [
             Scaffold(
               appBar: AppBar(
-                title: Text('Email & Password'),
+                title: Text(AppLocalizations.of(context).emailAndPassword),
                 actions: [
                   IconButton(
                     icon: Icon(Icons.done),
@@ -153,7 +154,7 @@ class EmailPassword extends StatelessWidget {
                     children: [
                       if (myAppModel.currentUser.isAnonymous)
                         Text(
-                          'If you sign up, you are able to continue to use same account with other devices.',
+                          AppLocalizations.of(context).descriptionForLink,
                           style: TextStyle(
                             color: Theme.of(context).textTheme.caption.color,
                           ),
@@ -161,7 +162,7 @@ class EmailPassword extends StatelessWidget {
                       if (myAppModel.currentUser.isAnonymous)
                         SizedBox(height: 16),
                       Text(
-                        'Email',
+                        AppLocalizations.of(context).emailFieldLabel,
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -171,7 +172,9 @@ class EmailPassword extends StatelessWidget {
                         key: _emailKey,
                         validator: (value) {
                           if (value.trim().isEmpty) {
-                            return 'Enter Email';
+                            return AppLocalizations.of(context).presentError(
+                              AppLocalizations.of(context).emailFieldLabel,
+                            );
                           }
 
                           return null;
@@ -186,7 +189,7 @@ class EmailPassword extends StatelessWidget {
                       ),
                       SizedBox(height: 16),
                       Text(
-                        'Password',
+                        AppLocalizations.of(context).passwordFieldLabel,
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -196,13 +199,18 @@ class EmailPassword extends StatelessWidget {
                         key: _passwordKey,
                         validator: (value) {
                           if (value.trim().isEmpty) {
-                            return 'Enter Password';
+                            return AppLocalizations.of(context).presentError(
+                              AppLocalizations.of(context).passwordFieldLabel,
+                            );
                           }
 
                           if (!myAppModel.currentUser.isAnonymous) return null;
 
                           if (value.length < 6) {
-                            return 'Password is too short';
+                            return AppLocalizations.of(context)
+                                .minimumTextLengthError(
+                              AppLocalizations.of(context).passwordFieldLabel,
+                            );
                           }
 
                           return null;
@@ -235,7 +243,7 @@ class EmailPassword extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
-                                'Forgot password?',
+                                AppLocalizations.of(context).forgotPassword,
                                 style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.secondary,
@@ -263,7 +271,8 @@ class EmailPassword extends StatelessWidget {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: 'Terms',
+                                    text: AppLocalizations.of(context)
+                                        .termsOfService,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         // TODO: 利用規約を表示
@@ -273,7 +282,8 @@ class EmailPassword extends StatelessWidget {
                                     text: '｜',
                                   ),
                                   TextSpan(
-                                    text: 'Privacy Policy',
+                                    text: AppLocalizations.of(context)
+                                        .privacyPolicy,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         // TODO: プライバシーポリシーを表示

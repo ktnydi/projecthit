@@ -2,6 +2,7 @@
     "signUp": "はじめる",
     "signIn": "サインイン",
     "signInMessage":  "既にアカウントをお持ちですか？",
+    "descriptionForLink": "アカウント連携すると新しい端末で引き続きアカウントをご利用できます。",
     "termsOfService": "利用規約",
     "privacyPolicy": "プライバシーポリシー",
     "signInPageTitle": "サインイン",
