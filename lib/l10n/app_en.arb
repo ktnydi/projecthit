@@ -27,6 +27,10 @@
     "@signInPageTitle": {
         "description": "page title"
     },
+    "projectName": "Project Name",
+    "@projectName": {
+        "description": "label for project name field"
+    },
     "inviteMemberPageTitle": "Invite member",
     "@inviteMemberPageTitle": {
         "description": "page title"
