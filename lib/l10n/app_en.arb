@@ -71,6 +71,18 @@
     "@inquiry": {
         "description": "list tile title"
     },
+    "inquiryBody": "Content",
+    "@inquiryBody": {
+        "description": "inquiry content"
+    },
+    "inquiryEmail": "Email (optional)",
+    "@inquiryEmail": {
+        "description": "email address for sending answers."
+    },
+    "inquiryEmailDescription": "Developer will reply to your inquiry later.",
+    "@inquiryEmailDescription": {
+        "description": "description for why need email"
+    },
     "review": "Review",
     "@review": {
         "description": "list tile title"
