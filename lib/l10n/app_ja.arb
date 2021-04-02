@@ -6,6 +6,7 @@
     "termsOfService": "利用規約",
     "privacyPolicy": "プライバシーポリシー",
     "signInPageTitle": "サインイン",
+    "projectName": "プロジェクト名",
     "inviteMemberPageTitle": "メンバーを招待",
     "inviteMemberPageSubTitle": "招待リンクをシェアすると、リンクを開いたユーザーがプロジェクトに参加できます。",
     "inviteButtonLabel": "招待リンクを共有",

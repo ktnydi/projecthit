@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/screens/add_project/add_project_model.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/welcome/welcome_page.dart';
@@ -76,7 +77,7 @@ class AddProject extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Project Name',
+                      AppLocalizations.of(context).projectName,
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -86,11 +87,16 @@ class AddProject extends StatelessWidget {
                       key: _nameKey,
                       validator: (value) {
                         if (value.trim().isEmpty) {
-                          return 'Enter project name';
+                          return AppLocalizations.of(context).presentError(
+                            AppLocalizations.of(context).projectName,
+                          );
                         }
 
                         if (value.length > 50) {
-                          return 'Project name is too long';
+                          return AppLocalizations.of(context)
+                              .maximumTextLengthError(
+                            AppLocalizations.of(context).projectName,
+                          );
                         }
 
                         return null;
