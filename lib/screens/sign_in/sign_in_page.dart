@@ -45,6 +45,7 @@ class SignIn extends StatelessWidget {
                         await myAppModel.fetchCurrentUser();
                         signInModel.endLoading();
 
+                        Navigator.popUntil(context, (route) => route.isFirst);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
