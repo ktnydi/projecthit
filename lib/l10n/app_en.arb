@@ -39,6 +39,22 @@
     "@inviteButtonLabel": {
         "description": "share button label"
     },
+    "acceptInvitation": "You are invited Project",
+    "@acceptInvitation": {
+        "description": "page title"
+    },
+    "acceptInvitationDescription": "To join the project, please tap bellow button.",
+    "@acceptInvitationDescription": {
+        "description": "description of accepting invitation"
+    },
+    "acceptButton": "Join the project",
+    "@acceptButton": {
+        "description": "label for accept button"
+    },
+    "acceptCancelButton": "No, Thanks",
+    "@acceptCancelButton": {
+        "description": "label for deny accept button"
+    },
     "settingPageTitle": "Setting",
     "@settingPageTitle": {
         "description": "setting page title"

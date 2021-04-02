@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/screens/accept_invitation/accept_invitation_model.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/welcome/welcome_page.dart';
@@ -104,7 +105,7 @@ class AcceptInvitation extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'You are invited Project🎉',
+                        AppLocalizations.of(context).acceptInvitation,
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -112,7 +113,8 @@ class AcceptInvitation extends StatelessWidget {
                       ),
                       SizedBox(height: 32),
                       Text(
-                        'To join the project, please tap bellow button.',
+                        AppLocalizations.of(context)
+                            .acceptInvitationDescription,
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       SizedBox(height: 32),
@@ -123,7 +125,9 @@ class AcceptInvitation extends StatelessWidget {
                           );
 
                           return ElevatedButton(
-                            child: Text('Join the project'),
+                            child: Text(
+                              AppLocalizations.of(context).acceptButton,
+                            ),
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(200, 44),
                             ),
@@ -139,7 +143,9 @@ class AcceptInvitation extends StatelessWidget {
                       ),
                       SizedBox(height: 16),
                       TextButton(
-                        child: Text('No, Thanks'),
+                        child: Text(
+                          AppLocalizations.of(context).acceptCancelButton,
+                        ),
                         style: TextButton.styleFrom(
                           minimumSize: Size(200, 44),
                         ),
