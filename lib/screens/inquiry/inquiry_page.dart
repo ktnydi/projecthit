@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/screens/inquiry/inquiry_model.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,7 @@ class Inquiry extends StatelessWidget {
           children: [
             Scaffold(
               appBar: AppBar(
-                title: Text('Inquiry'),
+                title: Text(AppLocalizations.of(context).inquiry),
                 actions: [
                   IconButton(
                     icon: Icon(Icons.done),
@@ -61,7 +62,7 @@ class Inquiry extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Content',
+                        AppLocalizations.of(context).inquiryBody,
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -71,11 +72,16 @@ class Inquiry extends StatelessWidget {
                         key: _bodyKey,
                         validator: (value) {
                           if (value.trim().isEmpty) {
-                            return 'Enter Content';
+                            return AppLocalizations.of(context).presentError(
+                              AppLocalizations.of(context).inquiryBody,
+                            );
                           }
 
                           if (value.length > 10000) {
-                            return 'Content is too long';
+                            return AppLocalizations.of(context)
+                                .maximumTextLengthError(
+                              AppLocalizations.of(context).inquiryBody,
+                            );
                           }
 
                           return null;
@@ -90,13 +96,13 @@ class Inquiry extends StatelessWidget {
                       ),
                       SizedBox(height: 24),
                       Text(
-                        'Email (optional)',
+                        AppLocalizations.of(context).inquiryEmail,
                         style: TextStyle(
                           fontSize: 18,
                         ),
                       ),
                       Text(
-                        'Developer will reply to your inquiry later.',
+                        AppLocalizations.of(context).inquiryEmailDescription,
                         style: TextStyle(
                           color: Theme.of(context).textTheme.caption.color,
                         ),
@@ -106,11 +112,14 @@ class Inquiry extends StatelessWidget {
                         key: _emailKey,
                         validator: (value) {
                           if (value.trim().isEmpty) {
-                            return null;
+                            return AppLocalizations.of(context).presentError(
+                              AppLocalizations.of(context).inquiryEmail,
+                            );
                           }
 
                           if (!value.contains('@')) {
-                            return 'Email address format is incorrect';
+                            return AppLocalizations.of(context)
+                                .emailFormatError;
                           }
 
                           return null;
