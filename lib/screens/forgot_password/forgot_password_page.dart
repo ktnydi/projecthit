@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/screens/forgot_password/forgot_password_model.dart';
 import 'package:provider/provider.dart';
 
@@ -49,7 +50,7 @@ class ForgotPassword extends StatelessWidget {
           children: [
             Scaffold(
               appBar: AppBar(
-                title: const Text('Forgot Password'),
+                title: Text(AppLocalizations.of(context).forgotPassword),
                 actions: [
                   IconButton(
                     icon: Icon(Icons.send_outlined),
@@ -63,15 +64,17 @@ class ForgotPassword extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    const Text(
-                      'Please enter your email registered, then we send password reset email.',
+                    Text(
+                      AppLocalizations.of(context).sendEmailDescription,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       key: _emailKey,
                       validator: (value) {
                         if (value.trim().isEmpty) {
-                          return 'Enter Email';
+                          return AppLocalizations.of(context).presentError(
+                            AppLocalizations.of(context).emailFieldLabel,
+                          );
                         }
 
                         return null;

@@ -45,5 +45,6 @@
     "taskReminderLabel": "リマインダー (任意)",
     "emailFieldLabel": "メールアドレス",
     "passwordFieldLabel": "パスワード",
-    "forgotPassword": "パスワードをお忘れですか？"
+    "forgotPassword": "パスワードをお忘れですか？",
+    "sendEmailDescription": "ご記入いただいたメールアドレス宛にパスワード再設定用のリンクが記載されたメールを送信します。"
 }

@@ -201,5 +201,9 @@
     "forgotPassword": "Forgot password?",
     "@forgotPassword": {
         "description": "forgot password button text"
+    },
+    "sendEmailDescription": "Please enter your email registered, then we send password reset email.",
+    "@sendEmailDescription": {
+        "description": "description for send email"
     }
 }
