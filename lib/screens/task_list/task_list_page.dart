@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/extension/date_time.dart';
@@ -24,34 +25,6 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  Future<void> _doneTask(BuildContext context, Task task) async {
-    final taskListModel = context.read<TaskListModel>();
-
-    try {
-      task.isDone = !task.isDone;
-      if (task.isDone) HapticFeedback.selectionClick();
-      await taskListModel.doneTask(task);
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Oops!'),
-            content: Text('$e'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
   Future<void> _deleteDoneTask(
     BuildContext context,
     TaskListModel taskListModel,
@@ -126,14 +99,6 @@ class _TaskListState extends State<TaskList> {
 
   @override
   Widget build(BuildContext context) {
-    final viewPadding = MediaQuery.of(context).viewPadding;
-
-    double floatingButtonMargin = 16;
-
-    if (viewPadding.bottom > 0) {
-      floatingButtonMargin = viewPadding.bottom;
-    }
-
     return ChangeNotifierProvider<TaskListModel>(
       create: (_) => TaskListModel(project: widget.project),
       builder: (context, snapshot) {
@@ -212,110 +177,7 @@ class _TaskListState extends State<TaskList> {
                     );
                   }
 
-                  return ListView.separated(
-                    padding: EdgeInsets.fromLTRB(
-                      16,
-                      16,
-                      16,
-                      floatingButtonMargin + 72,
-                    ),
-                    itemBuilder: (context, index) {
-                      final task = snapshot.data[index];
-
-                      return Material(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(
-                            color: Theme.of(context).dividerColor,
-                          ),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: InkWell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Row(
-                              children: [
-                                OutlinedButton(
-                                  child: Icon(
-                                    Icons.circle,
-                                    size: task.isDone ? 24 : 0,
-                                  ),
-                                  style: OutlinedButton.styleFrom(
-                                    shape: CircleBorder(),
-                                    padding: EdgeInsets.zero,
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    minimumSize: Size(34, 34),
-                                  ),
-                                  onPressed: () async {
-                                    await _doneTask(context, task);
-                                  },
-                                ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        '${task.name}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle1
-                                            .copyWith(
-                                              decoration: task.isDone
-                                                  ? TextDecoration.lineThrough
-                                                  : null,
-                                              color: task.isDone
-                                                  ? Theme.of(context)
-                                                      .textTheme
-                                                      .caption
-                                                      .color
-                                                  : null,
-                                            ),
-                                      ),
-                                      if (task.expiredAt != null)
-                                        SizedBox(height: 4),
-                                      if (task.expiredAt != null)
-                                        Text(
-                                          '${task.expiredAt.toDate().format()}',
-                                          style: TextStyle(
-                                            color:
-                                                task.isExpired && !task.isDone
-                                                    ? Color(0xFFEF377A)
-                                                    : Theme.of(context)
-                                                        .textTheme
-                                                        .caption
-                                                        .color,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                if (task.taskUserIds.isNotEmpty)
-                                  _TaskUserIcon(task: task),
-                              ],
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TaskDetail(
-                                  project: widget.project,
-                                  task: task,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => SizedBox(height: 8),
-                    itemCount: snapshot.data.length,
-                  );
+                  return _TaskList(widget.project, snapshot.data);
                 },
               ),
               floatingActionButton: FloatingActionButton(
@@ -431,6 +293,164 @@ class _TaskUserIcon extends StatelessWidget {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: widgets,
+        );
+      },
+    );
+  }
+}
+
+class _TaskList extends StatelessWidget {
+  final Project project;
+  final List<Task> taskList;
+
+  _TaskList(this.project, this.taskList);
+
+  Future<void> _doneTask(BuildContext context, Task task) async {
+    final taskListModel = context.read<TaskListModel>();
+
+    try {
+      task.isDone = !task.isDone;
+      if (task.isDone) HapticFeedback.selectionClick();
+      await taskListModel.doneTask(task);
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Oops!'),
+            content: Text('$e'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final taskListModel = context.read<TaskListModel>();
+    final viewPadding = MediaQuery.of(context).viewPadding;
+
+    double floatingButtonMargin = 16;
+
+    if (viewPadding.bottom > 0) {
+      floatingButtonMargin = viewPadding.bottom;
+    }
+
+    return ImplicitlyAnimatedReorderableList<Task>(
+      padding: EdgeInsets.fromLTRB(
+        16,
+        12,
+        16,
+        floatingButtonMargin + 68,
+      ),
+      items: taskList,
+      areItemsTheSame: (oldItem, newItem) => oldItem.id == newItem.id,
+      onReorderFinished: (item, from, to, newItems) async {
+        await taskListModel.sortTasks(project, newItems);
+      },
+      itemBuilder: (context, itemAnimation, item, index) {
+        return Reorderable(
+          key: ValueKey(item.id),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Handle(
+              delay: Duration(milliseconds: 500),
+              child: Material(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  side: BorderSide(
+                    color: Theme.of(context).dividerColor,
+                  ),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        OutlinedButton(
+                          child: Icon(
+                            Icons.circle,
+                            size: item.isDone ? 24 : 0,
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            shape: CircleBorder(),
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            minimumSize: Size(34, 34),
+                          ),
+                          onPressed: () async {
+                            await _doneTask(context, item);
+                          },
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '${item.name}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .copyWith(
+                                      decoration: item.isDone
+                                          ? TextDecoration.lineThrough
+                                          : null,
+                                      color: item.isDone
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .caption
+                                              .color
+                                          : null,
+                                    ),
+                              ),
+                              if (item.expiredAt != null) SizedBox(height: 4),
+                              if (item.expiredAt != null)
+                                Text(
+                                  '${item.expiredAt.toDate().format()}',
+                                  style: TextStyle(
+                                    color: item.isExpired && !item.isDone
+                                        ? Color(0xFFEF377A)
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .caption
+                                            .color,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        if (item.taskUserIds.isNotEmpty)
+                          _TaskUserIcon(task: item),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TaskDetail(
+                          project: project,
+                          task: item,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
         );
       },
     );

@@ -7,6 +7,7 @@ class Task {
   String description;
   bool isDone;
   List<String> taskUserIds;
+  int sortKey;
   Timestamp expiredAt;
   Timestamp createdAt;
 
@@ -26,6 +27,7 @@ class Task {
     taskUserIds = (map[TaskField.taskUserIds] as List)
         .map((userId) => userId as String)
         .toList();
+    sortKey = map[TaskField.sortKey];
     expiredAt = map[TaskField.expiredAt];
     createdAt = map[TaskField.createdAt];
   }
@@ -36,6 +38,7 @@ class Task {
       TaskField.description: description ?? '',
       TaskField.isDone: isDone ?? false,
       TaskField.taskUserIds: taskUserIds ?? [],
+      TaskField.sortKey: sortKey,
       TaskField.expiredAt: expiredAt,
       TaskField.createdAt: createdAt ?? FieldValue.serverTimestamp(),
     };
