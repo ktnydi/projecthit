@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/extension/date_time.dart';
@@ -359,94 +360,97 @@ class _TaskList extends StatelessWidget {
       itemBuilder: (context, itemAnimation, item, index) {
         return Reorderable(
           key: ValueKey(item.id),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Handle(
-              delay: Duration(milliseconds: 500),
-              child: Material(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: BorderSide(
-                    color: Theme.of(context).dividerColor,
-                  ),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        OutlinedButton(
-                          child: Icon(
-                            Icons.circle,
-                            size: item.isDone ? 24 : 0,
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            shape: CircleBorder(),
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            minimumSize: Size(34, 34),
-                          ),
-                          onPressed: () async {
-                            await _doneTask(context, item);
-                          },
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                '${item.name}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    .copyWith(
-                                      decoration: item.isDone
-                                          ? TextDecoration.lineThrough
-                                          : null,
-                                      color: item.isDone
-                                          ? Theme.of(context)
-                                              .textTheme
-                                              .caption
-                                              .color
-                                          : null,
-                                    ),
-                              ),
-                              if (item.expiredAt != null) SizedBox(height: 4),
-                              if (item.expiredAt != null)
-                                Text(
-                                  '${item.expiredAt.toDate().format()}',
-                                  style: TextStyle(
-                                    color: item.isExpired && !item.isDone
-                                        ? Color(0xFFEF377A)
-                                        : Theme.of(context)
-                                            .textTheme
-                                            .caption
-                                            .color,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        if (item.taskUserIds.isNotEmpty)
-                          _TaskUserIcon(task: item),
-                      ],
+          child: SizeFadeTransition(
+            animation: itemAnimation,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Handle(
+                delay: Duration(milliseconds: 500),
+                child: Material(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(
+                      color: Theme.of(context).dividerColor,
                     ),
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TaskDetail(
-                          project: project,
-                          task: item,
-                        ),
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          OutlinedButton(
+                            child: Icon(
+                              Icons.circle,
+                              size: item.isDone ? 24 : 0,
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              minimumSize: Size(34, 34),
+                            ),
+                            onPressed: () async {
+                              await _doneTask(context, item);
+                            },
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '${item.name}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .copyWith(
+                                        decoration: item.isDone
+                                            ? TextDecoration.lineThrough
+                                            : null,
+                                        color: item.isDone
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .caption
+                                                .color
+                                            : null,
+                                      ),
+                                ),
+                                if (item.expiredAt != null) SizedBox(height: 4),
+                                if (item.expiredAt != null)
+                                  Text(
+                                    '${item.expiredAt.toDate().format()}',
+                                    style: TextStyle(
+                                      color: item.isExpired && !item.isDone
+                                          ? Color(0xFFEF377A)
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .caption
+                                              .color,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          if (item.taskUserIds.isNotEmpty)
+                            _TaskUserIcon(task: item),
+                        ],
                       ),
-                    );
-                  },
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TaskDetail(
+                            project: project,
+                            task: item,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
