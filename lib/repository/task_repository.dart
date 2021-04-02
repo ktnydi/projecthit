@@ -10,7 +10,7 @@ class TaskRepository {
         .collection('projects')
         .doc(project.id)
         .collection('projectTasks')
-        .orderBy('createdAt', descending: true)
+        .orderBy('sortKey', descending: true)
         .snapshots();
     final tasks = taskSnapshot.map(
       (snapshot) => snapshot.docs.map(
@@ -49,6 +49,31 @@ class TaskRepository {
         .collection('projectTasks')
         .doc(task.id);
     await taskRef.update(task.toMap());
+  }
+
+  Future<void> sortTasks(Project project, List<Task> taskList) async {
+    WriteBatch batch = _store.batch();
+    int batchCounter = 0;
+
+    for (int i = 0; i < taskList.length; i++) {
+      final task = taskList[i];
+      task.sortKey = taskList.length - 1 - i;
+      final taskRef = _store
+          .collection('projects')
+          .doc(project.id)
+          .collection('projectTasks')
+          .doc(task.id);
+      batch.update(taskRef, task.toMap());
+      batchCounter++;
+
+      if (batchCounter == 500) {
+        await batch.commit();
+
+        batch = _store.batch();
+        batchCounter = 0;
+      }
+    }
+    await batch.commit();
   }
 
   Future<void> deleteTask(Project project, Task task) async {

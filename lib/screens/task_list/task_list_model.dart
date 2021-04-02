@@ -38,4 +38,8 @@ class TaskListModel extends ChangeNotifier {
   Stream<List<AppUser>> fetchTaskUsers(List<String> userIds) {
     return _userRepository.fetchUsers(userIds);
   }
+
+  Future<void> sortTasks(Project project, List<Task> taskList) async {
+    await _taskRepository.sortTasks(project, taskList);
+  }
 }
