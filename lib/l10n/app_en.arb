@@ -11,6 +11,10 @@
     "@signInMessage": {
         "description": "a authentication question for service users"
     },
+    "descriptionForLink": "If you sign up, you are able to continue to use same account with other devices.",
+    "@descriptionForLink": {
+        "description": "sign up help message"
+    },
     "termsOfService": "Terms of Service",
     "@termsOfService": {
         "description": "terms of service"
