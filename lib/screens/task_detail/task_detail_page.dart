@@ -78,18 +78,17 @@ class TaskDetail extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Are you sure?'),
-          content:
-              Text('Delete this task. Can\'t recover deleted tasks later.'),
+          title: Text(AppLocalizations.of(context).confirmDialogTitle),
+          content: Text(AppLocalizations.of(context).confirmDeleteTask),
           actions: [
             TextButton(
-              child: Text('CANCEL'),
+              child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             TextButton(
-              child: Text('DELETE'),
+              child: Text(AppLocalizations.of(context).delete.toUpperCase()),
               onPressed: () async {
                 Navigator.pop(context);
 

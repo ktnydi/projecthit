@@ -49,6 +49,7 @@
     "sendEmailDescription": "ご記入いただいたメールアドレス宛にパスワード再設定用のリンクが記載されたメールを送信します。",
     "confirmDialogTitle": "ご確認",
     "confirmDeleteProject": "プロジェクトを削除します。※この操作は取り消せません。",
+    "confirmDeleteTask": "タスクを削除します。※この操作は取り消せません。",
     "cancel": "キャンセル",
     "delete": "削除する"
 }
