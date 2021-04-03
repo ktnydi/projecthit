@@ -84,8 +84,8 @@ service cloud.firestore {
       allow get: if isAnyAuthenticated()
         && exists(/databases/$(database)/documents/projects/$(projectId)/projectUsers/$(request.auth.uid));
       allow create: if isAnyAuthenticated()
-        && request.resource.data.keys().hasAll(['name', 'description', 'adminUser', 'sumUsers', 'createdAt'])
-        && request.resource.data.keys().hasOnly(['name', 'description', 'adminUser', 'sumUsers', 'createdAt'])
+        && request.resource.data.keys().hasAll(['name', 'description', 'adminUser', 'sumUsers', 'sumTasks', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['name', 'description', 'adminUser', 'sumUsers', 'sumTasks', 'createdAt'])
         && request.resource.data.name is string
         && request.resource.data.name.size() >= 1
         && request.resource.data.name.size() <= 50
@@ -95,11 +95,13 @@ service cloud.firestore {
         && request.resource.data.adminUser == request.auth.uid
         && request.resource.data.sumUsers is int
         && request.resource.data.sumUsers == 1
+        && request.resource.data.sumTasks is int
+        && request.resource.data.sumTasks == 0
         && request.resource.data.createdAt is timestamp
         && request.resource.data.createdAt == request.time;
       allow update: if isAnyAuthenticated()
-        && request.resource.data.keys().hasAll(['name', 'description', 'adminUser', 'sumUsers', 'createdAt'])
-        && request.resource.data.keys().hasOnly(['name', 'description', 'adminUser', 'sumUsers', 'createdAt'])
+        && request.resource.data.keys().hasAll(['name', 'description', 'adminUser', 'sumUsers', 'sumTasks', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['name', 'description', 'adminUser', 'sumUsers', 'sumTasks', 'createdAt'])
         && request.resource.data.name is string
         && request.resource.data.name.size() >= 1
         && request.resource.data.name.size() <= 50
@@ -109,6 +111,8 @@ service cloud.firestore {
         && request.resource.data.adminUser == resource.data.adminUser
         && request.resource.data.sumUsers is int
         && request.resource.data.sumUsers >= 1
+        && request.resource.data.sumTasks is int
+        && request.resource.data.sumTasks >= 0
         && request.resource.data.createdAt is timestamp
         && request.resource.data.createdAt == resource.data.createdAt;
       allow delete: if isAnyAuthenticated()

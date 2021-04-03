@@ -4,5 +4,6 @@ class ProjectField {
   static const description = 'description';
   static const adminUser = 'adminUser';
   static const sumUsers = 'sumUsers';
+  static const sumTasks = 'sumTasks';
   static const createdAt = 'createdAt';
 }

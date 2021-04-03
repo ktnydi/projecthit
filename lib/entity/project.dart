@@ -6,6 +6,7 @@ class Project {
   String name;
   String description;
   int sumUsers;
+  int sumTasks;
   String adminUser;
   Timestamp createdAt;
 
@@ -16,6 +17,7 @@ class Project {
     name = map[ProjectField.name];
     description = map[ProjectField.description];
     sumUsers = map[ProjectField.sumUsers] as int;
+    sumTasks = map[ProjectField.sumTasks] as int;
     adminUser = map[ProjectField.adminUser];
     createdAt = map[ProjectField.createdAt] as Timestamp;
   }
@@ -26,6 +28,7 @@ class Project {
       ProjectField.name: name,
       ProjectField.description: description,
       ProjectField.sumUsers: sumUsers,
+      ProjectField.sumTasks: sumTasks ?? 0,
       ProjectField.adminUser: adminUser,
       ProjectField.createdAt: createdAt ?? FieldValue.serverTimestamp(),
     };
