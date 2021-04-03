@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -39,18 +40,17 @@ class _TaskListState extends State<TaskList> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Are you sure?'),
-          content: Text(
-              'Delete all done tasks. Can\'t recover deleted tasks later.'),
+          title: Text(AppLocalizations.of(context).confirmDialogTitle),
+          content: Text(AppLocalizations.of(context).confirmDeleteDoneTasks),
           actions: [
             TextButton(
-              child: Text('CANCEL'),
+              child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             TextButton(
-              child: Text('DELETE'),
+              child: Text(AppLocalizations.of(context).delete.toUpperCase()),
               onPressed: () async {
                 Navigator.pop(context);
 

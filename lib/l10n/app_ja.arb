@@ -50,6 +50,7 @@
     "confirmDialogTitle": "ご確認",
     "confirmDeleteProject": "プロジェクトを削除します。※この操作は取り消せません。",
     "confirmDeleteTask": "タスクを削除します。※この操作は取り消せません。",
+    "confirmDeleteDoneTasks": "完了済みのタスクを全て削除します。※この操作は取り消せません。",
     "cancel": "キャンセル",
     "delete": "削除する"
 }
