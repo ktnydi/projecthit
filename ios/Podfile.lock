@@ -1,5 +1,5 @@
 PODS:
-  - cloud_firestore (0.16.0-1):
+  - cloud_firestore (1.0.3):
     - Firebase/Firestore (= 7.3.0)
     - firebase_core
     - Flutter
@@ -20,22 +20,22 @@ PODS:
   - Firebase/Storage (7.3.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 7.3.0)
-  - firebase_auth (0.20.1):
+  - firebase_auth (1.0.1):
     - Firebase/Auth (= 7.3.0)
     - firebase_core
     - Flutter
-  - firebase_core (0.7.0):
+  - firebase_core (1.0.2):
     - Firebase/CoreOnly (= 7.3.0)
     - Flutter
-  - firebase_dynamic_links (0.7.0-1):
+  - firebase_dynamic_links (0.8.0):
     - Firebase/DynamicLinks (= 7.3.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (8.0.0-dev.15):
+  - firebase_messaging (9.1.0):
     - Firebase/Messaging (= 7.3.0)
     - firebase_core
     - Flutter
-  - firebase_storage (7.0.0):
+  - firebase_storage (8.0.1):
     - Firebase/Storage (= 7.3.0)
     - firebase_core
     - Flutter
@@ -48,7 +48,7 @@ PODS:
     - FirebaseCoreDiagnostics (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
-  - FirebaseCoreDiagnostics (7.6.0):
+  - FirebaseCoreDiagnostics (7.9.0):
     - GoogleDataTransport (~> 8.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
@@ -56,7 +56,7 @@ PODS:
   - FirebaseDynamicLinks (7.3.1):
     - FirebaseCore (~> 7.0)
   - FirebaseFirestore (7.3.0)
-  - FirebaseInstallations (7.6.0):
+  - FirebaseInstallations (7.9.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
@@ -80,29 +80,31 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - GoogleDataTransport (8.2.0):
+  - GoogleDataTransport (8.3.1):
+    - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30907.0)
-  - GoogleUtilities/AppDelegateSwizzler (7.2.2):
+    - PromisesObjC (~> 1.2)
+  - GoogleUtilities/AppDelegateSwizzler (7.3.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.2.2):
+  - GoogleUtilities/Environment (7.3.1):
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (7.2.2):
+  - GoogleUtilities/Logger (7.3.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/Network (7.2.2):
+  - GoogleUtilities/Network (7.3.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.2.2)"
-  - GoogleUtilities/Reachability (7.2.2):
+  - "GoogleUtilities/NSData+zlib (7.3.1)"
+  - GoogleUtilities/Reachability (7.3.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.2.2):
+  - GoogleUtilities/UserDefaults (7.3.1):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.5.0)
-  - image_cropper (0.0.3):
+  - image_cropper (0.0.4):
     - Flutter
-    - TOCropViewController (~> 2.5.4)
+    - TOCropViewController (~> 2.6.0)
   - image_picker (0.0.1):
     - Flutter
   - nanopb (2.30907.0):
@@ -120,7 +122,7 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - TOCropViewController (2.5.5)
+  - TOCropViewController (2.6.0)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -194,36 +196,36 @@ CHECKOUT OPTIONS:
     :tag: 7.3.0
 
 SPEC CHECKSUMS:
-  cloud_firestore: 357b92d4778d7715d76a393db5f89e7dcc9b7401
+  cloud_firestore: abe0e10141b0f61377340dcb308d8fa7a7910a10
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
-  firebase_auth: 7220e26fc14a501a63093edc10443de6bca0d7e8
-  firebase_core: 91b27774a52f41f8b58484a75edf71197ac01c59
-  firebase_dynamic_links: 14bf04008446c471b5c9f6e6542e14210bf26bd5
-  firebase_messaging: caf0273c76e54f0a10dfe5048ac47b89e75bb78a
-  firebase_storage: 554b8ce9192bfe0bd35f63da42d0d1f6ae819ccc
+  firebase_auth: 9f6491ea8e44570323361ae713a2ae3175b3f21a
+  firebase_core: e6cbb0d1f7091edfcae31559e58224bfc1e455dc
+  firebase_dynamic_links: e222260696317885f2f2592fddf8783158f4e7df
+  firebase_messaging: 9c746d6c52bb05764e73bbe745d0d698e5afb695
+  firebase_storage: 8b44822d4aa2dc43bde4b0755e00f06e76188380
   FirebaseAuth: c224a0cf1afa0949bd5c7bfcf154b4f5ce8ddef2
   FirebaseCore: 4d3c72622ce0e2106aaa07bb4b2935ba2c370972
-  FirebaseCoreDiagnostics: ee1184d51da3293335b83355aad20f537acc24cf
+  FirebaseCoreDiagnostics: 3d36e05da74cb8b7ce30e6594a8f201b982c725c
   FirebaseDynamicLinks: a6df95d6dbc746c2bbf7d511343cda1344e2cf70
   FirebaseFirestore: 46e32f479aac127e742b1cf873930f7bb43e7b45
-  FirebaseInstallations: 6e4e77396559bc2ae0504823837ed737b1c7e47f
+  FirebaseInstallations: 5e777e6640fa060405cc7632447b6c5ca5af4742
   FirebaseInstanceID: 53140c03b9f6136f890d7901399f85a4c90ab2d0
   FirebaseMessaging: 68d1bcb14880189558a8ae57167abe0b7e417232
   FirebaseStorage: 5002b1895bfe74a5ce92ad54f966e6162d0da2e5
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
-  GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43
+  GoogleDataTransport: 8b0e733ea77c9218778e5a9e34ba9508b8328939
+  GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  image_cropper: c8f9b4157933c7bb965a66d1c5e6c8fd408c6eb4
-  image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
+  image_cropper: f1668dd8d2cad2d357955caad15a40547856edcb
+  image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
+  TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
 
 PODFILE CHECKSUM: db0e0c4708dc6c34a9e9f4381b29af2669471720
 
