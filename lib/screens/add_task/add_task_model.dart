@@ -25,6 +25,7 @@ class AddTaskModel extends ChangeNotifier {
   }) async {
     final task = Task();
     task.name = name;
+    task.sortKey = project.sumTasks;
     await _taskRepository.addTask(project, task);
   }
 }

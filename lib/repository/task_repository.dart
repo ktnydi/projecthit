@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projecthit/entity/project.dart';
+import 'package:projecthit/entity/project_field.dart';
 import 'package:projecthit/entity/task.dart';
 
 class TaskRepository {
@@ -34,12 +35,25 @@ class TaskRepository {
   }
 
   Future<void> addTask(Project project, Task task) async {
+    final batch = _store.batch();
+
     final taskRef = _store
         .collection('projects')
         .doc(project.id)
         .collection('projectTasks')
         .doc();
-    await taskRef.set(task.toMap());
+    batch.set(taskRef, task.toMap());
+
+    final projectRef = _store.collection('projects').doc(project.id);
+    final newData = project.toMap()
+      ..addAll(
+        {
+          ProjectField.sumTasks: FieldValue.increment(1),
+        },
+      );
+    batch.update(projectRef, newData);
+
+    await batch.commit();
   }
 
   Future<void> updateTask(Project project, Task task) async {
