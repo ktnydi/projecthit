@@ -147,6 +147,10 @@ class _TaskListState extends State<TaskList> {
                   BuildContext context,
                   AsyncSnapshot<List<Task>> snapshot,
                 ) {
+                  if (snapshot.hasData) {
+                    return _TaskList(widget.project, snapshot.data);
+                  }
+
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: CircularProgressIndicator(),
@@ -164,21 +168,16 @@ class _TaskListState extends State<TaskList> {
                     );
                   }
 
-                  if (snapshot.data.isEmpty) {
-                    return SafeArea(
-                      child: Center(
-                        child: Text(
-                          'None of tasks',
-                          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                                color:
-                                    Theme.of(context).textTheme.caption.color,
-                              ),
-                        ),
+                  return SafeArea(
+                    child: Center(
+                      child: Text(
+                        'None of tasks',
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(
+                              color: Theme.of(context).textTheme.caption.color,
+                            ),
                       ),
-                    );
-                  }
-
-                  return _TaskList(widget.project, snapshot.data);
+                    ),
+                  );
                 },
               ),
               floatingActionButton: FloatingActionButton(
@@ -223,6 +222,51 @@ class _TaskUserIcon extends StatelessWidget {
         task.taskUserIds,
       ),
       builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final taskUsers = snapshot.data;
+
+          final widgets = taskUsers.map(
+            (user) {
+              if (user.icon == null) {
+                return Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(),
+                    ],
+                  ),
+                  child: Icon(Icons.face_outlined),
+                );
+              }
+
+              return Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(),
+                  ],
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: CachedNetworkImage(
+                  imageUrl: user.icon,
+                  fit: BoxFit.cover,
+                ),
+              );
+            },
+          ).toList();
+
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: widgets,
+          );
+        }
+
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
             width: 44,
@@ -253,48 +297,7 @@ class _TaskUserIcon extends StatelessWidget {
           );
         }
 
-        final taskUsers = snapshot.data;
-
-        final widgets = taskUsers.map(
-          (user) {
-            if (user.icon == null) {
-              return Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(),
-                  ],
-                ),
-                child: Icon(Icons.face_outlined),
-              );
-            }
-
-            return Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(),
-                ],
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: CachedNetworkImage(
-                imageUrl: user.icon,
-                fit: BoxFit.cover,
-              ),
-            );
-          },
-        ).toList();
-
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: widgets,
-        );
+        return SizedBox();
       },
     );
   }
