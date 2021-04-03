@@ -11,22 +11,22 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.0
+  cupertino_icons: ^1.0.2
   outline_material_icons: ^0.1.1
-  provider: ^4.3.3
-  intl: ^0.16.1
-  package_info: ^0.4.3+4
-  firebase_core: ^0.7.0
-  firebase_auth: ^0.20.1
-  cloud_firestore: ^0.16.0+1
-  firebase_storage: ^7.0.0
-  firebase_dynamic_links: ^0.7.0+1
-  firebase_messaging: ^8.0.0-dev.15
-  english_words: ^3.1.5
-  share: ^0.6.5+4
-  image_picker: ^0.6.7+22
-  image_cropper: ^1.3.1
-  cached_network_image: ^2.5.1
+  provider: ^5.0.0
+  intl: ^0.17.0
+  package_info: ^2.0.0
+  firebase_core: ^1.0.2
+  firebase_auth: ^1.0.1
+  cloud_firestore: ^1.0.3
+  firebase_storage: ^8.0.1
+  firebase_dynamic_links: ^0.8.0
+  firebase_messaging: ^9.1.0
+  english_words: ^4.0.0
+  share: ^2.0.1
+  image_picker: ^0.7.4
+  image_cropper: ^1.4.0
+  cached_network_image: ^3.0.0
   implicitly_animated_reorderable_list: ^0.3.2
 
 dev_dependencies:
