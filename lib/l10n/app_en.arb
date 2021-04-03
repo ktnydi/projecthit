@@ -205,5 +205,21 @@
     "sendEmailDescription": "Please enter your email registered, then we send password reset email.",
     "@sendEmailDescription": {
         "description": "description for send email"
+    },
+    "confirmDialogTitle": "Are you sure?",
+    "@confirmDialogTitle": {
+        "description": "title for confirm dialog"
+    },
+    "confirmDeleteProject": "Delete this project and related tasks. you can't recover deleted project later.",
+    "@confirmDeleteProject": {
+        "description": "content for confirming delete project dialog"
+    },
+    "cancel": "cancel",
+    "@cancel": {
+        "description": "label for cancel button"
+    },
+    "delete": "delete",
+    "@delete": {
+        "description": "label for delete button"
     }
 }
