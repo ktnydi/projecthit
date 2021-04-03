@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/screens/forgot_password/forgot_password_model.dart';
+import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatelessWidget {
@@ -24,17 +25,8 @@ class ForgotPassword extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Oops!'),
-            content: Text('$e'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+          return ErrorDialog(
+            contentText: e.toString(),
           );
         },
       );

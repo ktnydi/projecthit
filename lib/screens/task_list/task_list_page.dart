@@ -14,6 +14,7 @@ import 'package:projecthit/screens/project_detail/project_detail_page.dart';
 import 'package:projecthit/screens/setting/setting_page.dart';
 import 'package:projecthit/screens/task_detail/task_detail_page.dart';
 import 'package:projecthit/screens/task_list/task_list_model.dart';
+import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 class TaskList extends StatefulWidget {
@@ -62,17 +63,8 @@ class _TaskListState extends State<TaskList> {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return AlertDialog(
-                        title: Text('Oops!'),
-                        content: Text('$e'),
-                        actions: [
-                          TextButton(
-                            child: Text('OK'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
+                      return ErrorDialog(
+                        contentText: e.toString(),
                       );
                     },
                   );
@@ -320,17 +312,8 @@ class _TaskList extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Oops!'),
-            content: Text('$e'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+          return ErrorDialog(
+            contentText: e.toString(),
           );
         },
       );

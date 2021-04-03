@@ -5,6 +5,7 @@ import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/email_password/email_password_model.dart';
 import 'package:projecthit/screens/forgot_password/forgot_password_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
+import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 class EmailPassword extends StatelessWidget {
@@ -49,17 +50,8 @@ class EmailPassword extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Oops!'),
-            content: Text('$e'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+          return ErrorDialog(
+            contentText: e.toString(),
           );
         },
       );
@@ -102,17 +94,8 @@ class EmailPassword extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Oops!'),
-            content: Text('$e'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+          return ErrorDialog(
+            contentText: e.toString(),
           );
         },
       );

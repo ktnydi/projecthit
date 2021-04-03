@@ -5,6 +5,7 @@ import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/screens/invite_member/invite_member_page.dart';
 import 'package:projecthit/screens/project_detail/project_detail_model.dart';
+import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 class ProjectDetail extends StatelessWidget {
@@ -43,17 +44,8 @@ class ProjectDetail extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Oops!'),
-            content: Text('$e'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+          return ErrorDialog(
+            contentText: e.toString(),
           );
         },
       );
@@ -104,17 +96,8 @@ class ProjectDetail extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Oops!'),
-            content: Text('$e'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+          return ErrorDialog(
+            contentText: e.toString(),
           );
         },
       );
