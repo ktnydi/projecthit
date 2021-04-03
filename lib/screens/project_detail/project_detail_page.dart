@@ -60,16 +60,15 @@ class ProjectDetail extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Are you sure?'),
-          content: Text(
-              'Delete this project and related tasks. you can\'t recover deleted project later.'),
+          title: Text(AppLocalizations.of(context).confirmDialogTitle),
+          content: Text(AppLocalizations.of(context).confirmDeleteProject),
           actions: [
             TextButton(
-              child: Text('cancel'.toUpperCase()),
+              child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
               onPressed: () => Navigator.pop(context),
             ),
             TextButton(
-              child: Text('delete'.toUpperCase()),
+              child: Text(AppLocalizations.of(context).delete.toUpperCase()),
               onPressed: () async {
                 Navigator.pop(context);
                 await _deleteProject(context, projectDetailModel);
