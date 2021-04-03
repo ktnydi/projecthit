@@ -218,6 +218,10 @@
     "@confirmDeleteTask": {
         "description": "content for confirming delete task dialog"
     },
+    "confirmDeleteDoneTasks": "Delete all done tasks. Can't recover deleted tasks later.",
+    "@confirmDeleteDoneTasks": {
+        "description": "content for confirming delete done tasks dialog"
+    },
     "cancel": "cancel",
     "@cancel": {
         "description": "label for cancel button"
