@@ -26,13 +26,13 @@ class Setting extends StatelessWidget {
             content: Text(AppLocalizations.of(context).signOutMessage),
             actions: [
               TextButton(
-                child: Text('Cancel'),
+                child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
               TextButton(
-                child: Text('Sign out'),
+                child: Text(AppLocalizations.of(context).signOut.toUpperCase()),
                 onPressed: () async {
                   settingModel.beginLoading();
                   await settingModel.signOut();
