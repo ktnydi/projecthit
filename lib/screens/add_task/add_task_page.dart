@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/screens/add_task/add_task_model.dart';
+import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 class AddTask extends StatelessWidget {
@@ -41,17 +42,8 @@ class AddTask extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (context) {
-                            return AlertDialog(
-                              title: Text('Oops!'),
-                              content: Text('$e'),
-                              actions: [
-                                TextButton(
-                                  child: Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
+                            return ErrorDialog(
+                              contentText: e.toString(),
                             );
                           },
                         );

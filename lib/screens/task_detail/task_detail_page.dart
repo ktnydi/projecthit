@@ -8,6 +8,7 @@ import 'package:projecthit/entity/project_user.dart';
 import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/extension/date_time.dart';
 import 'package:projecthit/screens/task_detail/task_detail_model.dart';
+import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 class TaskDetail extends StatelessWidget {
@@ -57,17 +58,8 @@ class TaskDetail extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Oops!'),
-            content: Text('$e'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+          return ErrorDialog(
+            contentText: e.toString(),
           );
         },
       );
@@ -114,17 +106,8 @@ class TaskDetail extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return AlertDialog(
-                        title: Text('Oops!'),
-                        content: Text('$e'),
-                        actions: [
-                          TextButton(
-                            child: Text('OK'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
+                      return ErrorDialog(
+                        contentText: e.toString(),
                       );
                     },
                   );

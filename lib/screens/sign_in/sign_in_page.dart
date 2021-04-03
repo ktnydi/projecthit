@@ -5,6 +5,7 @@ import 'package:projecthit/screens/forgot_password/forgot_password_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/sign_in/sign_in_model.dart';
 import 'package:projecthit/screens/welcome/welcome_page.dart';
+import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 class SignIn extends StatelessWidget {
@@ -57,17 +58,8 @@ class SignIn extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (context) {
-                            return AlertDialog(
-                              title: Text('Oops!'),
-                              content: Text('$e'),
-                              actions: [
-                                TextButton(
-                                  child: Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
+                            return ErrorDialog(
+                              contentText: e.toString(),
                             );
                           },
                         );
