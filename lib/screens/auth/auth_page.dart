@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:projecthit/class/firebase_error.dart';
 import 'package:projecthit/screens/auth/auth_model.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/sign_in/sign_in_page.dart';
@@ -92,16 +94,21 @@ class Auth extends StatelessWidget {
                                         builder: (context) => Welcome(),
                                       ),
                                     );
-                                  } catch (e) {
+                                  } on FirebaseAuthException catch (e) {
                                     authModel.endLoading();
+                                    final message =
+                                        FirebaseError.messageFromAuth(
+                                            context, e);
                                     showDialog(
                                       context: context,
                                       builder: (context) {
                                         return ErrorDialog(
-                                          contentText: e.toString(),
+                                          contentText: message,
                                         );
                                       },
                                     );
+                                  } catch (e) {
+                                    authModel.endLoading();
                                   }
                                 },
                               ),
