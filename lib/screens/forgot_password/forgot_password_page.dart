@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:projecthit/class/firebase_error.dart';
 import 'package:projecthit/screens/forgot_password/forgot_password_model.dart';
 import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
@@ -20,16 +22,19 @@ class ForgotPassword extends StatelessWidget {
       forgotPasswordModel.endLoading();
 
       Navigator.pop(context);
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       forgotPasswordModel.endLoading();
+      final message = FirebaseError.messageFromAuth(context, e);
       showDialog(
         context: context,
         builder: (context) {
           return ErrorDialog(
-            contentText: e.toString(),
+            contentText: message,
           );
         },
       );
+    } catch (e) {
+      forgotPasswordModel.endLoading();
     }
   }
 

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:projecthit/class/firebase_error.dart';
 import 'package:projecthit/screens/auth/auth_page.dart';
 import 'package:projecthit/screens/email_password/email_password_model.dart';
 import 'package:projecthit/screens/forgot_password/forgot_password_page.dart';
@@ -45,16 +47,19 @@ class EmailPassword extends StatelessWidget {
         (route) => false,
       );
       await myAppModel.fetchCurrentUser();
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       emailPasswordModel.endLoading();
+      final message = FirebaseError.messageFromAuth(context, e);
       showDialog(
         context: context,
         builder: (context) {
           return ErrorDialog(
-            contentText: e.toString(),
+            contentText: message,
           );
         },
       );
+    } catch (e) {
+      emailPasswordModel.endLoading();
     }
   }
 
@@ -89,16 +94,19 @@ class EmailPassword extends StatelessWidget {
         (route) => false,
       );
       await myAppModel.fetchCurrentUser();
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       emailPasswordModel.endLoading();
+      final message = FirebaseError.messageFromAuth(context, e);
       showDialog(
         context: context,
         builder: (context) {
           return ErrorDialog(
-            contentText: e.toString(),
+            contentText: message,
           );
         },
       );
+    } catch (e) {
+      emailPasswordModel.endLoading();
     }
   }
 
