@@ -229,5 +229,29 @@
     "delete": "delete",
     "@delete": {
         "description": "label for delete button"
+    },
+    "emailAlreadyInUse": "The email address is already in use by another account.",
+    "@emailAlreadyInUse": {
+        "description": "error message for email-already-in-use"
+    },
+    "invalidEmail": "The email address is badly formatted.",
+    "@invalidEmail": {
+        "description": "error message for invalid-email"
+    },
+    "weakPassword": "Password should be at least 6 characters",
+    "@weakPassword": {
+        "description": "error message for weak-password"
+    },
+    "wrongPassword": "The password is invalid or the user does not have a password.",
+    "@wrongPassword": {
+        "description": "error message for wrong-password"
+    },
+    "userNotFound": "There is no user record corresponding to this identifier. The user may have been deleted.",
+    "@userNotFound": {
+        "description": "error message for user-not-found"
+    },
+    "tooManyRequests": "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.",
+    "@tooManyRequests": {
+        "description": "error message for too-many-requests"
     }
 }
