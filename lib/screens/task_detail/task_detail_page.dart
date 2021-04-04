@@ -213,6 +213,7 @@ class TaskDetail extends StatelessWidget {
                         return null;
                       },
                       maxLength: 100,
+                      maxLines: 10,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         counterText: '',
