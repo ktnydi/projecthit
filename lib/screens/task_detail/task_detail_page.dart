@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 
 class TaskDetail extends StatelessWidget {
   final _nameKey = GlobalKey<FormFieldState<String>>();
-  final _descriptionKey = GlobalKey<FormFieldState<String>>();
   final _deadlineKey = GlobalKey<FormFieldState<String>>();
   final Project project;
   final Task task;
@@ -22,11 +21,9 @@ class TaskDetail extends StatelessWidget {
 
   Future<void> _updateTask(BuildContext context, Task task) async {
     if (!_nameKey.currentState.validate()) return;
-    if (!_descriptionKey.currentState.validate()) return;
     if (!_deadlineKey.currentState.validate()) return;
 
     final name = _nameKey.currentState.value;
-    final description = _descriptionKey.currentState.value;
     final deadline = _deadlineKey.currentState.value;
     final expiredAt = deadline.isNotEmpty
         ? Timestamp.fromDate(DateTime.parse(deadline))
@@ -44,7 +41,6 @@ class TaskDetail extends StatelessWidget {
       }
 
       task.name = name;
-      task.description = description;
       task.expiredAt = expiredAt;
 
       await taskDetailModel.updateTask(
@@ -217,34 +213,6 @@ class TaskDetail extends StatelessWidget {
                         return null;
                       },
                       maxLength: 100,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        counterText: '',
-                      ),
-                    ),
-                    SizedBox(height: 24),
-                    Text(
-                      AppLocalizations.of(context).taskDescriptionLabel,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    TextFormField(
-                      key: _descriptionKey,
-                      initialValue: task.description,
-                      validator: (value) {
-                        if (value.length > 140) {
-                          return AppLocalizations.of(context)
-                              .maximumTextLengthError(
-                            AppLocalizations.of(context).taskDescriptionLabel,
-                          );
-                        }
-
-                        return null;
-                      },
-                      maxLines: 5,
-                      maxLength: 140,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         counterText: '',
