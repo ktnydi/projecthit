@@ -41,7 +41,6 @@
     "projectDescriptionLabel": "説明 (任意)",
     "taskUserFieldLabel": "割り振り",
     "taskFieldLabel" :  "タスク名",
-    "taskDescriptionLabel": "説明 (任意)",
     "taskReminderLabel": "リマインダー (任意)",
     "emailFieldLabel": "メールアドレス",
     "passwordFieldLabel": "パスワード",

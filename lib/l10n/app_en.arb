@@ -182,10 +182,6 @@
     "@taskFieldLabel": {
         "description": "label for task field"
     },
-    "taskDescriptionLabel": "Description (optional)",
-    "@taskDescriptionLabel": {
-        "description": "label for task description"
-    },
     "taskReminderLabel": "Reminder (optional)",
     "@taskReminderLabel": {
         "description": "label for task reminder"
