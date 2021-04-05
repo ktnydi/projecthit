@@ -429,6 +429,7 @@ class _TaskList extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
+                          fullscreenDialog: true,
                           builder: (context) => TaskDetail(
                             project: project,
                             task: item,

@@ -119,6 +119,10 @@
     "@signOutMessage": {
         "description": "sign out message"
     },
+    "update": "Update",
+    "@update": {
+        "description": "label for update button"
+    },
     "presentError": "Please enter {label}",
     "@presentError": {
         "description": "present error message",
