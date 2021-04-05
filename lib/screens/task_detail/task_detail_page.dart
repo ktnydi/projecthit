@@ -147,12 +147,6 @@ class TaskDetail extends StatelessWidget {
                       await _deleteTask(context, taskDetailModel);
                     },
                   ),
-                  IconButton(
-                    icon: Icon(Icons.done),
-                    onPressed: () async {
-                      await _updateTask(context, task);
-                    },
-                  ),
                 ],
               ),
               body: SingleChildScrollView(
@@ -160,39 +154,6 @@ class TaskDetail extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      AppLocalizations.of(context).taskUserFieldLabel,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Builder(
-                      builder: (context) {
-                        final projectUsers = context.select(
-                          (TaskDetailModel model) => model.projectUsers,
-                        );
-
-                        final widgets = projectUsers.map(
-                          (projectUser) {
-                            return _ProjectUser(projectUser);
-                          },
-                        ).toList();
-
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: widgets,
-                        );
-                      },
-                    ),
-                    SizedBox(height: 24),
-                    Text(
-                      AppLocalizations.of(context).taskFieldLabel,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(height: 4),
                     TextFormField(
                       key: _nameKey,
                       initialValue: task.name,
@@ -217,6 +178,7 @@ class TaskDetail extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         counterText: '',
+                        hintText: AppLocalizations.of(context).taskFieldLabel,
                       ),
                     ),
                     SizedBox(height: 24),
@@ -258,6 +220,42 @@ class TaskDetail extends StatelessWidget {
                         taskDetailModel.deadlineController.text = formatDate;
                       },
                     ),
+                    SizedBox(height: 24),
+                    Text(
+                      AppLocalizations.of(context).taskUserFieldLabel,
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Builder(
+                      builder: (context) {
+                        final projectUsers = context.select(
+                          (TaskDetailModel model) => model.projectUsers,
+                        );
+
+                        final widgets = projectUsers.map(
+                          (projectUser) {
+                            return _ProjectUser(projectUser);
+                          },
+                        ).toList();
+
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: widgets,
+                        );
+                      },
+                    ),
+                    SizedBox(height: 24),
+                    ElevatedButton(
+                      child: Text(AppLocalizations.of(context).update),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 40),
+                      ),
+                      onPressed: () async {
+                        await _updateTask(context, task);
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -289,7 +287,7 @@ class _ProjectUser extends StatelessWidget {
     return FutureBuilder<AppUser>(
       future: taskDetailModel.fetchUser(projectUser),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (!snapshot.hasData) {
           return const SizedBox();
         }
 
