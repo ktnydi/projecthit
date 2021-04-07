@@ -114,6 +114,7 @@ class _TaskListState extends State<TaskList> {
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
+                        fullscreenDialog: true,
                         builder: (context) =>
                             ProjectDetail(project: widget.project),
                       ),
