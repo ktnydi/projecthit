@@ -1,29 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projecthit/entity/app_setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingRepository {
-  final _store = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
-
   Future<void> updateAppSetting(AppSetting appSetting) async {
-    if (_auth.currentUser == null) return;
+    final pref = await SharedPreferences.getInstance();
 
-    await _store
-        .collection('users')
-        .doc(_auth.currentUser.uid)
-        .collection('settings')
-        .doc(_auth.currentUser.uid)
-        .update(appSetting.toMap());
+    await pref.setBool('isDark', appSetting.isDark);
   }
 
   Future<AppSetting> fetchAppSetting() async {
-    final settingSnapshot = await _store
-        .collection('users')
-        .doc(_auth.currentUser.uid)
-        .collection('settings')
-        .doc(_auth.currentUser.uid)
-        .get();
-    return AppSetting.fromMap(settingSnapshot.data());
+    final pref = await SharedPreferences.getInstance();
+    return AppSetting()..isDark = pref.getBool('isDark') ?? false;
   }
 }
