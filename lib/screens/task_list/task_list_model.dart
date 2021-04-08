@@ -7,11 +7,16 @@ import 'package:projecthit/repository/user_repository.dart';
 
 class TaskListModel extends ChangeNotifier {
   final Project project;
-  final _taskRepository = TaskRepository();
   final _userRepository = UserRepository();
+  TaskRepository _taskRepository;
   bool isLoading = false;
 
-  TaskListModel({@required this.project});
+  TaskListModel({
+    @required this.project,
+    @required TaskRepository taskRepository,
+  }) {
+    _taskRepository = taskRepository;
+  }
 
   void beginLoading() {
     isLoading = true;

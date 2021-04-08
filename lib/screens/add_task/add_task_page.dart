@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/entity/project.dart';
+import 'package:projecthit/repository/task_repository.dart';
 import 'package:projecthit/screens/add_task/add_task_model.dart';
 import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,10 @@ class AddTask extends StatelessWidget {
     String name = '';
 
     return ChangeNotifierProvider<AddTaskModel>(
-      create: (_) => AddTaskModel(project: project),
+      create: (_) => AddTaskModel(
+        project: project,
+        taskRepository: context.read<TaskRepository>(),
+      ),
       builder: (context, child) {
         final addTaskModel = context.read<AddTaskModel>();
 

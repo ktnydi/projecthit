@@ -12,13 +12,17 @@ import 'package:projecthit/repository/user_repository.dart';
 class ProjectDetailModel extends ChangeNotifier {
   final _projectRepository = ProjectRepository();
   final _projectUserRepository = ProjectUserRepository();
-  final _taskRepository = TaskRepository();
   final _userRepository = UserRepository();
   final deadlineController = TextEditingController();
+  TaskRepository _taskRepository;
   List<ProjectUser> projectUsers = [];
   StreamSubscription<List<ProjectUser>> projectUsersStream;
   bool isLoading = false;
   bool isActiveDateTime = false;
+
+  ProjectDetailModel({@required TaskRepository taskRepository}) {
+    _taskRepository = taskRepository;
+  }
 
   void beginLoading() {
     isLoading = true;

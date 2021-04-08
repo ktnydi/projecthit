@@ -7,6 +7,7 @@ import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/project_user.dart';
 import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/extension/date_time.dart';
+import 'package:projecthit/repository/task_repository.dart';
 import 'package:projecthit/screens/task_detail/task_detail_model.dart';
 import 'package:projecthit/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
@@ -132,7 +133,11 @@ class TaskDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TaskDetailModel>(
-      create: (_) => TaskDetailModel(project, task),
+      create: (_) => TaskDetailModel(
+        project,
+        task,
+        taskRepository: context.read<TaskRepository>(),
+      ),
       builder: (context, child) {
         final taskDetailModel = context.read<TaskDetailModel>();
 

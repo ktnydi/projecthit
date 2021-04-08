@@ -4,11 +4,16 @@ import 'package:projecthit/entity/task.dart';
 import 'package:projecthit/repository/task_repository.dart';
 
 class AddTaskModel extends ChangeNotifier {
-  final _taskRepository = TaskRepository();
   final Project project;
+  TaskRepository _taskRepository;
   bool isLoading = false;
 
-  AddTaskModel({@required this.project});
+  AddTaskModel({
+    @required this.project,
+    @required TaskRepository taskRepository,
+  }) {
+    _taskRepository = taskRepository;
+  }
 
   void beginLoading() {
     isLoading = true;
