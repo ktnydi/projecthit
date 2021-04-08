@@ -6,11 +6,13 @@ import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/project_user.dart';
 import 'package:projecthit/repository/project_repository.dart';
 import 'package:projecthit/repository/project_user_repository.dart';
+import 'package:projecthit/repository/task_repository.dart';
 import 'package:projecthit/repository/user_repository.dart';
 
 class ProjectDetailModel extends ChangeNotifier {
   final _projectRepository = ProjectRepository();
   final _projectUserRepository = ProjectUserRepository();
+  final _taskRepository = TaskRepository();
   final _userRepository = UserRepository();
   final deadlineController = TextEditingController();
   List<ProjectUser> projectUsers = [];
@@ -52,6 +54,10 @@ class ProjectDetailModel extends ChangeNotifier {
 
   Future<void> deleteProject({@required Project project}) async {
     await _projectRepository.deleteProject(project: project);
+  }
+
+  Future<void> deleteDoneTask(Project project) async {
+    await _taskRepository.deleteDoneTasks(project);
   }
 
   @override
