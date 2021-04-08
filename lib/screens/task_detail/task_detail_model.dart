@@ -10,17 +10,22 @@ import 'package:projecthit/repository/task_repository.dart';
 import 'package:projecthit/repository/user_repository.dart';
 
 class TaskDetailModel extends ChangeNotifier {
-  final _taskRepository = TaskRepository();
   final _projectUserRepository = ProjectUserRepository();
   final _userRepository = UserRepository();
   final focusNode = FocusNode();
   final deadlineController = TextEditingController();
+  TaskRepository _taskRepository;
   List<ProjectUser> projectUsers = [];
   StreamSubscription<List<ProjectUser>> projectUsersSub;
   List<String> projectTaskUserIds = [];
   bool isLoading = false;
 
-  TaskDetailModel(Project project, Task task) {
+  TaskDetailModel(
+    Project project,
+    Task task, {
+    @required TaskRepository taskRepository,
+  }) {
+    _taskRepository = taskRepository;
     projectTaskUserIds = task.taskUserIds;
 
     projectUsersSub = _projectUserRepository

@@ -8,6 +8,7 @@ import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/extension/date_time.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/task.dart';
+import 'package:projecthit/repository/task_repository.dart';
 import 'package:projecthit/screens/add_task/add_task_page.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/project_detail/project_detail_page.dart';
@@ -43,7 +44,10 @@ class _TaskListState extends State<TaskList> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TaskListModel>(
-      create: (_) => TaskListModel(project: widget.project),
+      create: (_) => TaskListModel(
+        project: widget.project,
+        taskRepository: context.read<TaskRepository>(),
+      ),
       builder: (context, snapshot) {
         final taskListModel = context.read<TaskListModel>();
 
