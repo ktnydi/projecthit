@@ -53,6 +53,56 @@ class ProjectDetail extends StatelessWidget {
     }
   }
 
+  Future<void> _deleteDoneTask(
+    BuildContext context,
+  ) async {
+    if (FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
+
+    final projectDetailModel = context.read<ProjectDetailModel>();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context).confirmDialogTitle),
+          content: Text(AppLocalizations.of(context).confirmDeleteDoneTasks),
+          actions: [
+            TextButton(
+              child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text(AppLocalizations.of(context).delete.toUpperCase()),
+              onPressed: () async {
+                Navigator.pop(context);
+
+                try {
+                  projectDetailModel.beginLoading();
+                  await projectDetailModel.deleteDoneTask(project);
+                  projectDetailModel.endLoading();
+                } catch (e) {
+                  projectDetailModel.endLoading();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ErrorDialog(
+                        contentText: e.toString(),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ProjectDetailModel>(
@@ -184,6 +234,15 @@ class ProjectDetail extends StatelessWidget {
                         onPressed: () async {
                           await _updateProject(context);
                         },
+                      ),
+                      SizedBox(height: 24),
+                      Center(
+                        child: TextButton(
+                          child: Text('完了済みのタスクを削除'),
+                          onPressed: () async {
+                            await _deleteDoneTask(context);
+                          },
+                        ),
                       ),
                     ],
                   ),

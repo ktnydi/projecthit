@@ -31,10 +31,6 @@ class TaskListModel extends ChangeNotifier {
     await _taskRepository.doneTask(project, task);
   }
 
-  Future<void> deleteDoneTask() async {
-    await _taskRepository.deleteDoneTasks(project);
-  }
-
   Stream<List<AppUser>> fetchTaskUsers(List<String> userIds) {
     return _userRepository.fetchUsers(userIds);
   }

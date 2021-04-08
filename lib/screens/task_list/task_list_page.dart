@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -28,55 +27,6 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  Future<void> _deleteDoneTask(
-    BuildContext context,
-    TaskListModel taskListModel,
-  ) async {
-    if (FocusScope.of(context).hasFocus) {
-      FocusScope.of(context).unfocus();
-    }
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context).confirmDialogTitle),
-          content: Text(AppLocalizations.of(context).confirmDeleteDoneTasks),
-          actions: [
-            TextButton(
-              child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: Text(AppLocalizations.of(context).delete.toUpperCase()),
-              onPressed: () async {
-                Navigator.pop(context);
-
-                try {
-                  taskListModel.beginLoading();
-                  await taskListModel.deleteDoneTask();
-                  taskListModel.endLoading();
-                } catch (e) {
-                  taskListModel.endLoading();
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return ErrorDialog(
-                        contentText: e.toString(),
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -103,12 +53,6 @@ class _TaskListState extends State<TaskList> {
               appBar: AppBar(
                 title: Text('${widget.project.name}'),
                 actions: [
-                  IconButton(
-                    icon: Icon(Icons.delete_outline),
-                    onPressed: () async {
-                      await _deleteDoneTask(context, taskListModel);
-                    },
-                  ),
                   IconButton(
                     icon: Icon(Icons.edit_outlined),
                     onPressed: () => Navigator.push(
