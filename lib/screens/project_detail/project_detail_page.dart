@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/entity/app_user.dart';
 import 'package:projecthit/entity/project.dart';
 import 'package:projecthit/entity/project_user.dart';
+import 'package:projecthit/repository/project_repository.dart';
 import 'package:projecthit/repository/task_repository.dart';
 import 'package:projecthit/screens/invite_member/invite_member_page.dart';
 import 'package:projecthit/screens/project_detail/project_detail_model.dart';
@@ -108,6 +109,7 @@ class ProjectDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ProjectDetailModel>(
       create: (_) => ProjectDetailModel(
+        projectRepository: context.read<ProjectRepository>(),
         taskRepository: context.read<TaskRepository>(),
       )..fetchProjectUsers(project),
       builder: (context, child) {

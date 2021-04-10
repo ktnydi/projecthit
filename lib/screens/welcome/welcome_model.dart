@@ -8,10 +8,14 @@ import 'package:projecthit/repository/user_project_repository.dart';
 
 class WelcomeModel extends ChangeNotifier {
   final _userProjectRepository = UserProjectRepository();
-  final _projectRepository = ProjectRepository();
+  ProjectRepository _projectRepository;
   StreamSubscription<Project> _projectSub;
   UserProject userProject;
   Project project;
+
+  WelcomeModel({
+    @required ProjectRepository projectRepository,
+  }) : _projectRepository = projectRepository;
 
   Future<void> fetchProject() async {
     userProject = await _userProjectRepository.fetchUserProject();

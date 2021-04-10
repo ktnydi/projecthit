@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:projecthit/implements/project_repository_impl.dart';
 import 'package:projecthit/implements/task_repository_impl.dart';
 import 'package:projecthit/model/theme_model.dart';
+import 'package:projecthit/repository/project_repository.dart';
 import 'package:projecthit/repository/task_repository.dart';
 import 'package:projecthit/screens/accept_invitation/accept_invitation_page.dart';
 import 'package:projecthit/screens/my_app/my_app_page.dart';
@@ -40,6 +42,7 @@ void main() async {
         Provider<TaskRepository>(
           create: (_) => TaskRepositoryImpl(),
         ),
+        Provider<ProjectRepository>(create: (_) => ProjectRepositoryImpl()),
       ],
       child: MyApp(navigatorKey: navigatorKey),
     ),
