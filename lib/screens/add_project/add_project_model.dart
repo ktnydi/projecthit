@@ -7,8 +7,8 @@ import 'package:projecthit/repository/project_repository.dart';
 import 'package:projecthit/repository/user_project_repository.dart';
 
 class AddProjectModel extends ChangeNotifier {
-  final _userProjectRepository = UserProjectRepository();
   final deadlineController = TextEditingController();
+  UserProjectRepository _userProjectRepository;
   ProjectRepository _projectRepository;
   bool isActiveDateTime = false;
   bool isLoading = false;
@@ -16,8 +16,10 @@ class AddProjectModel extends ChangeNotifier {
   StreamSubscription<Project> _projectSub;
 
   AddProjectModel({
+    @required UserProjectRepository userProjectRepository,
     @required ProjectRepository projectRepository,
-  }) : _projectRepository = projectRepository;
+  })  : _userProjectRepository = userProjectRepository,
+        _projectRepository = projectRepository;
 
   void beginLoading() {
     isLoading = true;

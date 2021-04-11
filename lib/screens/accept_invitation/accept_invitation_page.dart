@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:projecthit/repository/user_project_repository.dart';
 import 'package:projecthit/screens/accept_invitation/accept_invitation_model.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/welcome/welcome_page.dart';
@@ -75,7 +76,9 @@ class AcceptInvitation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AcceptInvitationModel>(
-      create: (_) => AcceptInvitationModel(),
+      create: (_) => AcceptInvitationModel(
+        userProjectRepository: context.read<UserProjectRepository>(),
+      ),
       builder: (context, child) {
         return Stack(
           children: [

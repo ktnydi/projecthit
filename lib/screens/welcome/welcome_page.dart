@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projecthit/repository/project_repository.dart';
+import 'package:projecthit/repository/user_project_repository.dart';
 import 'package:projecthit/screens/add_project/add_project_page.dart';
 import 'package:projecthit/screens/task_list/task_list_page.dart';
 import 'package:projecthit/screens/welcome/welcome_model.dart';
@@ -11,6 +12,7 @@ class Welcome extends StatelessWidget {
     return ChangeNotifierProvider<WelcomeModel>(
       create: (_) => WelcomeModel(
         projectRepository: context.read<ProjectRepository>(),
+        userProjectRepository: context.read<UserProjectRepository>(),
       ),
       builder: (context, snapshot) {
         final welcomeModel = context.read<WelcomeModel>();

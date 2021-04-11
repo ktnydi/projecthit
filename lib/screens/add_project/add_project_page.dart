@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:projecthit/repository/project_repository.dart';
+import 'package:projecthit/repository/user_project_repository.dart';
 import 'package:projecthit/screens/add_project/add_project_model.dart';
 import 'package:projecthit/screens/my_app/my_app_model.dart';
 import 'package:projecthit/screens/welcome/welcome_page.dart';
@@ -44,6 +45,7 @@ class AddProject extends StatelessWidget {
     return ChangeNotifierProvider<AddProjectModel>(
       create: (_) => AddProjectModel(
         projectRepository: context.read<ProjectRepository>(),
+        userProjectRepository: context.read<UserProjectRepository>(),
       ),
       builder: (context, child) {
         return Stack(

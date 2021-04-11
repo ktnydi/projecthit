@@ -5,8 +5,11 @@ import 'package:projecthit/repository/user_repository.dart';
 
 class AcceptInvitationModel extends ChangeNotifier {
   final _userRepository = UserRepository();
-  final _userProjectRepository = UserProjectRepository();
+  UserProjectRepository _userProjectRepository;
   bool isLoading = false;
+
+  AcceptInvitationModel({UserProjectRepository userProjectRepository})
+      : _userProjectRepository = userProjectRepository;
 
   void beginLoading() {
     isLoading = true;
